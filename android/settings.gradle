@@ -1,0 +1,3 @@
+rootProject.name = 'FeelsHome_Mobile'
+
+include ':app'
