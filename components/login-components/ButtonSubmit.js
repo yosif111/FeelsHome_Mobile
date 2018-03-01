@@ -45,7 +45,7 @@ export default class ButtonSubmit extends Component {
 
         setTimeout(() => {
             this._onGrow();
-        }, 2000);
+        }, 1000);
 
         setTimeout(() => {
             this.props.onPress();
