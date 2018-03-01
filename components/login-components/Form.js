@@ -5,9 +5,9 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     Image,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import UserInput from './UserInput';
 import ButtonSubmit from './ButtonSubmit';
@@ -33,8 +33,8 @@ export default class Form extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <KeyboardAwareScrollView>
+            
+            <KeyboardAvoidingView behavior='padding' style={styles.container}>
                     <UserInput source={usernameImg}
                         placeholder='Username'
                         autoCapitalize={'none'}
@@ -53,8 +53,8 @@ export default class Form extends Component {
                     >
                         <Image source={eyeImg} style={styles.iconEye} />
                     </TouchableOpacity>
-                </KeyboardAwareScrollView>
-            </View>
+                </KeyboardAvoidingView>
+            
         );
     }
 }

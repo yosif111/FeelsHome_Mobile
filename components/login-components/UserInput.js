@@ -48,11 +48,7 @@ const styles = StyleSheet.create({
         paddingLeft: 45,
         borderRadius: 20,
         color: '#ffffff',
-        ...Platform.select({
-            android: {
-                marginBottom: 10
-            }
-        })
+        marginBottom: 10
     },
     inputWrapper: {
         flex: 1,
