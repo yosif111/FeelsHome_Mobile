@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, ImageBackground } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements'
 
 import styles from './styles';
@@ -10,17 +10,24 @@ class Home extends Component {
 
 
     render() {
+        const resizeMode = 'center';
+
         return (
-         
-                <ScrollView>
-                    <View>
-                        <Card title="CARD WITH DIVIDER">
-                            {
-                                <Text>Home</Text>
-                            }
-                        </Card>
-                    </View>
-                </ScrollView>
+            <View style={{ flex: 1 }}>
+            <ImageBackground style={{ flex: 1 }} source={backgroundImage}>
+
+                {/* // <ScrollView>
+                //     <View>
+                //         <Card title="CARD WITH DIVIDER">
+                //             {
+                //                 <Text>Home</Text>
+                //             }
+                //         </Card>
+                //     </View>
+                // </ScrollView> */}
+
+                </ImageBackground>
+                </View>
 
         );
     }
