@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -11,13 +5,34 @@ import {
   Text,
   View
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-import Home from './Home';
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import ModesScreen from './screens/ModesScreen';
 
 export default class App extends React.Component {
   render() {
+    const MainNavigator = StackNavigator({
+      auth: { screen: StackNavigator({
+        login: { screen: LoginScreen},
+        register: { screen: RegisterScreen }
+      }) },
+      main: { screen: StackNavigator({
+        home: { screen: HomeScreen },
+        settings: { screen: SettingsScreen },
+        modes: { screen: ModesScreen }
+      })}
+      
+    }, {
+        navigationOptions: {
+          header: null
+        }
+    })
     return (
-      <Home />
+      <MainNavigator />
 
     );
   }

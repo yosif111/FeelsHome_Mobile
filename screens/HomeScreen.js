@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Slider } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements'
 
-const backgroundImage = require('./assets/background.png');
-const lightIcon = require('./assets/icon_bulb.png')
+const backgroundImage = require('../assets/background.png');
+const lightIcon = require('../assets/icon_bulb.png');
 
 
-class Home extends Component {
+class HomeScreen extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Home'
+        }
+    }
 
     state = { RGBvalue: 0 };
 
@@ -20,7 +25,7 @@ class Home extends Component {
                     onValueChange={(RGBValue) => this.setState({ RGBValue })}
                     maximumValue={255}
                     step={5}
-                    trackImage={require('./assets/color_picker.png')}
+                    trackImage={require('../assets/color_picker.png')}
                 />
                 <Text>Value: {this.state.RGBValue}</Text>
             </View>
@@ -118,4 +123,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Home;
+export default HomeScreen;
