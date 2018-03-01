@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import {
     StyleSheet,
-    KeyboardAvoidingView,
     View,
     ActivityIndicator,
     TouchableOpacity,
     Image,
     Dimensions
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import UserInput from './UserInput';
 import ButtonSubmit from './ButtonSubmit';
@@ -33,38 +33,39 @@ export default class Form extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView behavior='padding'
-                style={styles.container}>
-                <UserInput source={usernameImg}
-                    placeholder='Username'
-                    autoCapitalize={'none'}
-                    returnKeyType={'done'}
-                    autoCorrect={false} />
-                <UserInput source={passwordImg}
-                    secureTextEntry={this.state.showPass}
-                    placeholder='Password'
-                    returnKeyType={'done'}
-                    autoCapitalize={'none'}
-                    autoCorrect={false} />
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={styles.btnEye}
-                    onPress={this.showPass}
-                >
-                    <Image source={eyeImg} style={styles.iconEye} />
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
+            <View style={styles.container}>
+                <KeyboardAwareScrollView>
+                    <UserInput source={usernameImg}
+                        placeholder='Username'
+                        autoCapitalize={'none'}
+                        returnKeyType={'done'}
+                        autoCorrect={false} />
+                    <UserInput source={passwordImg}
+                        secureTextEntry={this.state.showPass}
+                        placeholder='Password'
+                        returnKeyType={'done'}
+                        autoCapitalize={'none'}
+                        autoCorrect={false} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={styles.btnEye}
+                        onPress={this.showPass}
+                    >
+                        <Image source={eyeImg} style={styles.iconEye} />
+                    </TouchableOpacity>
+                </KeyboardAwareScrollView>
+            </View>
         );
     }
 }
 
-const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'center'
     },
     btnEye: {
         position: 'absolute',
