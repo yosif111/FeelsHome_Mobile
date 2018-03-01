@@ -1,5 +1,4 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
 
 import {
     StyleSheet,
@@ -8,11 +7,6 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
-
-// import Heating from './components/Heating/Heating';
-// import AC from './components/AC/AC';
-// import SofaLED from './components/SofaLED/SofaLED';
-// import FloorLED from './components/FloorLED/FloorLED';
 
 import styles from './styles';
 const backgroundImage = require('./assets/background.png');
