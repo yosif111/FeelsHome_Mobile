@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Slider } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements'
+import { StyleSheet, Text, View, Image, ScrollView, ImageBackground } from 'react-native';
+import { Card, ListItem, Button, Slider } from 'react-native-elements'
 
 const backgroundImage = require('../assets/background.png');
 const lightIcon = require('../assets/icon_bulb.png');
@@ -19,14 +19,20 @@ class HomeScreen extends Component {
         return (
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
                 <Slider
-                    // style={{height: 10 }}
+                    //style={{height: 10 }}
                     value={this.state.RGBValue}
                     thumbTintColor={'rgb(83,45,62)'}
                     onValueChange={(RGBValue) => this.setState({ RGBValue })}
                     maximumValue={255}
                     step={5}
+<<<<<<< HEAD:screens/HomeScreen.js
                     trackImage={require('../assets/color_picker.png')}
+=======
+                    trackStyle={{backgroundImage: require('./assets/color_picker.png') }}
+                    //trackImage={require('./assets/color_picker.png')}
+>>>>>>> 6ba6e9bfb6bf396639fbf50227c2945415ae4377:Home.js
                 />
+                
                 <Text>Value: {this.state.RGBValue}</Text>
             </View>
         );
