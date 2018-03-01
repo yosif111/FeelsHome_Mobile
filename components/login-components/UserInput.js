@@ -4,7 +4,8 @@ import {
     View,
     TextInput,
     Image,
-    Dimensions
+    Dimensions,
+    Platform
 } from 'react-native';
 
 export default class UserInput extends Component {
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
         paddingLeft: 45,
         borderRadius: 20,
         color: '#ffffff',
+        marginBottom: Platform.OS === 'android' ?  10 : 0
     },
     inputWrapper: {
         flex: 1,
