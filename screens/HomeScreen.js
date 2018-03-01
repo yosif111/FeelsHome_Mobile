@@ -25,7 +25,7 @@ class HomeScreen extends Component {
                     onValueChange={(RGBValue) => this.setState({ RGBValue })}
                     maximumValue={255}
                     step={5}
-                    trackStyle={{backgroundImage: require('./assets/color_picker.png') }}
+                    trackStyle={{backgroundImage: require('../assets/color_picker.png') }}
                     //trackImage={require('./assets/color_picker.png')}
                 />
                 
