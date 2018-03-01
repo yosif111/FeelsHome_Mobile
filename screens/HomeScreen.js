@@ -4,6 +4,12 @@ import { Card, ListItem, Button, Slider } from 'react-native-elements'
 
 const backgroundImage = require('../assets/background.png');
 const lightIcon = require('../assets/icon_bulb.png');
+/* const audioIcon = require('../assets/icon_audio.png');
+const nextTrackIcon = require('../assets/icon_next.png');
+const previousTrackIcon = require('../assets/icon_previous.png');
+const pauseIcon = require('../assets/icon_pause.png'); */
+
+
 
 
 class HomeScreen extends Component {
@@ -13,7 +19,50 @@ class HomeScreen extends Component {
         }
     }
 
-    state = { RGBvalue: 0 };
+    state = { 
+        RGBvalue: 0,
+        //audioValue: 0
+     };
+
+    /*renderAudioCard(){
+
+       return (
+        <Card>
+           <View style={{ flex: 1,  flexDirection: 'row', justifyContent: 'space-between',  alignItems: 'center'}}>
+                    <Image 
+                    source={previousTrackIcon}
+                    />
+                    
+                    <Image 
+                    source={pauseIcon}
+                    />
+
+                    <Image 
+                    source={nextTrackIcon}
+                    />                                  
+           </View>
+           
+           <View style={{ flex: 1,  flexDirection: 'row', justifyContent: 'center'}}>
+                <View style={{ flex: 1, justifyContent: 'center'}}>
+                    <Image 
+                    source={audioIcon}
+                    />
+                </View>
+           
+                <View style={{ flex: 9, justifyContent: 'center'}}>
+                    <Slider
+                    //style={{height: 10 }}
+                    value={this.state.audioValue}
+                    thumbTintColor={'rgb(83,45,62)'}
+                    onValueChange={(audioValue) => this.setState({ audioValue })}
+                    maximumValue={100}
+                    //step={5}
+                    />
+                 </View>
+            </View>       
+        </Card>
+        );
+    } */
 
     renderLightsSlider = () => {
         return (
@@ -25,12 +74,8 @@ class HomeScreen extends Component {
                     onValueChange={(RGBValue) => this.setState({ RGBValue })}
                     maximumValue={255}
                     step={5}
-<<<<<<< HEAD:screens/HomeScreen.js
-                    trackImage={require('../assets/color_picker.png')}
-=======
-                    trackStyle={{backgroundImage: require('./assets/color_picker.png') }}
+                    trackStyle={{backgroundImage: require('../assets/color_picker.png') }}
                     //trackImage={require('./assets/color_picker.png')}
->>>>>>> 6ba6e9bfb6bf396639fbf50227c2945415ae4377:Home.js
                 />
                 
                 <Text>Value: {this.state.RGBValue}</Text>
@@ -78,8 +123,9 @@ class HomeScreen extends Component {
 
                     <ScrollView style={styles.mainView}>
                         {this.renderLightsCard()}
-                        {/* {this.renderTVCard()}
                         {this.renderAudioCard()}
+                        {/* {this.renderTVCard()}
+                        
                         {this.renderModesCard()} */}
                     </ScrollView>
 
