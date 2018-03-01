@@ -14,13 +14,13 @@ import {
     MKSlider,
 } from 'react-native-material-kit';
 
-import Card from 'app/components/Common/Card/Card';
-import CardHeader from 'app/components/Common/CardHeader/CardHeader';
+import Card from '../Common/Card/Card';
+import CardHeader from '../Common/CardHeader/CardHeader';
 
 import styles from './styles';
 import panBoilerplate from './panBoilerplate';
 
-import icon_bulb from 'app/assets/icon_bulb.png';
+import icon_bulb from '../../assets/icon_bulb.png';
 
 class FloorLighting extends React.Component {
     componentWillMount () {
@@ -97,7 +97,7 @@ class FloorLighting extends React.Component {
                     <Image
                      style={styles.colorsImage}
                      resizeMode="stretch"
-                     source={require('app/assets/color_picker.png')} />
+                     source={require('../../assets/color_picker.png')} />
 
                     <View
                      style={[

@@ -9,10 +9,10 @@ import {
     ScrollView,
 } from 'react-native';
 
-import Heating from './components/Heating/Heating';
-import AC from './components/AC/AC';
-import SofaLED from './components/SofaLED/SofaLED';
-import FloorLED from './components/FloorLED/FloorLED';
+// import Heating from './components/Heating/Heating';
+// import AC from './components/AC/AC';
+// import SofaLED from './components/SofaLED/SofaLED';
+// import FloorLED from './components/FloorLED/FloorLED';
 
 import styles from './styles';
 const backgroundImage = require('./assets/background.png');
@@ -38,7 +38,7 @@ function Home ({
                         {getTemperatureString(items.Temperature)} °C
                     </Text>
 
-                    <Heating
+                    {/* <Heating
                      onChange={(newValue) => dispatch('Heating', newValue)}
                      item={items.Heating} />
 
@@ -52,7 +52,7 @@ function Home ({
 
                     <SofaLED
                      onChange={(newValue) => dispatch('LedSofa', newValue)}
-                     item={items.LedSofa}  />
+                     item={items.LedSofa}  /> */}
 
                 </View>
             </ScrollView>

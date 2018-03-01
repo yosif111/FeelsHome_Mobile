@@ -12,8 +12,8 @@ import {
     MKSlider,
 } from 'react-native-material-kit';
 
-import Card from 'app/components/Common/Card/Card';
-import CardHeader from 'app/components/Common/CardHeader/CardHeader';
+import Card from '../Common/Card/Card';
+import CardHeader from '../Common/CardHeader/CardHeader';
 import ModeSwitch from './ModeSwitch/ModeSwitch';
 
 import styles from './styles';
@@ -28,7 +28,7 @@ function AC ({
         <Card>
             <CardHeader
              label="AC"
-             icon={require('app/assets/icon_ac.png')}
+             icon={require('../../assets/icon_ac.png')}
              isEnabled={item.isEnabled}
              onChange={(state) => onChange(item.set('isEnabled', state))} />
 

@@ -26,12 +26,12 @@ function ModeSwitch ({
                  style={[styles.circle, { marginLeft: !isHeatMode ? 25 : 2 }]} />
 
                 <Image
-                 source={require('app/assets/icon_hot.png')}
+                 source={require('../../../assets/icon_hot.png')}
                  style={styles.iconHot}
                  resizeMode="contain" />
 
                 <Image
-                 source={require('app/assets/icon_cold_white.png')}
+                 source={require('../../../assets/icon_cold_white.png')}
                  style={styles.iconCold}
                  resizeMode="contain" />
             </View>
