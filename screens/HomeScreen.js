@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Slider, Switch } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch } from 'react-native';
 import { ListItem, Button } from 'react-native-elements'
 import CustomCard from '../components/Common/CustomCard';
+import LightControl from '../components/Common/LightControl'
 const backgroundImage = require('../assets/background.png');
+<<<<<<< HEAD
 const lightIcon = require('../assets/icon_bulb.png');
 /* const audioIcon = require('../assets/icon_audio.png');
 const nextTrackIcon = require('../assets/icon_next.png');
@@ -10,6 +12,8 @@ const previousTrackIcon = require('../assets/icon_previous.png');
 const pauseIcon = require('../assets/icon_pause.png'); */
 
 
+=======
+>>>>>>> 89fd38b3887d20453c28b5b1305fd15657035af7
 
 
 class HomeScreen extends Component {
@@ -21,25 +25,6 @@ class HomeScreen extends Component {
 
     state = { RGBvalue: 0, RGBSwitchIsOn: false };
 
-    renderLightsSlider = () => {
-        return (
-            <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
-                <Slider
-                    //style={{height: 4 }}
-                    value={this.state.RGBValue}
-                    thumbTintColor='rgb(83,45,62)'
-                    onValueChange={(RGBValue) => this.setState({ RGBValue })}
-                    maximumValue={255}
-                    step={5}
-                    trackStyle={styles.trackStyle}
-                    trackImage={require('../assets/color_picker.png')}
-                    thumbImage={require('../assets/sliderThumb.png')}
-                />
-
-                {/* <Text>Value: {this.state.RGBValue}</Text> */}
-            </View>
-        );
-    }
 
 
     render() {
@@ -52,15 +37,13 @@ class HomeScreen extends Component {
 
                         <CustomCard
                             label='RGB Lights'
-                            icon={require('../assets/icon_bulb.png')}>
-                            {this.renderLightsSlider()}
+                            icon={require('../assets/icon_bulb.png')}
+                            renderSlider
+                        >
+                            <LightControl />
+
                         </CustomCard>
 
-                        <CustomCard
-                            label='RGB Lights'
-                            icon={require('../assets/icon_bulb.png')}>
-                            {this.renderLightsSlider()}
-                        </CustomCard>
 
                     </ScrollView>
 
