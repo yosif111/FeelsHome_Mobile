@@ -15,6 +15,7 @@ import ButtonSubmit from './ButtonSubmit';
 import SignupSection from './SignupSection';
 
 import emailImg from '../../assets/email.png';
+import usernameImg from '../../assets/username.png'
 import passwordImg from '../../assets/password.png';
 import eyeImg from '../../assets/eye_black.png';
 
@@ -42,30 +43,36 @@ export default class Form extends Component {
 
     render() {
         return (
-            
+
             <KeyboardAvoidingView behavior='padding' style={styles.container}>
-                    <UserInput source={emailImg}
-                        placeholder='Email'
-                        autoCapitalize={'none'}
-                        returnKeyType={'done'}
-                        autoCorrect={false}
-                        onInputChange={this.onEmailChange} />
-                    <UserInput source={passwordImg}
-                        secureTextEntry={this.state.showPass}
-                        placeholder='Password'
-                        returnKeyType={'done'}
-                        autoCapitalize={'none'}
-                        autoCorrect={false} 
-                        onInputChange={this.onPasswordChange}/>
-                    <TouchableOpacity
-                        activeOpacity={0.7}
-                        style={styles.btnEye}
-                        onPress={this.showPass}
-                    >
-                        <Image source={eyeImg} style={styles.iconEye} />
-                    </TouchableOpacity>
-                </KeyboardAvoidingView>
-            
+                <UserInput source={usernameImg}
+                    placeholder='Name'
+                    autoCapitalize={'none'}
+                    returnKeyType={'done'}
+                    autoCorrect={false}
+                    onInputChange={this.onEmailChange} />
+                <UserInput source={emailImg}
+                    placeholder='Email'
+                    autoCapitalize={'none'}
+                    returnKeyType={'done'}
+                    autoCorrect={false}
+                    onInputChange={this.onEmailChange} />
+                <UserInput source={passwordImg}
+                    secureTextEntry={this.state.showPass}
+                    placeholder='Password'
+                    returnKeyType={'done'}
+                    autoCapitalize={'none'}
+                    autoCorrect={false}
+                    onInputChange={this.onPasswordChange} />
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.btnEye}
+                    onPress={this.showPass}
+                >
+                    <Image source={eyeImg} style={styles.iconEye} />
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+
         );
     }
 }

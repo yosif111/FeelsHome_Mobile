@@ -5,7 +5,8 @@ import {
     TextInput,
     Image,
     Dimensions,
-    Platform
+    Platform,
+    Text
 } from 'react-native';
 
 export default class UserInput extends Component {
@@ -21,7 +22,8 @@ export default class UserInput extends Component {
                     autoCapitalize={this.props.autoCapitalize}
                     returnKeyType={this.props.returnKeyType}
                     placeholderTextColor='white'
-                    underlineColorAndroid='transparent' />
+                    underlineColorAndroid='transparent'
+                    onChangeText={value => this.props.onInputChange(value)} />
             </View>
         );
     }

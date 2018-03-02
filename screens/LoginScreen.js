@@ -8,6 +8,8 @@ import SignupSection from '../components/login-components/SignupSection';
 import ButtonSubmit from '../components/login-components/ButtonSubmit';
 
 class LoginScreen extends Component {
+    state = { email: '', password: '' };
+
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Login'
@@ -18,12 +20,19 @@ class LoginScreen extends Component {
     //     this.props.navigation.navigate('main');
     // }
 
+    onInputChange = (type, input) => {
+        if (type === 'email')
+            this.setState({ email: input });
+        else
+            this.setState({ password: input });
+    }
+
     render() {
         return (
             <Wallpaper>
                 <Logo />
-                <Form />
-                <SignupSection />
+                <Form onInputChange={this.onInputChange} />
+                <SignupSection onPress={() => this.props.navigation.navigate('register')} />
                 <ButtonSubmit onPress={() => this.props.navigation.navigate('home')} />
             </Wallpaper>
         );
