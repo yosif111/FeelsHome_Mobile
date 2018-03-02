@@ -3,14 +3,17 @@ import {
     StyleSheet,
     View,
     Text,
-    Dimensions
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 
 export default class SignupSection extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>Create Account</Text>
+                <TouchableOpacity onPress={this.props.onPress} >
+                    <Text style={styles.text}>Create Account</Text>
+                </TouchableOpacity>
                 <Text style={styles.text}>Forgot Password?</Text>
             </View>
         );

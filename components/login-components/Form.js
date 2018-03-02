@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Text
 } from 'react-native';
 
 import UserInput from './UserInput';
@@ -22,7 +23,7 @@ export default class Form extends Component {
         super(props);
         this.state = {
             showPass: true,
-            press: false,
+            press: false
         };
         this.showPass = this.showPass.bind(this);
     }
@@ -31,21 +32,31 @@ export default class Form extends Component {
         this.state.press === false ? this.setState({ showPass: false, press: true }) : this.setState({ showPass: true, press: false });
     }
 
+    onEmailChange = (value) => {
+        this.props.onInputChange('email', value);
+    }
+
+    onPasswordChange = (value) => {
+        this.props.onInputChange('password', value);
+    }
+
     render() {
         return (
             
             <KeyboardAvoidingView behavior='padding' style={styles.container}>
                     <UserInput source={usernameImg}
-                        placeholder='Username'
+                        placeholder='Email'
                         autoCapitalize={'none'}
                         returnKeyType={'done'}
-                        autoCorrect={false} />
+                        autoCorrect={false}
+                        onInputChange={this.onEmailChange} />
                     <UserInput source={passwordImg}
                         secureTextEntry={this.state.showPass}
                         placeholder='Password'
                         returnKeyType={'done'}
                         autoCapitalize={'none'}
-                        autoCorrect={false} />
+                        autoCorrect={false} 
+                        onInputChange={this.onPasswordChange}/>
                     <TouchableOpacity
                         activeOpacity={0.7}
                         style={styles.btnEye}
