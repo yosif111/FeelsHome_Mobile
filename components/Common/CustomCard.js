@@ -23,19 +23,24 @@ export default class CustomCard extends Component {
 
     constructor() {
         super();
-
         this.state = {
             isOn: false,
-            isCollapsed: true
+            isCollapsed: true,
+            showHeader: true
         };
-
     }
 
 
     onSwitchPress = (toggle) => {
         this.setState({ isOn: toggle });
     }
+
+    toggleHeader = () => {
+        this.setState({showHeader: !this.state.showHeader});
+    }
     renderCardHeader = () => {
+        if(!this.state.showHeader)
+            return;
 
         return (
             <View style={styles.container}>
@@ -64,7 +69,7 @@ export default class CustomCard extends Component {
     }
 
     renderSlider = () => {
-        if (!this.props.renderSlider)
+        if (!this.props.renderSlider || !this.state.showHeader)
             return;
 
         return (
@@ -89,7 +94,7 @@ export default class CustomCard extends Component {
     }
 
     onPress = () => {
-        this.setState({ isCollapsed: !this.state.isCollapsed })
+        this.setState({ isCollapsed: !this.state.isCollapsed, showHeader: !this.state.showHeader })
     }
     renderCard = () => {
 
@@ -99,7 +104,10 @@ export default class CustomCard extends Component {
                     <Card containerStyle={{ borderRadius: 15 }}>
                         {this.renderCardHeader()}
                         {this.renderSlider()}
-                        <Collapsible collapsed={this.state.isCollapsed}>
+                        <Collapsible
+                         collapsed={this.state.isCollapsed}
+                         duration={800}
+                         >
                             {this.props.children}
                         </Collapsible>
                     </Card>

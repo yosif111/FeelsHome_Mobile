@@ -15,7 +15,7 @@ import {
     Slider
 } from 'react-native';
 import { Card, ListItem, Button, Divider } from 'react-native-elements';
-import CustomSlider from './CustomSlider';
+import CustomSlider from './Common/CustomSlider';
 
 
 export default class LightControl extends Component {
@@ -37,17 +37,17 @@ export default class LightControl extends Component {
         this.setState({
             lightsInfo: [
                 {
-                    'name': 'bulb1',
+                    'name': 'Living Room Bulb',
                     'isOn': true,
                     'RGBValue': 100
                 },
                 {
-                    'name': 'bulb2',
+                    'name': 'Bedroom Bulb',
                     'isOn': true,
                     'RGBValue': 200
                 },
                 {
-                    'name': 'bulb1',
+                    'name': 'Kitchen Bulb',
                     'isOn': false,
                     'RGBValue': 0
                 }
@@ -68,7 +68,7 @@ export default class LightControl extends Component {
                     <Image
                         style={styles.icon}
                         resizeMode="contain"
-                        source={require('../../assets/icon_bulb.png')} />
+                        source={require('../assets/icon_bulb.png')} />
                 </View>
 
                 <View
@@ -95,7 +95,10 @@ export default class LightControl extends Component {
                 maximumValue={255}
                 value={bulb.RGBValue}
             />
+           <Divider style={{ backgroundColor: 'rgb(83,45,62)', marginTop: 6, marginBottom: 6, height: index == this.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
+
             </View>
+            
         );
 
     }
@@ -120,7 +123,6 @@ export default class LightControl extends Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
-                <Divider style={{ backgroundColor: 'rgb(83,45,62)', margin: 10 }} />
                 {this.renderLights()}
             </View>
         );

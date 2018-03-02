@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch } from 'react-native';
 import { ListItem, Button } from 'react-native-elements'
 import CustomCard from '../components/Common/CustomCard';
-import LightControl from '../components/Common/LightControl'
+import LightControl from '../components/LightControl'
 const backgroundImage = require('../assets/background.png');
 
 
@@ -30,9 +30,11 @@ class HomeScreen extends Component {
                             icon={require('../assets/icon_bulb.png')}
                             renderSlider
                         >
-                            <LightControl />
+                            <LightControl
+                            />
 
                         </CustomCard>
+
 
 
                     </ScrollView>
