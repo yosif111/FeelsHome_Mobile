@@ -4,16 +4,6 @@ import { ListItem, Button } from 'react-native-elements'
 import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
 const backgroundImage = require('../assets/background.png');
-<<<<<<< HEAD
-const lightIcon = require('../assets/icon_bulb.png');
-/* const audioIcon = require('../assets/icon_audio.png');
-const nextTrackIcon = require('../assets/icon_next.png');
-const previousTrackIcon = require('../assets/icon_previous.png');
-const pauseIcon = require('../assets/icon_pause.png'); */
-
-
-=======
->>>>>>> 89fd38b3887d20453c28b5b1305fd15657035af7
 
 
 class HomeScreen extends Component {
