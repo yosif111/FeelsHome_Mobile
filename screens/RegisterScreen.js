@@ -24,7 +24,6 @@ class RegisterScreen extends Component {
     render() {
         return (
             <Wallpaper>
-                <Logo />
                 <RegisterForm />
                 <ButtonSubmit onPress={() => this.props.navigation.navigate('login')} />
             </Wallpaper>
