@@ -16,7 +16,7 @@ import {
 import { Card, ListItem, Button } from 'react-native-elements'
 import Collapsible from 'react-native-collapsible';
 import CustomSlider from './CustomSlider'
-
+import CustomVolumeControl from './CustomVolumeControl'
 
 export default class CustomCard extends Component {
 
@@ -81,6 +81,16 @@ export default class CustomCard extends Component {
         );
     }
 
+    renderVolumeControl = () => {
+        if(!this.props.renderVolumeControl || ! this.state.showHeader)
+            return ;
+        
+            return (
+                <CustomVolumeControl
+                />
+            );
+    }
+
     renderSwitch = () => {
         if (this.props.disableSwitch)
             return;
@@ -104,6 +114,7 @@ export default class CustomCard extends Component {
                     <Card containerStyle={{ borderRadius: 15 }}>
                         {this.renderCardHeader()}
                         {this.renderSlider()}
+                        {this.renderVolumeControl()}
                         <Collapsible
                          collapsed={this.state.isCollapsed}
                          duration={800}
