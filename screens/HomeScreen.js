@@ -48,6 +48,13 @@ class HomeScreen extends Component {
                             />
                         </CustomCard>
 
+                        <CustomCard
+                        label='TV'
+                        icon={require('../assets/icon_tv.png')}
+                        >
+
+                        </CustomCard>
+
 
 
                     </ScrollView>
