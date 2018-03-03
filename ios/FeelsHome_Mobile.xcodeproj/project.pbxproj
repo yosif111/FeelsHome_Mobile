@@ -24,6 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		14B2AFA1B4384838A6F4A87D /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C316939B578C443E8A8C0CCD /* EvilIcons.ttf */; };
 		1FDFE7CBCAE34B6C82B63F78 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EBA1183300042AA817CA89B /* libRNVectorIcons.a */; };
+		2B824561C49C49738107E7BF /* libRNVolumeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CEA21126AF4FBCBF6F29F5 /* libRNVolumeSlider.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -297,6 +298,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		4FBAFB2F204AE16300EA150F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDD61608691841638FA11950 /* RNVolumeSlider.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B15A785B1C561BA20027C1CE;
+			remoteInfo = RNVolumeSlider;
+		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -345,6 +353,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* FeelsHome_MobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeelsHome_MobileTests.m; sourceTree = "<group>"; };
 		00EDC6DFCACF47B6972C4E12 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		01CEA21126AF4FBCBF6F29F5 /* libRNVolumeSlider.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVolumeSlider.a; sourceTree = "<group>"; };
 		05383849F44E4F6A95412A01 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		0D8736CE16A94BE6914B08E7 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		0EBA1183300042AA817CA89B /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -373,6 +382,7 @@
 		A41409CB6E304BF5A53268BD /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		C316939B578C443E8A8C0CCD /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		CDD61608691841638FA11950 /* RNVolumeSlider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVolumeSlider.xcodeproj; path = "../node_modules/react-native-volume-slider/ios/RNVolumeSlider.xcodeproj"; sourceTree = "<group>"; };
 		ED1E977AE40A4100A204B056 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -403,6 +413,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				1FDFE7CBCAE34B6C82B63F78 /* libRNVectorIcons.a in Frameworks */,
+				2B824561C49C49738107E7BF /* libRNVolumeSlider.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +570,7 @@
 			isa = PBXGroup;
 			children = (
 				0EBA1183300042AA817CA89B /* libRNVectorIcons.a */,
+				01CEA21126AF4FBCBF6F29F5 /* libRNVolumeSlider.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -567,6 +579,14 @@
 			isa = PBXGroup;
 			children = (
 				4FBAFAF82049F37800EA150F /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FBAFB2C204AE16300EA150F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FBAFB30204AE16300EA150F /* libRNVolumeSlider.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -623,6 +643,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				566076024AC748039262FC80 /* RNVectorIcons.xcodeproj */,
+				CDD61608691841638FA11950 /* RNVolumeSlider.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -839,6 +860,10 @@
 				{
 					ProductGroup = 4FBAFAF42049F37700EA150F /* Products */;
 					ProjectRef = 566076024AC748039262FC80 /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = 4FBAFB2C204AE16300EA150F /* Products */;
+					ProjectRef = CDD61608691841638FA11950 /* RNVolumeSlider.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1083,6 +1108,13 @@
 			remoteRef = 4FBAFAF72049F37800EA150F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		4FBAFB30204AE16300EA150F /* libRNVolumeSlider.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNVolumeSlider.a;
+			remoteRef = 4FBAFB2F204AE16300EA150F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1271,12 +1303,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-volume-slider/ios/RNVolumeSlider",
 				);
 				INFOPLIST_FILE = FeelsHome_MobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1297,12 +1331,14 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-volume-slider/ios/RNVolumeSlider",
 				);
 				INFOPLIST_FILE = FeelsHome_MobileTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1324,6 +1360,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-volume-slider/ios/RNVolumeSlider",
 				);
 				INFOPLIST_FILE = FeelsHome_Mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1347,6 +1384,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-volume-slider/ios/RNVolumeSlider",
 				);
 				INFOPLIST_FILE = FeelsHome_Mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1377,11 +1415,13 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-volume-slider/ios/RNVolumeSlider",
 				);
 				INFOPLIST_FILE = "FeelsHome_Mobile-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1412,11 +1452,13 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-volume-slider/ios/RNVolumeSlider",
 				);
 				INFOPLIST_FILE = "FeelsHome_Mobile-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1447,6 +1489,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.FeelsHome_Mobile-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1471,6 +1514,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.FeelsHome_Mobile-tvOSTests";
