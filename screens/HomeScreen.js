@@ -36,6 +36,16 @@ class HomeScreen extends Component {
                         </CustomCard>
 
 
+                                                <CustomCard
+                            label='RGB Lights'
+                            icon={require('../assets/icon_bulb.png')}
+                            renderSlider
+                            renderVolumeControl
+                        >
+                   
+                        </CustomCard>
+
+
 
                     </ScrollView>
 
