@@ -46,7 +46,7 @@ export default class UserInput extends Component {
                     style={styles.inlineImg} />
                 <TextInput style={styles.input}
                     placeholder={this.props.placeholder}
-                    secureTextEntry={this.state.showPass}
+                    secureTextEntry={this.props.showPassword ? this.state.showPass : false}
                     autoCorrect={this.props.autoCorrect}
                     autoCapitalize={this.props.autoCapitalize}
                     returnKeyType={this.props.returnKeyType}
@@ -101,5 +101,8 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         tintColor: 'rgba(0,0,0,0.2)',
+    },
+    inputWrapper: {
+        marginBottom: 10
     }
 });

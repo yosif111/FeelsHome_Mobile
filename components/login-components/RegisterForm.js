@@ -28,6 +28,10 @@ export default class Form extends Component {
         this.props.onInputChange('password', value);
     }
 
+    onNameChange = (value) => {
+        this.props.onInputChange('name', value);
+    }
+
     render() {
         return (
 
@@ -37,22 +41,21 @@ export default class Form extends Component {
                     autoCapitalize={'none'}
                     returnKeyType={'done'}
                     autoCorrect={false}
-                    onInputChange={this.onEmailChange} />
+                    onInputChange={this.onNameChange} />
                 <UserInput source={emailImg}
                     placeholder='Email'
                     autoCapitalize={'none'}
                     returnKeyType={'done'}
                     autoCorrect={false}
                     onInputChange={this.onEmailChange} />
-                    <UserInput source={passwordImg}
-                        placeholder='Password'
-                        returnKeyType={'done'}
-                        autoCapitalize={'none'}
-                        autoCorrect={false}
-                        onInputChange={this.onPasswordChange}
-                        showPassword={true} />
-                
-                
+                <UserInput source={passwordImg}
+                    placeholder='Password'
+                    returnKeyType={'done'}
+                    autoCapitalize={'none'}
+                    autoCorrect={false}
+                    onInputChange={this.onPasswordChange}
+                    showPassword={true} />
+
             </KeyboardAvoidingView>
 
         );
@@ -63,7 +66,7 @@ export default class Form extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 3,
         alignItems: 'center',
         justifyContent: 'center'
     }
