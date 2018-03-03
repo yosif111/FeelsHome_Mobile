@@ -52,8 +52,6 @@ class HomeScreen extends Component {
 
                         </CustomCard>
 
-<<<<<<< HEAD
-=======
 
                         <CustomCard
                             label='Audio Control'
@@ -74,7 +72,6 @@ class HomeScreen extends Component {
 
 
 
->>>>>>> d2527b1ce2fa88faeb95058bbcb012369e9ec731
                     </ScrollView>
 
                 </ImageBackground>

@@ -13,7 +13,7 @@ import passwordImg from '../assets/password.png';
 import eyeImg from '../assets/eye_black.png';
 
 class RegisterScreen extends Component {
-    state = { name: '', email: '', password: '' }
+    state = { name: '', email: '', password: '', rePassword: '' }
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -28,6 +28,8 @@ class RegisterScreen extends Component {
             this.setState({ name: input });
         else if (type === 'password')
             this.setState({ password: input });
+        else if (type === 're-password')
+            this.setState({ rePassword: input });
     }
 
     render() {

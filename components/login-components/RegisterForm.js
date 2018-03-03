@@ -28,6 +28,10 @@ export default class Form extends Component {
         this.props.onInputChange('password', value);
     }
 
+    onRePasswordChange = (value) => {
+        this.props.onInputChange('re-password', value);
+    }
+
     onNameChange = (value) => {
         this.props.onInputChange('name', value);
     }
@@ -54,6 +58,13 @@ export default class Form extends Component {
                     autoCapitalize={'none'}
                     autoCorrect={false}
                     onInputChange={this.onPasswordChange}
+                    showPassword={true} />
+                <UserInput source={passwordImg}
+                    placeholder='Re-enter Password'
+                    returnKeyType={'done'}
+                    autoCapitalize={'none'}
+                    autoCorrect={false}
+                    onInputChange={this.onRePasswordChange}
                     showPassword={true} />
 
             </KeyboardAvoidingView>
