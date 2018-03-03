@@ -36,13 +36,20 @@ class HomeScreen extends Component {
                         </CustomCard>
 
 
-                                                <CustomCard
-                            label='RGB Lights'
+                        <CustomCard
+                            label='Audio'
                             icon={require('../assets/icon_bulb.png')}
                             renderSlider
                             renderVolumeControl
                         >
                    
+                        </CustomCard>
+
+                        <CustomCard
+                        label='TV'
+                        icon={require('../assets/icon_tv.png')}
+                        >
+
                         </CustomCard>
 
 
