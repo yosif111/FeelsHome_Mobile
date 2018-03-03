@@ -14,7 +14,8 @@ import {
     Dimensions
 } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements'
-
+import Collapsible from 'react-native-collapsible';
+import CustomSlider from './CustomSlider'
 
 
 export default class CustomCard extends Component {
@@ -22,19 +23,24 @@ export default class CustomCard extends Component {
 
     constructor() {
         super();
-
-
         this.state = {
             isOn: false,
+            isCollapsed: true,
+            showHeader: true
         };
-
     }
 
 
     onSwitchPress = (toggle) => {
         this.setState({ isOn: toggle });
     }
+
+    toggleHeader = () => {
+        this.setState({showHeader: !this.state.showHeader});
+    }
     renderCardHeader = () => {
+        if(!this.state.showHeader)
+            return;
 
         return (
             <View style={styles.container}>
@@ -62,27 +68,52 @@ export default class CustomCard extends Component {
         );
     }
 
-    renderSwitch = () => {
-        if(this.props.DisableSwitch)
+    renderSlider = () => {
+        if (!this.props.renderSlider || !this.state.showHeader)
             return;
-        return(           
-                     <Switch
-            value={this.state.isOn}
-            tintColor='rgb(83,45,62)'
-            thumbTintColor='rgb(83,45,62)'
-            onValueChange={(toggle) => this.onSwitchPress(toggle)}
-        />);
+
+        return (
+            <CustomSlider
+                maximumValue={255}
+                step={5}
+                value={0}
+            />
+        );
     }
 
+    renderSwitch = () => {
+        if (this.props.disableSwitch)
+            return;
+        return (
+            <Switch
+                value={this.state.isOn}
+                tintColor='rgb(83,45,62)'
+                thumbTintColor='rgb(83,45,62)'
+                onValueChange={(toggle) => this.onSwitchPress(toggle)}
+            />);
+    }
+
+    onPress = () => {
+        this.setState({ isCollapsed: !this.state.isCollapsed, showHeader: !this.state.showHeader })
+    }
     renderCard = () => {
 
         return (
-            <View>
-                <Card containerStyle={{ borderRadius: 15 }}>
-                    {this.renderCardHeader()}
-                    {this.props.children}
-                </Card>
-            </View>
+            <TouchableOpacity onPress={() => this.onPress()}>
+                <View>
+                    <Card containerStyle={{ borderRadius: 15 }}>
+                        {this.renderCardHeader()}
+                        {this.renderSlider()}
+                        <Collapsible
+                         collapsed={this.state.isCollapsed}
+                         duration={800}
+                         >
+                            {this.props.children}
+                        </Collapsible>
+                    </Card>
+                </View>
+            </TouchableOpacity>
+
         );
     }
 
