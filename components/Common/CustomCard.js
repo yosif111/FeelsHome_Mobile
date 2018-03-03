@@ -82,7 +82,7 @@ export default class CustomCard extends Component {
     }
 
     renderVolumeControl = () => {
-        if(!this.props.renderVolumeControl)
+        if(!this.props.renderVolumeControl || ! this.state.showHeader)
             return ;
         
             return (

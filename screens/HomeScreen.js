@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch } fr
 import { ListItem, Button } from 'react-native-elements'
 import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
+import AudioControl from '../components/AudioControl'
+import CustomVolumeControl from '../components/Common/CustomVolumeControl';
 const backgroundImage = require('../assets/background.png');
 
 
@@ -26,7 +28,7 @@ class HomeScreen extends Component {
                     <ScrollView style={styles.mainView}>
 
                         <CustomCard
-                            label='RGB Lights'
+                            label='Light Control'
                             icon={require('../assets/icon_bulb.png')}
                             renderSlider
                         >
@@ -36,13 +38,14 @@ class HomeScreen extends Component {
                         </CustomCard>
 
 
-                                                <CustomCard
-                            label='RGB Lights'
-                            icon={require('../assets/icon_bulb.png')}
-                            renderSlider
+                        <CustomCard
+                            label='Audio Control'
+                            icon={require('../assets/icon_audio.png')}
                             renderVolumeControl
+                            disableSwitch
                         >
-                   
+                            <AudioControl
+                            />
                         </CustomCard>
 
 

@@ -7,20 +7,39 @@ import {
     View,
     Slider
 } from 'react-native';
-import { Card, Button,} from 'react-native-elements';
-import CustomSlider from './CustomSlider';
-import CustomCard from './CustomCard'
+import { Card, Button, } from 'react-native-elements';
+import CustomVolumeControl from './Common/CustomVolumeControl';
 
-export default class AudioLight extends Component {
+export default class AudioControl extends Component {
 
-    //state = {
+    renderImage = () => {
+        return (
+            <View style={{width: '100%', height:200, marginBottom: 10}}>
+                <Image
+                resizeMode='center'
+                    style={{width: '100%', height: '100%'}}
+                    source={{uri: 'https://cdn.pixabay.com/photo/2016/06/29/04/39/wedding-dresses-1486005_1280.jpg'}}
+                    />
+            </View>
+        );
+    }
 
-    //}
+    renderControls = () => {
+        return (
+            <CustomVolumeControl
 
-    render(){
-    return (
+            />
+        );
+    }
 
-    );
+    render() {
+        return (
+            <View>
+                {this.renderImage()}
+                {this.renderControls()}
+            </View>
+
+        );
     }
 }
 const styles = StyleSheet.create({
