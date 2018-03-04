@@ -18,7 +18,7 @@ export default class AudioControl extends Component {
                 <Image
                 resizeMode='center'
                     style={{width: '100%', height: '100%'}}
-                    source={{uri: '../assets/icon_music.jpg'}}
+                    source={require('../assets/icon_music.jpg')}
                     />
             </View>
         );
