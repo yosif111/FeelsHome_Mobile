@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch } from 'react-native';
-import { ListItem, Button } from 'react-native-elements'
+import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch, TouchableOpacity } from 'react-native';
+import { ListItem, Button, Icon } from 'react-native-elements'
 import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
 import AudioControl from '../components/AudioControl'
@@ -11,7 +11,22 @@ const backgroundImage = require('../assets/background.png');
 class HomeScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
-            header: null
+            headerTransparent: true,
+            headerRight: (
+                <TouchableOpacity onPress={() => navigation.navigate('settings')} >
+                    <Image
+                        source={require('../assets/icon_settings.png')}
+                        style={styles.settingsIcon} />
+                </TouchableOpacity>
+                
+            ),
+            headerLeft: (
+                <TouchableOpacity onPress={() => navigation.navigate('modes')} >
+                    <Image
+                        source={require('../assets/icon_mode.png')}
+                        style={styles.modeIcon} />
+                 </TouchableOpacity>
+            )
         }
     }
 
@@ -92,11 +107,6 @@ const styles = StyleSheet.create({
         flex: 32,
     },
 
-
-    icon: {
-        height: 21,
-    },
-
     label: {
         fontSize: 18,
         fontWeight: 'bold',
@@ -104,6 +114,18 @@ const styles = StyleSheet.create({
     },
     trackStyle: {
         borderRadius: 10
+    },
+    settingsIcon: {
+        marginRight: 10,
+        marginTop: 10,
+        width: 40,
+        height: 40
+    },
+    modeIcon: {
+        marginLeft: 10,
+        marginTop: 10,
+        width: 40,
+        height: 40
     }
 
 });

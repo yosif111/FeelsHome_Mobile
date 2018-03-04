@@ -13,7 +13,7 @@ import passwordImg from '../assets/password.png';
 import eyeImg from '../assets/eye_black.png';
 
 class RegisterScreen extends Component {
-    state = { name: '', email: '', password: '' }
+    state = { name: '', email: '', password: '', rePassword: '' }
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -21,11 +21,26 @@ class RegisterScreen extends Component {
         }
     }
 
+    onInputChange = (type, input) => {
+        if (type === 'email')
+            this.setState({ email: input });
+        else if (type === 'name')
+            this.setState({ name: input });
+        else if (type === 'password')
+            this.setState({ password: input });
+        else if (type === 're-password')
+            this.setState({ rePassword: input });
+    }
+
     render() {
         return (
             <Wallpaper>
-                <RegisterForm />
-                <ButtonSubmit onPress={() => this.props.navigation.navigate('login')} />
+                <Logo />
+                <RegisterForm onInputChange={this.onInputChange} />
+                <ButtonSubmit 
+                onPress={() => this.props.navigation.navigate('login')} 
+                isRegister={true}
+                title='REGISTER' />
             </Wallpaper>
         );
     }

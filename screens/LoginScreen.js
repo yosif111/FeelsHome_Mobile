@@ -23,7 +23,7 @@ class LoginScreen extends Component {
     onInputChange = (type, input) => {
         if (type === 'email')
             this.setState({ email: input });
-        else
+        else if (type === 'password')
             this.setState({ password: input });
     }
 
@@ -33,7 +33,9 @@ class LoginScreen extends Component {
                 <Logo />
                 <Form onInputChange={this.onInputChange} />
                 <SignupSection onPress={() => this.props.navigation.navigate('register')} />
-                <ButtonSubmit onPress={() => this.props.navigation.navigate('home')} />
+                <ButtonSubmit 
+                onPress={() => this.props.navigation.navigate('home')}
+                title='LOGIN' />
             </Wallpaper>
         );
     }
