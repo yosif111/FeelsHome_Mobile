@@ -9,6 +9,8 @@ const backgroundImage = require('../assets/background.png');
 
 
 class HomeScreen extends Component {
+    state = { RGBvalue: 0, RGBSwitchIsOn: false };
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTransparent: true,
@@ -29,10 +31,6 @@ class HomeScreen extends Component {
             )
         }
     }
-
-    state = { RGBvalue: 0, RGBSwitchIsOn: false };
-
-
 
     render() {
 

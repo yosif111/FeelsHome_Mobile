@@ -18,35 +18,27 @@ import { Card, ListItem, Button } from 'react-native-elements'
 
 
 export default class CustomSlider extends Component {
-
-
-    constructor() {
-        super();
-        this.state = {
-            RGBValue: 0
-        };
-    }
-
-    onChange = (RGBValue) => {
-        const intToRGB = require('int-to-rgb');
-        var rgb = intToRGB(RGBValue * 65793);
-        console.log(rgb);
-        this.setState({ RGBValue })
-    }
+    state = { hue: 0 }
 
     componentWillMount() {
-        this.state.RGBValue = this.props.value;
+        this.state.hue = this.props.value;
     }
+
+    onChange = (value) => {
+        this.props.onChange(value, this.props.lightID);
+        this.setState({ hue: value });
+    } 
+
     render() {
 
         return (
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
                 <Slider
-                    value={this.state.RGBValue}
+                    value={this.state.hue}
                     thumbTintColor='rgb(83,45,62)'
-                    onValueChange={(RGBValue) => this.onChange(RGBValue)}
-                    maximumValue={255}
-                    step={this.props.step}
+                    onValueChange={(value) => this.onChange(value)}
+                    maximumValue={this.props.maximumValue}
+                    step={5}
                     trackStyle={styles.trackStyle}
                     trackImage={require('../../assets/color_picker.png')}
                     thumbImage={require('../../assets/sliderThumb.png')}
