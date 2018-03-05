@@ -28,57 +28,14 @@ export default class LightControl extends Component {
     };
 
     componentDidMount() {
-        // we should get the lights info and state here
-        this.setState({
-            lightsInfo: [
-                {
-                    'name': 'Living Room Bulb',
-                    'isOn': false,
-                    'hue': 100,
-                    'bri': 255,
-                    'id': 1
-                },
-                {
-                    'name': 'Bedroom Bulb',
-                    'isOn': false,
-                    'hue': 200,
-                    'bri': 255,
-                    'id': 2
-                },
-                {
-                    'name': 'Kitchen Bulb',
-                    'isOn': false,
-                    'hue': 0,
-                    'bri': 255,
-                    'id': 3
-                }
-            ]
+        axios.get(`${URL}/lights`)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
         });
     }
-
-    // rgbToHsl(r, g, b) {
-    //     r /= 255, g /= 255, b /= 255;
-
-    //     var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    //     var h, s, l = (max + min) / 2;
-
-    //     if (max == min) {
-    //         h = s = 0; // achromatic
-    //     } else {
-    //         var d = max - min;
-    //         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    //         switch (max) {
-    //             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-    //             case g: h = (b - r) / d + 2; break;
-    //             case b: h = (r - g) / d + 4; break;
-    //         }
-
-    //         h /= 6;
-    //     }
-
-    //     return [h, s, l];
-    // }
 
     onColorChange = (value, lightID) => {
        axios.post(`${URL}/lights/change`, {
