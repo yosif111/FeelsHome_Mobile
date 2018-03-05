@@ -20,7 +20,7 @@ import Collapsible from 'react-native-collapsible';
 import CustomSlider from './CustomSlider';
 import CustomVolumeControl from './CustomVolumeControl';
 
-const URL = 'http://192.168.8.103:8000';
+const URL = 'http://192.168.1.4:8000/api';
 
 export default class CustomCard extends Component {
     state = {
@@ -69,9 +69,11 @@ export default class CustomCard extends Component {
         );
     }
 
+
     onColorChange = (value, lightID) => {
-        axios.post(`${URL}/lights/changeColor`, {
-            'all': true,
+        console.log("Dddd");
+
+        axios.post(`${URL}/lights/changeAll`, {
             'hue': value * 250
         })
             .then(response => {

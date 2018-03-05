@@ -31,6 +31,7 @@ export default class LightControl extends Component {
         axios.get(`${URL}/lights`)
         .then(response => {
             console.log(response.data);
+            this.setState({lightsInfo: response.data});
         })
         .catch(error => {
             console.log(error);
@@ -78,7 +79,7 @@ export default class LightControl extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.state.lightsInfo[lightID].isOn = value;
+        this.state.lightsInfo[lightID].on = value;
         this.setState({ lightsInfo: this.state.lightsInfo });
     }
     renderBulb = (bulb, index) => {

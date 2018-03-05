@@ -38,7 +38,7 @@ export default class CustomSlider extends Component {
                     thumbTintColor='rgb(83,45,62)'
                     onValueChange={(value) => this.onChange(value)}
                     maximumValue={this.props.maximumValue}
-                    step={5}
+                    step={10}
                     trackStyle={styles.trackStyle}
                     trackImage={require('../../assets/color_picker.png')}
                     thumbImage={require('../../assets/sliderThumb.png')}
