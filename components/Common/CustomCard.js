@@ -33,6 +33,15 @@ export default class CustomCard extends Component {
         };
 
     onSwitchPress = (toggle) => {
+        axios.post(`${URL}/lights/changeAll`, {
+            'on': toggle
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
         this.setState({ isOn: toggle });
     }
 
@@ -71,8 +80,6 @@ export default class CustomCard extends Component {
 
 
     onColorChange = (value, lightID) => {
-        console.log("Dddd");
-
         axios.post(`${URL}/lights/changeAll`, {
             'hue': value * 250
         })
@@ -86,7 +93,7 @@ export default class CustomCard extends Component {
     }
 
     onBrightnessChange = (value, lightID) => {
-        axios.post(`${URL}/lights/changeBrightness`, {
+        axios.post(`${URL}/lights/changeAll`, {
             'all': true,
             'bri': value
         })
