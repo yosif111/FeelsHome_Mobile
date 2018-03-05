@@ -111,9 +111,6 @@ export default class CustomVolumeControl extends Component {
 
 const styles = StyleSheet.create({
 
-    trackStyle: {
-        borderRadius: 10
-    },
     iconContainer: {
         flex: 1,
         marginTop: 8,

@@ -11,25 +11,26 @@ import {
     ScrollView,
     ImageBackground,
     Switch,
-    Dimensions
+    Dimensions,
+    Slider
 } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements'
+import { Card, ListItem, Button } from 'react-native-elements';
+import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
-import CustomSlider from './CustomSlider'
-import CustomVolumeControl from './CustomVolumeControl'
+import CustomSlider from './CustomSlider';
+import CustomVolumeControl from './CustomVolumeControl';
+
+const URL = 'http://192.168.8.103:8000';
 
 export default class CustomCard extends Component {
-
-
-    constructor() {
-        super();
-        this.state = {
+    state = {
             isOn: false,
             isCollapsed: true,
-            showHeader: true
+            showHeader: true,
+            hue: 0,
+            bri: 255,
+            lightOn: false
         };
-    }
-
 
     onSwitchPress = (toggle) => {
         this.setState({ isOn: toggle });
@@ -68,16 +69,59 @@ export default class CustomCard extends Component {
         );
     }
 
+    onColorChange = (value, lightID) => {
+        axios.post(`${URL}/lights/changeColor`, {
+            'all': true,
+            'hue': value * 250
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.setState({ hue: value })
+    }
+
+    onBrightnessChange = (value, lightID) => {
+        axios.post(`${URL}/lights/changeBrightness`, {
+            'all': true,
+            'bri': value
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.setState({ bri: value })
+    }
+
     renderSlider = () => {
         if (!this.props.renderSlider || !this.state.showHeader)
             return;
 
         return (
-            <CustomSlider
-                maximumValue={255}
-                step={5}
-                value={0}
-            />
+            <View>
+                <CustomSlider
+                    maximumValue={255}
+                    step={5}
+                    value={this.state.hue}
+                    onChange={this.onColorChange}
+                />
+
+                <Slider
+                    value={this.state.bri}
+                    thumbTintColor='rgb(83,45,62)'
+                    onValueChange={(value) => this.onBrightnessChange(value, 1)}
+                    maximumValue={255}
+                    step={10}
+                    trackStyle={styles.trackStyle}
+                    maximumTrackTintColor='#bdc3c7'
+                    minimumTrackTintColor='#B33771'
+                    thumbImage={require('../../assets/sliderThumb.png')}
+                />
+            </View>
         );
     }
 

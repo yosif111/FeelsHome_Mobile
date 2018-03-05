@@ -18,7 +18,7 @@ import { Card, ListItem, Button, Divider } from 'react-native-elements';
 import CustomSlider from './Common/CustomSlider';
 import axios from 'axios';
 
-const URL = 'http://192.168.8.103:8000';
+const URL = 'http://192.168.1.4:8000/api';
 
 
 export default class LightControl extends Component {
@@ -34,19 +34,22 @@ export default class LightControl extends Component {
                 {
                     'name': 'Living Room Bulb',
                     'isOn': false,
-                    'RGBValue': 100,
+                    'hue': 100,
+                    'bri': 255,
                     'id': 1
                 },
                 {
                     'name': 'Bedroom Bulb',
                     'isOn': false,
-                    'RGBValue': 200,
+                    'hue': 200,
+                    'bri': 255,
                     'id': 2
                 },
                 {
                     'name': 'Kitchen Bulb',
                     'isOn': false,
-                    'RGBValue': 0,
+                    'hue': 0,
+                    'bri': 255,
                     'id': 3
                 }
             ]
@@ -78,9 +81,9 @@ export default class LightControl extends Component {
     // }
 
     onColorChange = (value, lightID) => {
-       axios.post(`${URL}/lights/changeColor`, {
-            'id': lightID,
-            'hue': value
+       axios.post(`${URL}/lights/change`, {
+            'id': lightID + 1,
+            'hue': value * 257
         })
         .then(response => {
             console.log(response);
@@ -88,10 +91,37 @@ export default class LightControl extends Component {
         .catch(error => {
             console.log(error);
         });
+        this.state.lightsInfo[lightID].hue = value;
+        this.setState({ lightsInfo: this.state.lightsInfo })
     }
 
-    onSwitchPress = (value, index) => {
-        this.state.lightsInfo[index].isOn = value;
+    onBrightnessChange = (value, lightID) => {
+        axios.post(`${URL}/lights/change`, {
+            'id': lightID + 1,
+            'bri': value
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.state.lightsInfo[lightID].bri = value;
+        this.setState({ lightsInfo: this.state.lightsInfo })
+    }
+
+    onSwitchPress = (value, lightID) => {
+        axios.post(`${URL}/lights/change`, {
+            'id': lightID + 1,
+            'on': value
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.state.lightsInfo[lightID].isOn = value;
         this.setState({ lightsInfo: this.state.lightsInfo });
     }
     renderBulb = (bulb, index) => {
@@ -128,8 +158,26 @@ export default class LightControl extends Component {
             </View>
             <CustomSlider
                 maximumValue={255}
-                value={bulb.RGBValue}
+                value={bulb.hue}
+                onChange={this.onColorChange}
+                lightID={index}
             />
+
+            <View>
+                <Slider
+                    value={bulb.bri}
+                    thumbTintColor='rgb(83,45,62)'
+                    onValueChange={(value) => this.onBrightnessChange(value, index)}
+                    maximumValue={255}
+                    step={5}
+                    trackStyle={styles.trackStyle}
+                    maximumTrackTintColor='#bdc3c7'
+                    minimumTrackTintColor='#B33771'
+                    thumbImage={require('../assets/sliderThumb.png')}
+                />
+            </View>
+
+                
            <Divider style={{ backgroundColor: 'rgb(83,45,62)', marginTop: 6, marginBottom: 6, height: index == this.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
 
             </View>
