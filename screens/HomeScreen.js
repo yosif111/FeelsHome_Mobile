@@ -4,7 +4,7 @@ import { ListItem, Button, Icon } from 'react-native-elements'
 import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
 import AudioControl from '../components/AudioControl'
-import CustomVolumeControl from '../components/Common/CustomVolumeControl';
+import CustomAudioControl from '../components/Common/CustomAudioControl';
 const backgroundImage = require('../assets/background.png');
 
 
