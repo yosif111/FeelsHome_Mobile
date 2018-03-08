@@ -9,16 +9,16 @@ import {
 } from 'react-native';
 import { Card, Button, } from 'react-native-elements';
 import CustomVolumeControl from './Common/CustomVolumeControl';
-//import Mopidy from 'mopidy';
+import Mopidy from 'mopidy';
 
 
 
-//const mopidy = new Mopidy({
-//    webSocketUrl: "ws://192.168.1.7:6680/mopidy/ws/"
-//});
+const mopidy = new Mopidy({
+    webSocketUrl: "ws://192.168.1.7:6680/mopidy/ws/"
+});
 
 export default class AudioControl extends Component {
-  //  state = {};
+  state = {};
 
     renderImage = () => {
         return (
@@ -41,7 +41,7 @@ export default class AudioControl extends Component {
     }
 
     render() {
-        //const currentTrack = 
+       
         return (
             <View>
                 {this.renderImage()}

@@ -27,8 +27,7 @@ export default class CustomVolumeControl extends Component {
         this.state = {
             volumeLevel: 0,
             isPalying: false,
-            progress: 0,
-           // image: 
+            progress: 0, 
         };
     }
 
@@ -39,7 +38,7 @@ export default class CustomVolumeControl extends Component {
         return (
             <View style={styles.buttonsView}>
                 <TouchableOpacity 
-                //onPress={() => mopidy.playback.previous()}
+                onPress={() => mopidy.playback.previous()}
                 >
                     <View style={{ flex: 1 }}>
                         <Image
@@ -50,28 +49,28 @@ export default class CustomVolumeControl extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                //  onPress={() => {
+                 onPress={() => {
                    
-                //     if(this.state.isPalying) {
-                //         mopidy.playback.pause();
-                //         this.setState({isPalying: false});
-                //     } 
-                //       else {
-                //           mopidy.playback.play();
-                //           this.setState({isPalying: true});
-                //     }
-                // }}
+                    if(this.state.isPalying) {
+                        mopidy.playback.pause();
+                        this.setState({isPalying: false});
+                    } 
+                      else {
+                          mopidy.playback.play();
+                          this.setState({isPalying: true});
+                    }
+                }}
                 >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             resizeMode="contain"
-                            //source={this.state.isPalying ? require('../../assets/icon_pause.png') : require('../../assets/icon_play.png')}
+                            source={this.state.isPalying ? require('../../assets/icon_pause.png') : require('../../assets/icon_play.png')}
                         />
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                // onPress={() => mopidy.playback.next()}
+                 onPress={() => mopidy.playback.next()}
                 >
 
                     <View style={{ flex: 1 }}>
