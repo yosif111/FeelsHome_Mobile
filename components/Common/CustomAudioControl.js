@@ -18,7 +18,7 @@ import { Card, ListItem, Button } from 'react-native-elements'
 
 
 
-export default class CustomVolumeControl extends Component {
+export default class CustomAudioControl extends Component {
 
 
     constructor() {
