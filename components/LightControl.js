@@ -18,7 +18,7 @@ import { Card, ListItem, Button, Divider } from 'react-native-elements';
 import CustomSlider from './Common/CustomSlider';
 import axios from 'axios';
 
-const URL = 'http://192.168.8.103:8000';
+const URL = 'http://192.168.1.4:8000/api';
 
 
 export default class LightControl extends Component {
@@ -28,59 +28,20 @@ export default class LightControl extends Component {
     };
 
     componentDidMount() {
-        // we should get the lights info and state here
-        this.setState({
-            lightsInfo: [
-                {
-                    'name': 'Living Room Bulb',
-                    'isOn': false,
-                    'RGBValue': 100,
-                    'id': 1
-                },
-                {
-                    'name': 'Bedroom Bulb',
-                    'isOn': false,
-                    'RGBValue': 200,
-                    'id': 2
-                },
-                {
-                    'name': 'Kitchen Bulb',
-                    'isOn': false,
-                    'RGBValue': 0,
-                    'id': 3
-                }
-            ]
+        axios.get(`${URL}/lights`)
+        .then(response => {
+            console.log(response.data);
+            this.setState({lightsInfo: response.data});
+        })
+        .catch(error => {
+            console.log(error);
         });
     }
 
-    // rgbToHsl(r, g, b) {
-    //     r /= 255, g /= 255, b /= 255;
-
-    //     var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    //     var h, s, l = (max + min) / 2;
-
-    //     if (max == min) {
-    //         h = s = 0; // achromatic
-    //     } else {
-    //         var d = max - min;
-    //         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    //         switch (max) {
-    //             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-    //             case g: h = (b - r) / d + 2; break;
-    //             case b: h = (r - g) / d + 4; break;
-    //         }
-
-    //         h /= 6;
-    //     }
-
-    //     return [h, s, l];
-    // }
-
     onColorChange = (value, lightID) => {
-       axios.post(`${URL}/lights/changeColor`, {
-            'id': lightID,
-            'hue': value
+       axios.post(`${URL}/lights/change`, {
+            'id': lightID + 1,
+            'hue': value * 257
         })
         .then(response => {
             console.log(response);
@@ -88,10 +49,37 @@ export default class LightControl extends Component {
         .catch(error => {
             console.log(error);
         });
+        this.state.lightsInfo[lightID].hue = value;
+        this.setState({ lightsInfo: this.state.lightsInfo })
     }
 
-    onSwitchPress = (value, index) => {
-        this.state.lightsInfo[index].isOn = value;
+    onBrightnessChange = (value, lightID) => {
+        axios.post(`${URL}/lights/change`, {
+            'id': lightID + 1,
+            'bri': value
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.state.lightsInfo[lightID].bri = value;
+        this.setState({ lightsInfo: this.state.lightsInfo })
+    }
+
+    onSwitchPress = (value, lightID) => {
+        axios.post(`${URL}/lights/change`, {
+            'id': lightID + 1,
+            'on': value
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.state.lightsInfo[lightID].on = value;
         this.setState({ lightsInfo: this.state.lightsInfo });
     }
     renderBulb = (bulb, index) => {
@@ -128,8 +116,26 @@ export default class LightControl extends Component {
             </View>
             <CustomSlider
                 maximumValue={255}
-                value={bulb.RGBValue}
+                value={bulb.hue}
+                onChange={this.onColorChange}
+                lightID={index}
             />
+
+            <View>
+                <Slider
+                    value={bulb.bri}
+                    thumbTintColor='rgb(83,45,62)'
+                    onValueChange={(value) => this.onBrightnessChange(value, index)}
+                    maximumValue={255}
+                    step={5}
+                    trackStyle={styles.trackStyle}
+                    maximumTrackTintColor='#bdc3c7'
+                    minimumTrackTintColor='#B33771'
+                    thumbImage={require('../assets/sliderThumb.png')}
+                />
+            </View>
+
+                
            <Divider style={{ backgroundColor: 'rgb(83,45,62)', marginTop: 6, marginBottom: 6, height: index == this.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
 
             </View>
