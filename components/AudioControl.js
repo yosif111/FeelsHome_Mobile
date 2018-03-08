@@ -8,7 +8,7 @@ import {
     Slider
 } from 'react-native';
 import { Card, Button, } from 'react-native-elements';
-import CustomVolumeControl from './Common/CustomVolumeControl';
+import CustomAudioControl from './Common/CustomAudioControl';
 
 export default class AudioControl extends Component {
 
@@ -26,7 +26,7 @@ export default class AudioControl extends Component {
 
     renderControls = () => {
         return (
-            <CustomVolumeControl
+            <CustomAudioControl
 
             />
         );
