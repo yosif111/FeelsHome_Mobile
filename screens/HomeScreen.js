@@ -32,6 +32,7 @@ class HomeScreen extends Component {
         }
     }
 
+    
     render() {
 
         return (
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: 40,
         height: 40
-    }
+    },
 
 });
 
