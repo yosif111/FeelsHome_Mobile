@@ -25,8 +25,10 @@ class SettingsScreen extends Component {
 
     
     updateSpotify = () => {
-        let javaScript = 'document.getElementsByName("spotify__username")[0].attributes[2].value="yosif111";document.getElementsByName("spotify__password")[0].attributes[2].value="yosif1113434";document.forms[0].submit();document.forms[0].submit();'
-
+        let javaScript = 'document.getElementsByName("spotify__username")[0].attributes[2].value="'+this.state.spotify_username+'";';
+            javaScript+= 'document.getElementsByName("spotify__password")[0].attributes[2].value="'+this.state.spotify_password+'";';
+            javaScript+= 'document.forms[0].submit();document.forms[0].submit();';
+            
         return (
             <View style={{flex: 1}}>
             <WebView
