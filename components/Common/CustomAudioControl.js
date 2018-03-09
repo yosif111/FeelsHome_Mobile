@@ -16,8 +16,6 @@ import {
 } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements'
 
-
-
 export default class CustomAudioControl extends Component {
     state = { 
         volumeLevel: 0, 
