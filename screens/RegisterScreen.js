@@ -7,6 +7,7 @@ import ButtonSubmit from '../components/login-components/ButtonSubmit';
 import UserInput from '../components/login-components/UserInput';
 import RegisterForm from '../components/login-components/RegisterForm';
 
+import logoImg from '../assets/icon_bulb.png'
 import emailImg from '../assets/email.png';
 import usernameImg from '../assets/username.png';
 import passwordImg from '../assets/password.png';
@@ -35,7 +36,11 @@ class RegisterScreen extends Component {
     render() {
         return (
             <Wallpaper>
-                <Logo />
+                <Logo
+                    img={logoImg}
+                    title='FeelsHome'
+                    size='large'
+                />
                 <RegisterForm onInputChange={this.onInputChange} />
                 <ButtonSubmit 
                 onPress={() => this.props.navigation.navigate('login')} 

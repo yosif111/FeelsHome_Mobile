@@ -18,7 +18,7 @@ import { Card, ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
 import CustomSlider from './CustomSlider';
-import CustomVolumeControl from './CustomVolumeControl';
+import CustomAudioControl from './CustomAudioControl';
 
 const URL = 'http://192.168.1.4:8000/api';
 
@@ -134,12 +134,12 @@ export default class CustomCard extends Component {
         );
     }
 
-    renderVolumeControl = () => {
-        if(!this.props.renderVolumeControl || ! this.state.showHeader)
+    renderAudioControl = () => {
+        if(!this.props.renderAudioControl || ! this.state.showHeader)
             return ;
         
             return (
-                <CustomVolumeControl
+                <CustomAudioControl
                 />
             );
     }
@@ -167,7 +167,7 @@ export default class CustomCard extends Component {
                     <Card containerStyle={{ borderRadius: 15 }}>
                         {this.renderCardHeader()}
                         {this.renderSlider()}
-                        {this.renderVolumeControl()}
+                        {this.renderAudioControl()}
                         <Collapsible
                          collapsed={this.state.isCollapsed}
                          duration={800}

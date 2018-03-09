@@ -54,7 +54,7 @@ class HomeScreen extends Component {
                         <CustomCard
                             label='Audio Control'
                             icon={require('../assets/icon_audio.png')}
-                            renderVolumeControl
+                            renderAudioControl
                             disableSwitch
                         >
                             <AudioControl
