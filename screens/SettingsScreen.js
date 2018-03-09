@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, WebView } from 'react-native-elements';
 
 import CustomListItem from '../components/Common/CustomListItem';
 import UserInput from '../components/login-components/UserInput';
@@ -22,6 +22,25 @@ class SettingsScreen extends Component {
         }
     }
 
+
+    
+    updateSpotify = () => {
+        let javaScript = 'document.getElementsByName("spotify__username")[0].attributes[2].value="'+this.state.spotify_username+'";';
+            javaScript+= 'document.getElementsByName("spotify__password")[0].attributes[2].value="'+this.state.spotify_password+'";';
+            javaScript+= 'document.forms[0].submit();document.forms[0].submit();';
+            
+        return (
+            <View style={{flex: 1}}>
+            <WebView
+            source={{uri: 'http://192.168.8.107/settings'}}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            injectedJavaScript={javaScript}
+            style={{width: 0, height: 0}}
+          />
+          </View>
+        );
+    }
     onSpotifyUsernameChange = (value) => {
         this.setState({ spotify_username: value })
     }
@@ -63,6 +82,18 @@ class SettingsScreen extends Component {
             </List>
         );
     }
+
+    
+    render() {        
+        return (
+        <View>
+        <Text>SettingsScreen</Text>
+        <Text>SettingsScreen</Text>
+        <Text>SettingsScreen</Text>
+        <Text>SettingsScreen</Text> 
+         </View>
+        );
+        }
 }
 
 export default SettingsScreen;

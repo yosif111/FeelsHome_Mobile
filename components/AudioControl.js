@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
-    Text,
     Image,
     View,
+<<<<<<< HEAD
     Slider,
     Picker
+=======
+>>>>>>> 7a7cc026b23ed6afe5bb960e80fa2a276b5ea2fd
 } from 'react-native';
-import { Card, Button, } from 'react-native-elements';
+import axios from 'axios';
+import URL from '../config';
 import CustomAudioControl from './Common/CustomAudioControl';
 import ModalDropdown from 'react-native-modal-dropdown';
 const DEMO_OPTIONS_1 = ['option 1', 'option 2', 'option 3', 'option 4', 'option 5', 'option 6', 'option 7'];
+
 
 
 export default class AudioControl extends Component {
@@ -22,18 +25,84 @@ export default class AudioControl extends Component {
         return style;
       }
 
-    renderImage = () => {
+    state = { 
+        image: require('../assets/icon_music.jpg'),
+        playlists: [],
+        currentPlaylist: '',
+        currentTrack: '',
+        currentArtist: '',
+        currentAlbum: '',
+        progress: 0,
+        volume: 0,
+        isPlaying: false
+    }
+
+    componentDidMount() {
+        axios.get(`${URL}/api/audio/playlists`)
+            .then(response => {
+                this.setState({ playlists: response.data });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    onPreviousPress = () => {
+        console.log('\nprevious')
+        axios.get(`${URL}/api/audio/previous`)
+        .then(() => {
+            
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    onNextPress = () => {
+        console.log('\nnext')
+        axios.get(`${URL}/api/audio/next`)
+            .then(() => {
+                
+            })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    onPausePress = () => {
+        console.log('\npause')
+        axios.get(`${URL}/api/audio/pause`)
+            .then(() => {
+                
+            })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    onPlayPress = () => {
+        console.log('\nplay')
+        axios.get(`${URL}/api/audio/play`)
+            .then(() => {
+                
+            })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
+    onVolumeChange = (value) => {
+        this.setState({ volume: value });
+    }
+    renderImage = (image) => {
         return (
-            <View style={{width: '100%', height:200, marginBottom: 10}}>
+            <View style={{ width: '100%', height:200 }}>
                 <Image
                 resizeMode='center'
-                    style={{width: '100%', height: '100%'}}
-                    source={require('../assets/icon_music.jpg')}
-                    />
+                    style={{ width: '100%', height: '100%' }}
+                    source={this.state.image}
+                />
             </View>
         );
     }
 
+<<<<<<< HEAD
     renderDropDownList = () =>{
         return (
         <View >
@@ -59,23 +128,34 @@ export default class AudioControl extends Component {
         );
     }
 
+=======
+>>>>>>> 7a7cc026b23ed6afe5bb960e80fa2a276b5ea2fd
     render() {
         return (
             <View>
                 {this.renderDropDownList()}
                 {this.renderImage()}
-                {this.renderControls()}
+                <CustomAudioControl
+                    trackName={this.state.currentTrack}
+                    album={this.state.currentAlbum}
+                    artist={this.state.currentArtist}
+                    volume={this.state.volume}
+                    isPlaying={this.state.isPlaying}
+                    onVolumeChange={this.onVolumeChange}
+                    onNextPress={this.onNextPress}
+                    onPreviousPress={this.onPreviousPress}
+                    onPausePress={this.onPausePress}
+                    onPlayPress={this.onPlayPress}
+                />
             </View>
 
         );
     }
 }
 const styles = StyleSheet.create({
-
     trackStyle: {
         borderRadius: 10
     },
-
     container: {
         padding: 0,
         flexDirection: 'row',
@@ -83,21 +163,17 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 5
     },
-
     iconContainer: {
         flex: 6,
         marginTop: 14,
     },
-
     labelContainer: {
         padding: 13,
         flex: 32,
     },
-
     icon: {
         height: 21,
     },
-
     label: {
         fontSize: 18,
         fontWeight: 'bold',

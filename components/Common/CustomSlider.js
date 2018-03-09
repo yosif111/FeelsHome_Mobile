@@ -1,20 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
-    Text,
-    Animated,
-    Easing,
-    Image,
-    Alert,
     View,
-    ScrollView,
-    ImageBackground,
-    Switch,
-    Dimensions,
     Slider
 } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements'
+//import { Card, ListItem, Button } from 'react-native-elements';
 
 
 export default class CustomSlider extends Component {

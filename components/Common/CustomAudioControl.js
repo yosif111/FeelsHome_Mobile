@@ -1,65 +1,62 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
-    Text,
-    Animated,
-    Easing,
     Image,
-    Alert,
     View,
-    ScrollView,
-    ImageBackground,
-    Switch,
-    Dimensions,
-    Slider
+    Slider,
+    Text
 } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements'
+import axios from 'axios';
+import URL from '../../config';
 
+
+const previousIcon = require('../../assets/icon_previous.png');
+const nextIcon = require('../../assets/icon_next.png');
+const playIcon = require('../../assets/icon_play.png');
+const pauseIcon= require('../../assets/icon_pause.png');
 
 
 export default class CustomAudioControl extends Component {
-    state = { 
-        volumeLevel: 0, 
-        isPalying: false, 
-        progress: 0 
-    };
 
-    componentWillMount() {
-        this.state.volumeLevel = 50;
-    }
+
     renderButtons = () => {
         return (
             <View style={styles.buttonsView}>
-                <TouchableOpacity>
+                <TouchableOpacity 
+                onPress={this.props.onPreviousPress}
+                >
                     <View style={{ flex: 1 }}>
                         <Image
                             resizeMode="contain"
-                            source={require('../../assets/icon_previous.png')}
+                            source={previousIcon}
                         />
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                 onPress={this.props.isPlaying ? this.props.onPreviousPress : this.props.onPlayPress}
+                >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             resizeMode="contain"
-                            source={require('../../assets/icon_pause.png')}
+                            source={this.props.isPalying ? pauseIcon : playIcon}
                         />
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                 onPress={this.props.onNextPress}
+                >
 
                     <View style={{ flex: 1 }}>
                         <Image
                             resizeMode="contain"
-                            source={require('../../assets/icon_next.png')}
+                            source={nextIcon}
                         />
                     </View>
 
                 </TouchableOpacity>
-
 
             </View>
         );
@@ -69,9 +66,9 @@ export default class CustomAudioControl extends Component {
             <View style={{ flex: 8, flexDirection: 'row', alignItems: 'stretch', justifyContent: 'center' }}>
                 <View style={{ flex: 7, marginRight: 5 }}>
                     <Slider
-                        value={this.state.volumeLevel}
+                        value={this.props.volume}
                         thumbTintColor='rgb(83,45,62)'
-                        onValueChange={(volumeLevel) => this.setState({ volumeLevel })}
+                        onValueChange={(volume) => this.props.onVolumeChange(volume)}
                         maximumValue={100}
                         step={5}
                         trackStyle={styles.trackStyle}
@@ -81,19 +78,41 @@ export default class CustomAudioControl extends Component {
                     />
                 </View>
                 <View
-                    style={styles.iconContainer}>
+                    style={styles.iconContainer}
+                >
                     <Image
                         resizeMode="contain"
-                        source={require('../../assets/icon_audio.png')} />
+                        source={require('../../assets/icon_audio.png')} 
+                    />
                 </View>
 
             </View>
         );
     }
+
+    renderTrackInfo() {
+        if (this.props.home) {
+            return(
+                <View style={styles.homeTrackInfoContainer} >
+                    <Text style={styles.trackName} >{this.props.trackName}  </Text>
+                    <Text style={styles.album} >{this.props.artist} - {this.props.album}</Text>
+                </View>
+            ); 
+        }
+
+        return(
+            <View style={styles.trackInfoContainer} >
+                <Text style={styles.trackName} >{this.props.trackName}</Text>
+                <Text style={styles.album} >{this.props.artist} - {this.props.album}</Text>
+            </View>
+        );  
+    }
+
     render() {
 
         return (
             <View>
+                {this.renderTrackInfo()}
                 {this.renderButtons()}
                 {this.renderVolumeSlider()}
             </View>
@@ -121,5 +140,18 @@ const styles = StyleSheet.create({
         marginRight: '10%',
         marginLeft: '10%',
         marginBottom: 10
+    },
+    trackInfoContainer: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    trackName: {
+        color: '#222'
+    },
+    album: {
+        color: '#666'
+    },
+    homeTrackInfoContainer: {
+        flexDirection: 'row'
     }
 });
