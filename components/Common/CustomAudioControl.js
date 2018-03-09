@@ -4,7 +4,8 @@ import {
     TouchableOpacity,
     Image,
     View,
-    Slider
+    Slider,
+    Text
 } from 'react-native';
 import axios from 'axios';
 import URL from '../../config';
