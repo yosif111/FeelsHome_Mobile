@@ -15,6 +15,7 @@ import CustomAudioControl from './Common/CustomAudioControl';
 import axios from 'axios';
 
 export default class AudioControl extends Component {
+
     state = { 
         image: require('../assets/icon_music.jpg'),
         playlists: [],
@@ -35,6 +36,34 @@ export default class AudioControl extends Component {
             .catch(error => {
                 console.log(error);
             });
+    }
+    onPreviousPress = () => {
+        axios.get(`${URL}/api/audio/previous`)
+        .then()
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    onNextPress = () => {
+        axios.get(`${URL}/api/audio/next`)
+        .then()
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    onPausePress = () => {
+        axios.get(`${URL}/api/audio/pause`)
+        .then()
+        .catch(error => {
+            console.log(error);
+        });
+    }
+    onPlayPress = () => {
+        axios.get(`${URL}/api/audio/play`)
+        .then()
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     renderImage = (image) => {
