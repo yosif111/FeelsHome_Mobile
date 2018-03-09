@@ -9,6 +9,8 @@ import {
 import axios from 'axios';
 import URL from '../../config';
 
+<<<<<<< HEAD
+=======
 
 const previousIcon = require('../../assets/icon_previous.png');
 const nextIcon = require('../../assets/icon_next.png');
@@ -16,6 +18,7 @@ const playIcon = require('../../assets/icon_play.png');
 const pauseIcon= require('../../assets/icon_pause.png');
 
 
+>>>>>>> 8388985e90f425b99d3a632603a1faace0b51700
 export default class CustomAudioControl extends Component {
 
 
