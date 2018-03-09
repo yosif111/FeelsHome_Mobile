@@ -57,7 +57,6 @@ export default class CustomAudioControl extends Component {
 
                 </TouchableOpacity>
 
-
             </View>
         );
     }
