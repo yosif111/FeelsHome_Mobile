@@ -6,14 +6,20 @@ import {
     Image,
 } from 'react-native';
 
-import logoImg from '../../assets/icon_bulb.png';
-
 export default class Logo extends Component {
+    // Props:
+    //     size: (large) or (small)
+    //     img: image source
+    //     title: title text
+
     render() {
         return (
             <View style={styles.container}>
-                <Image source={logoImg} style={styles.image} />
-                <Text style={styles.text}>FeelsHome</Text>
+                <Image 
+                    source={this.props.img} 
+                    style={this.props.size === 'small' ? styles.SImage : styles.LImage} 
+                />
+                <Text style={styles.text}>{this.props.title}</Text>
             </View>
         );
     }
@@ -24,10 +30,15 @@ const styles = StyleSheet.create({
         flex: 3,
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 10
     },
-    image: {
+    LImage: {
         width: 80,
         height: 80,
+    },
+    SImage: {
+        width: 40,
+        height: 40,
     },
     text: {
         color: 'white',

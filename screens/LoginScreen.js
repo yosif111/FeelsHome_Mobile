@@ -7,6 +7,8 @@ import Form from '../components/login-components/Form';
 import SignupSection from '../components/login-components/SignupSection';
 import ButtonSubmit from '../components/login-components/ButtonSubmit';
 
+import logoImg from '../assets/icon_bulb.png'
+
 class LoginScreen extends Component {
     state = { email: '', password: '' };
 
@@ -30,7 +32,11 @@ class LoginScreen extends Component {
     render() {
         return (
             <Wallpaper>
-                <Logo />
+                <Logo 
+                    img={logoImg}
+                    title='FeelsHome'
+                    size='large'
+                />
                 <Form onInputChange={this.onInputChange} />
                 <SignupSection onPress={() => this.props.navigation.navigate('register')} />
                 <ButtonSubmit 

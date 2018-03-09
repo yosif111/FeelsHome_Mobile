@@ -8,25 +8,27 @@ import {
     Slider
 } from 'react-native';
 import { Card, Button, } from 'react-native-elements';
-import CustomVolumeControl from './Common/CustomVolumeControl';
-import Mopidy from 'mopidy';
-
-
-
-const mopidy = new Mopidy({
-    webSocketUrl: "ws://192.168.1.7:6680/mopidy/ws/"
-});
+import CustomAudioControl from './Common/CustomAudioControl';
+import axios from 'axios';
 
 export default class AudioControl extends Component {
-  state = {};
+  
+state = {
+      image: require('../assets/icon_music.jpg'),
+      progress: 0,
+      startTime: 0,
+      endTime: 0,
+      currentTrack: null,
+      
+};
 
-    renderImage = () => {
+    renderImage = (image) => {
         return (
             <View style={{width: '100%', height:200, marginBottom: 10}}>
                 <Image
                 resizeMode='center'
                     style={{width: '100%', height: '100%'}}
-                    source={require('../assets/icon_music.jpg')}
+                    source={{uri: this.state.image}}
                     />
             </View>
         );
@@ -34,7 +36,7 @@ export default class AudioControl extends Component {
 
     renderControls = () => {
         return (
-            <CustomVolumeControl
+            <CustomAudioControl
 
             />
         );
@@ -44,7 +46,7 @@ export default class AudioControl extends Component {
        
         return (
             <View>
-                {this.renderImage()}
+                {this.renderImage(this.state.image)}
                 {this.renderControls()}
             </View>
 

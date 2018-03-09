@@ -1,82 +1,57 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     TouchableOpacity,
-    Text,
-    Animated,
-    Easing,
     Image,
-    Alert,
     View,
-    ScrollView,
-    ImageBackground,
-    Switch,
-    Dimensions,
     Slider
 } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
+import axios from 'axios';
+import URL from '../../config';
 
 
+const previousIcon = require('../../assets/icon_previous.png');
+const nextIcon = require('../../assets/icon_next.png');
+const playIcon = require('../../assets/icon_play.png');
+const pauseIcon= require('../../assets/icon_pause.png');
 
 
-export default class CustomVolumeControl extends Component {
+export default class CustomAudioControl extends Component {
 
-    
-    constructor() {
-        super();
-        this.state = {
-            volumeLevel: 0,
-            isPalying: false,
-            progress: 0, 
-        };
-    }
 
-    componentWillMount() {
-        this.state.volumeLevel = 50;
-    }
     renderButtons = () => {
         return (
             <View style={styles.buttonsView}>
                 <TouchableOpacity 
-                onPress={() => mopidy.playback.previous()}
+                onPress={this.onPreviousPress}
                 >
                     <View style={{ flex: 1 }}>
                         <Image
                             resizeMode="contain"
-                            source={require('../../assets/icon_previous.png')}
+                            source={previousIcon}
                         />
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                 onPress={() => {
-                   
-                    if(this.state.isPalying) {
-                        mopidy.playback.pause();
-                        this.setState({isPalying: false});
-                    } 
-                      else {
-                          mopidy.playback.play();
-                          this.setState({isPalying: true});
-                    }
-                }}
+                 onPress={() => {this.props.isPlaying ? this.onPreviousPress : this.onPlayPress;}}
                 >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             resizeMode="contain"
-                            source={this.state.isPalying ? require('../../assets/icon_pause.png') : require('../../assets/icon_play.png')}
+                            source={this.props.isPalying ? pauseIcon : playIcon}
                         />
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                 onPress={() => mopidy.playback.next()}
+                 onPress={() => this.onPlayPress}
                 >
 
                     <View style={{ flex: 1 }}>
                         <Image
                             resizeMode="contain"
-                            source={require('../../assets/icon_next.png')}
+                            source={playIcon}
                         />
                     </View>
 
@@ -91,9 +66,9 @@ export default class CustomVolumeControl extends Component {
             <View style={{ flex: 8, flexDirection: 'row', alignItems: 'stretch', justifyContent: 'center' }}>
                 <View style={{ flex: 7, marginRight: 5 }}>
                     <Slider
-                        value={this.state.volumeLevel}
+                        value={this.props.volume}
                         thumbTintColor='rgb(83,45,62)'
-                        onValueChange={(volumeLevel) => this.setState({ volumeLevel })}
+                        onValueChange={(volume) => this.props.onVolumeChange(volume)}
                         maximumValue={100}
                         step={5}
                         trackStyle={styles.trackStyle}
@@ -103,7 +78,8 @@ export default class CustomVolumeControl extends Component {
                     />
                 </View>
                 <View
-                    style={styles.iconContainer}>
+                    style={styles.iconContainer}
+                >
                     <Image
                         resizeMode="contain"
                         source={require('../../assets/icon_audio.png')} />

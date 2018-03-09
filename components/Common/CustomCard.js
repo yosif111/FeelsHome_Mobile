@@ -18,7 +18,7 @@ import { Card, ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
 import CustomSlider from './CustomSlider';
-import CustomVolumeControl from './CustomVolumeControl';
+import CustomAudioControl from './CustomAudioControl';
 
 const URL = 'http://192.168.1.4:8000/api';
 
@@ -33,6 +33,15 @@ export default class CustomCard extends Component {
         };
 
     onSwitchPress = (toggle) => {
+        axios.post(`${URL}/lights/changeAll`, {
+            'on': toggle
+        })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
         this.setState({ isOn: toggle });
     }
 
@@ -71,8 +80,6 @@ export default class CustomCard extends Component {
 
 
     onColorChange = (value, lightID) => {
-        console.log("Dddd");
-
         axios.post(`${URL}/lights/changeAll`, {
             'hue': value * 250
         })
@@ -86,7 +93,7 @@ export default class CustomCard extends Component {
     }
 
     onBrightnessChange = (value, lightID) => {
-        axios.post(`${URL}/lights/changeBrightness`, {
+        axios.post(`${URL}/lights/changeAll`, {
             'all': true,
             'bri': value
         })
@@ -127,12 +134,12 @@ export default class CustomCard extends Component {
         );
     }
 
-    renderVolumeControl = () => {
-        if(!this.props.renderVolumeControl || ! this.state.showHeader)
+    renderAudioControl = () => {
+        if(!this.props.renderAudioControl || ! this.state.showHeader)
             return ;
         
             return (
-                <CustomVolumeControl
+                <CustomAudioControl
                 />
             );
     }
@@ -160,7 +167,7 @@ export default class CustomCard extends Component {
                     <Card containerStyle={{ borderRadius: 15 }}>
                         {this.renderCardHeader()}
                         {this.renderSlider()}
-                        {this.renderVolumeControl()}
+                        {this.renderAudioControl()}
                         <Collapsible
                          collapsed={this.state.isCollapsed}
                          duration={800}
