@@ -17,8 +17,19 @@ const pauseIcon= require('../../assets/icon_pause.png');
 
 
 export default class CustomAudioControl extends Component {
+<<<<<<< HEAD
 
 
+=======
+    state = { 
+        volumeLevel: 0, 
+        isPalying: false
+    };
+
+    componentWillMount() {
+        this.state.volumeLevel = 50;
+    }
+>>>>>>> fc9edaaf4f7bea0e23d5ff81fa0f1620e9d6de1b
     renderButtons = () => {
         return (
             <View style={styles.buttonsView}>
@@ -88,10 +99,30 @@ export default class CustomAudioControl extends Component {
             </View>
         );
     }
+
+    renderTrackInfo() {
+        if (this.props.home) {
+            return(
+                <View style={styles.homeTrackInfoContainer} >
+                    <Text style={styles.trackName} >{this.props.trackName}  </Text>
+                    <Text style={styles.album} >{this.props.artist} - {this.props.album}</Text>
+                </View>
+            ); 
+        }
+
+        return(
+            <View style={styles.trackInfoContainer} >
+                <Text style={styles.trackName} >{this.props.trackName}</Text>
+                <Text style={styles.album} >{this.props.artist} - {this.props.album}</Text>
+            </View>
+        );  
+    }
+
     render() {
 
         return (
             <View>
+                {this.renderTrackInfo()}
                 {this.renderButtons()}
                 {this.renderVolumeSlider()}
             </View>
@@ -119,5 +150,18 @@ const styles = StyleSheet.create({
         marginRight: '10%',
         marginLeft: '10%',
         marginBottom: 10
+    },
+    trackInfoContainer: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    trackName: {
+        color: '#222'
+    },
+    album: {
+        color: '#666'
+    },
+    homeTrackInfoContainer: {
+        flexDirection: 'row'
     }
 });

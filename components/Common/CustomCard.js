@@ -140,6 +140,10 @@ export default class CustomCard extends Component {
         
             return (
                 <CustomAudioControl
+                    home
+                    trackName='trackName'
+                    album='Album'
+                    artist='Artist'
                 />
             );
     }
