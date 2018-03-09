@@ -2,26 +2,14 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Image,
-    View,
-    Slider,
-    Picker
+    View
 } from 'react-native';
 import axios from 'axios';
 import URL from '../config';
 import CustomAudioControl from './Common/CustomAudioControl';
 import ModalDropdown from 'react-native-modal-dropdown';
-const DEMO_OPTIONS_1 = ['option 1', 'option 2', 'option 3', 'option 4', 'option 5', 'option 6', 'option 7'];
-
-
 
 export default class AudioControl extends Component {
-  
-    _dropdown_3_adjustFrame(style) {
-        style.top -= 15;
-        style.left =38;
-        return style;
-      }
-
     state = { 
         image: require('../assets/icon_music.jpg'),
         playlists: [],
@@ -87,7 +75,19 @@ export default class AudioControl extends Component {
     onVolumeChange = (value) => {
         this.setState({ volume: value });
     }
-    renderImage = (image) => {
+
+    onPlaylistChange = (index) => {
+        console.log('\nrequest = ' + this.state.playlists[index].uri);
+        axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${this.state.playlists[index].uri}`)
+            .then(response => {
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    renderImage = () => {
         return (
             <View style={{ width: '100%', height:200 }}>
                 <Image
@@ -99,30 +99,39 @@ export default class AudioControl extends Component {
         );
     }
 
+    getPlaylists = () => {
+        let result = [];
+        this.state.playlists.map(value => {
+            result.push(value.name);
+        });
+        console.log('\nresult = ' + result);
+        return result;
+    }
+
     renderDropDownList = () =>{
         return (
         <View >
-             <ModalDropdown ref={el => this._dropdown_3 = el}
-                           textStyle={styles.dropdownTextstyle}
-                           style={styles.dropdownSelectStyle}
-                           options={DEMO_OPTIONS_1}
-                           adjustFrame={style => this._dropdown_3_adjustFrame(style)}
-                           dropdownTextStyle={styles.dropdownTextStyle}
-                           dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle}
-                           dropdownStyle={styles.dropdownStyle}
+             <ModalDropdown 
+                ref={el => this._dropdown_3 = el}
+                textStyle={styles.dropdownTextstyle}
+                style={styles.dropdownSelectStyle}
+                options={this.getPlaylists}
+                adjustFrame={style => this._dropdown_3_adjustFrame(style)}
+                dropdownTextStyle={styles.dropdownTextStyle}
+                dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle}
+                dropdownStyle={styles.dropdownStyle}
+                onSelect={(index) => this.onPlaylistChange(index)}
             />
         </View>
         );
      }
 
-    renderControls = () => {
-        return (
-            <CustomAudioControl
-
-            />
-            
-        );
+    _dropdown_3_adjustFrame(style) {
+        style.top -= 15;
+        style.left = 38;
+        return style;
     }
+
 
     render() {
         return (
