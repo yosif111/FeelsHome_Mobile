@@ -18,18 +18,12 @@ import { Card, ListItem, Button } from 'react-native-elements'
 
 
 
-export default class CustomVolumeControl extends Component {
-
-
-    constructor() {
-        super();
-
-        this.state = {
-            volumeLevel: 0,
-            isPalying: false,
-            progress: 0
-        };
-    }
+export default class CustomAudioControl extends Component {
+    state = { 
+        volumeLevel: 0, 
+        isPalying: false, 
+        progress: 0 
+    };
 
     componentWillMount() {
         this.state.volumeLevel = 50;
