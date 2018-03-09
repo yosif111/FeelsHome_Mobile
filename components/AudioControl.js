@@ -3,11 +3,8 @@ import {
     StyleSheet,
     Image,
     View,
-<<<<<<< HEAD
     Slider,
     Picker
-=======
->>>>>>> 7a7cc026b23ed6afe5bb960e80fa2a276b5ea2fd
 } from 'react-native';
 import axios from 'axios';
 import URL from '../config';
@@ -102,7 +99,6 @@ export default class AudioControl extends Component {
         );
     }
 
-<<<<<<< HEAD
     renderDropDownList = () =>{
         return (
         <View >
@@ -128,8 +124,6 @@ export default class AudioControl extends Component {
         );
     }
 
-=======
->>>>>>> 7a7cc026b23ed6afe5bb960e80fa2a276b5ea2fd
     render() {
         return (
             <View>
