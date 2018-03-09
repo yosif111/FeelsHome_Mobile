@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
-    Text,
     Image,
     View,
-    Slider
 } from 'react-native';
-import { Card, Button, } from 'react-native-elements';
 import axios from 'axios';
-
 import URL from '../config';
 import CustomAudioControl from './Common/CustomAudioControl';
-import axios from 'axios';
+
 
 export default class AudioControl extends Component {
 
@@ -66,6 +61,9 @@ export default class AudioControl extends Component {
         });
     }
 
+    onVolumeChange = (value) => {
+        this.setState({ volume: value });
+    }
     renderImage = (image) => {
         return (
             <View style={{width: '100%', height:200}}>
@@ -76,10 +74,6 @@ export default class AudioControl extends Component {
                     />
             </View>
         );
-    }
-
-    onVolumeChange = (value) => {
-        this.setState({ volume: value });
     }
 
     render() {

@@ -17,24 +17,13 @@ const pauseIcon= require('../../assets/icon_pause.png');
 
 
 export default class CustomAudioControl extends Component {
-<<<<<<< HEAD
 
 
-=======
-    state = { 
-        volumeLevel: 0, 
-        isPalying: false
-    };
-
-    componentWillMount() {
-        this.state.volumeLevel = 50;
-    }
->>>>>>> fc9edaaf4f7bea0e23d5ff81fa0f1620e9d6de1b
     renderButtons = () => {
         return (
             <View style={styles.buttonsView}>
                 <TouchableOpacity 
-                onPress={this.onPreviousPress}
+                onPress={this.props.onPreviousPress}
                 >
                     <View style={{ flex: 1 }}>
                         <Image
@@ -45,7 +34,7 @@ export default class CustomAudioControl extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                 onPress={() => {this.props.isPlaying ? this.onPreviousPress : this.onPlayPress;}}
+                 onPress={() => {this.props.isPlaying ? this.props.onPreviousPress : this.props.onPlayPress;}}
                 >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
                         <Image
@@ -56,7 +45,7 @@ export default class CustomAudioControl extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                 onPress={() => this.onPlayPress}
+                 onPress={() => this.props.onPlayPress}
                 >
 
                     <View style={{ flex: 1 }}>
@@ -93,7 +82,8 @@ export default class CustomAudioControl extends Component {
                 >
                     <Image
                         resizeMode="contain"
-                        source={require('../../assets/icon_audio.png')} />
+                        source={require('../../assets/icon_audio.png')} 
+                    />
                 </View>
 
             </View>
