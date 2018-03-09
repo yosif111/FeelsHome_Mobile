@@ -10,65 +10,55 @@ import userIcon from '../assets/username.png';
 import passIcon from '../assets/password.png';
 import spotifyIcon from '../assets/icon_spotify.png'
 
-const list = [
-    {
-        title: 'Spotify',
-        icon: 'av-timer'
-    },
-    {
-        title: 'Trips',
-        icon: 'flight-takeoff'
-    }
-]
-
 class SettingsScreen extends Component {
+    state = { 
+        spotify_password: '',
+        spotify_username: ''
+     }
+
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Settings'
         }
     }
 
-    onUsernameChange = () => {
-
+    onSpotifyUsernameChange = (value) => {
+        this.setState({ spotify_username: value })
     }
 
-    onPasswordChange = () => {
-
+    onSpotifyPasswordChange = (value) => {
+        this.setState({ spotify_password: value })
     }
 
     render() {
         return (
             <List>
                 {
-                    list.map((item, i) => (
-                        <CustomListItem
-                            key={i}
-                            title={item.title}
-                            icon={{ name: item.icon }}
-                        >
-                            <Logo 
-                                img={spotifyIcon}
-                                size='small'
-                            />
-                            <UserInput 
-                                source={userIcon}
-                                placeholder='UserName'
-                                autoCapitalize={'none'}
-                                returnKeyType={'done'}
-                                autoCorrect={false}
-                                onInputChange={this.onUsernameChange}
-                            />
-                            <UserInput
-                                source={passIcon}
-                                placeholder='Password'
-                                autoCapitalize={'none'}
-                                returnKeyType={'done'}
-                                autoCorrect={false}
-                                onInputChange={this.onPasswordChange}
-                                showPassword={true}
-                            />
-                        </CustomListItem>
-                    ))
+                    <CustomListItem
+                        title='Spotify'
+                        icon={{ name: 'spotify', type: 'entypo' }}
+                    >
+                        <Logo 
+                            img={spotifyIcon}
+                        />
+                        <UserInput 
+                            source={userIcon}
+                            placeholder='Username'
+                            autoCapitalize={'none'}
+                            returnKeyType={'done'}
+                            autoCorrect={false}
+                            onInputChange={this.onSpotifyUsernameChange}
+                        />
+                        <UserInput
+                            source={passIcon}
+                            placeholder='Password'
+                            autoCapitalize={'none'}
+                            returnKeyType={'done'}
+                            autoCorrect={false}
+                            onInputChange={this.onSpotifyPasswordChange}
+                            showPassword={true}
+                        />
+                    </CustomListItem>
                 }
             </List>
         );
