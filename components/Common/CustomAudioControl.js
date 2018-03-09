@@ -35,7 +35,7 @@ export default class CustomAudioControl extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                 onPress={() => {this.props.isPlaying ? this.props.onPreviousPress : this.props.onPlayPress;}}
+                 onPress={this.props.isPlaying ? this.props.onPreviousPress : this.props.onPlayPress}
                 >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
                         <Image
@@ -46,13 +46,13 @@ export default class CustomAudioControl extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                 onPress={() => this.props.onPlayPress}
+                 onPress={this.props.onNextPress}
                 >
 
                     <View style={{ flex: 1 }}>
                         <Image
                             resizeMode="contain"
-                            source={playIcon}
+                            source={nextIcon}
                         />
                     </View>
 

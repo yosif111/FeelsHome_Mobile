@@ -33,29 +33,41 @@ export default class AudioControl extends Component {
             });
     }
     onPreviousPress = () => {
+        console.log('\nprevious')
         axios.get(`${URL}/api/audio/previous`)
-        .then()
+        .then(() => {
+            
+        })
         .catch(error => {
             console.log(error);
         });
     }
     onNextPress = () => {
+        console.log('\nnext')
         axios.get(`${URL}/api/audio/next`)
-        .then()
+            .then(() => {
+                
+            })
         .catch(error => {
             console.log(error);
         });
     }
     onPausePress = () => {
+        console.log('\npause')
         axios.get(`${URL}/api/audio/pause`)
-        .then()
+            .then(() => {
+                
+            })
         .catch(error => {
             console.log(error);
         });
     }
     onPlayPress = () => {
+        console.log('\nplay')
         axios.get(`${URL}/api/audio/play`)
-        .then()
+            .then(() => {
+                
+            })
         .catch(error => {
             console.log(error);
         });
