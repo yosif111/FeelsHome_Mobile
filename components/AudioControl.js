@@ -88,6 +88,10 @@ export default class AudioControl extends Component {
                     volume={this.state.volume}
                     isPlaying={this.state.isPlaying}
                     onVolumeChange={this.onVolumeChange}
+                    onNextPress={this.onNextPress}
+                    onPreviousPress={this.onPreviousPress}
+                    onPausePress={this.onPausePress}
+                    onPlayPress={this.onPlayPress}
                 />
             </View>
 
