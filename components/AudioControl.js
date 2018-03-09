@@ -66,18 +66,17 @@ export default class AudioControl extends Component {
     }
     renderImage = (image) => {
         return (
-            <View style={{width: '100%', height:200}}>
+            <View style={{ width: '100%', height:200 }}>
                 <Image
                 resizeMode='center'
-                    style={{width: '100%', height: '100%'}}
+                    style={{ width: '100%', height: '100%' }}
                     source={this.state.image}
-                    />
+                />
             </View>
         );
     }
 
     render() {
-       
         return (
             <View>
                 {this.renderImage()}
