@@ -63,8 +63,8 @@ export default class CustomAudioControl extends Component {
     }
     renderVolumeSlider = () => {
         return (
-            <View style={{ flex: 8, flexDirection: 'row', alignItems: 'stretch', justifyContent: 'center' }}>
-                <View style={{ flex: 7, marginRight: 5 }}>
+            <View style={styles.volumeSliderContainer}>
+                <View style={styles.volumeSlider}>
                     <Slider
                         value={this.props.volume}
                         thumbTintColor='rgb(83,45,62)'
@@ -123,7 +123,6 @@ export default class CustomAudioControl extends Component {
 }
 
 const styles = StyleSheet.create({
-
     iconContainer: {
         flex: 1,
         marginTop: 8,
@@ -153,5 +152,16 @@ const styles = StyleSheet.create({
     },
     homeTrackInfoContainer: {
         flexDirection: 'row'
+    },
+    volumeSliderContainer: {
+         flex: 8, 
+         flexDirection: 'row', 
+         alignItems: 'center', 
+         justifyContent: 'center' 
+    },
+    volumeSlider: {
+        flex: 7, 
+        marginRight: 5, 
+        marginTop: 8 
     }
 });

@@ -17,10 +17,11 @@ import {
 import { Card, ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
+
+import URL from '../../config';
 import CustomSlider from './CustomSlider';
 import CustomAudioControl from './CustomAudioControl';
 
-const URL = 'http://192.168.1.4:8000/api';
 
 export default class CustomCard extends Component {
     state = {
@@ -112,12 +113,15 @@ export default class CustomCard extends Component {
 
         return (
             <View>
-                <CustomSlider
-                    maximumValue={255}
-                    step={5}
-                    value={this.state.hue}
-                    onChange={this.onColorChange}
-                />
+                <View style={{ marginBottom: 10 }} >
+                    <CustomSlider
+                        maximumValue={255}
+                        step={5}
+                        value={this.state.hue}
+                        onChange={this.onColorChange}
+                    />
+                </View>
+                
 
                 <Slider
                     value={this.state.bri}
@@ -200,20 +204,24 @@ const styles = StyleSheet.create({
         padding: 0,
         flexDirection: 'row',
         flex: 1,
+        marginBottom: 10
     },
 
     iconContainer: {
-        flex: 6,
-        marginTop: 14,
+        flex: 8,
+        marginTop: 5,
+        marginBottom: 5
     },
 
     labelContainer: {
-        padding: 13,
+        marginTop: 5,
+        marginBottom: 5,
         flex: 32,
     },
 
     icon: {
-        height: 21,
+        height: 25,
+        width: 25
     },
 
     label: {
@@ -222,6 +230,6 @@ const styles = StyleSheet.create({
         color: 'rgb(83,45,62)',
     },
     switchStyle: {
-        padding: 13,
+        marginTop: 5
     }
 });

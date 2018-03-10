@@ -4,10 +4,12 @@ import {
     Image,
     View
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import axios from 'axios';
+import Picker from 'react-native-picker';
+
 import URL from '../config';
 import CustomAudioControl from './Common/CustomAudioControl';
-import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class AudioControl extends Component {
     state = { 
@@ -76,17 +78,6 @@ export default class AudioControl extends Component {
         this.setState({ volume: value });
     }
 
-    onPlaylistChange = (index) => {
-        console.log('\nrequest = ' + this.state.playlists[index].uri);
-        axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${this.state.playlists[index].uri}`)
-            .then(response => {
-
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
     renderImage = () => {
         return (
             <View style={{ width: '100%', height:200 }}>
@@ -99,44 +90,70 @@ export default class AudioControl extends Component {
         );
     }
 
-    getPlaylists = () => {
-        let result = [];
-        this.state.playlists.map(value => {
-            result.push(value.name);
+    onPlaylistChange = (value) => {
+        let playlist = this.state.playlists.find(element => {
+            return element.name == value;
         });
-        console.log('\nresult = ' + result);
+        axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${playlist.uri}`)
+            .then(response => {
+
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    getPlaylistNames = () => {
+        let result = [];
+        if (this.state.playlists.length > 0) {
+            this.state.playlists.map(item => {
+                result.push(item.name);
+            });
+        }else {
+            result.push('No items');
+        }
         return result;
     }
 
-    renderDropDownList = () =>{
-        return (
-        <View >
-             <ModalDropdown 
-                ref={el => this._dropdown_3 = el}
-                textStyle={styles.dropdownTextstyle}
-                style={styles.dropdownSelectStyle}
-                options={this.getPlaylists}
-                adjustFrame={style => this._dropdown_3_adjustFrame(style)}
-                dropdownTextStyle={styles.dropdownTextStyle}
-                dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle}
-                dropdownStyle={styles.dropdownStyle}
-                onSelect={(index) => this.onPlaylistChange(index)}
-            />
-        </View>
+    showPicker = () => {
+        Picker.init({
+            pickerData: this.getPlaylistNames(),
+            selectedValue: [this.state.currentPlaylist],
+            pickerConfirmBtnText: 'Select',
+            pickerTitleText: 'Select Playlist',
+            pickerCancelBtnText: 'Cancel',
+            onPickerConfirm: data => {
+                console.log(data);
+                this.onPlaylistChange(data);
+            },
+            onPickerCancel: data => {
+                console.log(data);
+            },
+            onPickerSelect: data => {
+                console.log(data);
+            }
+        });
+        Picker.show();
+    } 
+
+    renderPicker = () =>{
+        return(
+            <View style={{ width: 180 }} >
+                <Button
+                    raised
+                    icon={{ name: 'playlist', type: 'simple-line-icon' }}
+                    title='Change Playlist'
+                    onPress={this.showPicker}
+                    buttonStyle={{ backgroundColor: '#8AF', height: 40 }}
+                />
+            </View> 
         );
-     }
-
-    _dropdown_3_adjustFrame(style) {
-        style.top -= 15;
-        style.left = 38;
-        return style;
     }
-
 
     render() {
         return (
             <View>
-                {this.renderDropDownList()}
+                {this.renderPicker()}
                 {this.renderImage()}
                 <CustomAudioControl
                     trackName={this.state.currentTrack}
