@@ -122,6 +122,8 @@ export default class AudioControl extends Component {
             pickerConfirmBtnText: 'Select',
             pickerTitleText: 'Select Playlist',
             pickerCancelBtnText: 'Cancel',
+            pickerConfirmBtnColor: [179, 55, 113, 1],
+            pickerCancelBtnColor: [179, 55, 113, 1],
             onPickerConfirm: data => {
                 console.log(data);
                 this.onPlaylistChange(data);
@@ -144,7 +146,7 @@ export default class AudioControl extends Component {
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
                     title={this.state.currentPlaylist == '' ? 'No Playlist': this.state.currentPlaylist}
                     onPress={this.showPicker}
-                    buttonStyle={{ backgroundColor: '#8AF', height: 40 }}
+                    buttonStyle={{ backgroundColor: 'rgb(83,45,62)', height: 40 }}
                 />
             </View> 
         );

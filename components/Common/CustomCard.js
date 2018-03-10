@@ -12,7 +12,8 @@ import {
     ImageBackground,
     Switch,
     Dimensions,
-    Slider
+    Slider,
+    Platform
 } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
@@ -158,7 +159,7 @@ export default class CustomCard extends Component {
         return (
             <Switch
                 value={this.state.isOn}
-                tintColor='rgb(83,45,62)'
+                tintColor={Platform.OS == 'android' ? 'rgb(240,180,200)' : 'rgb(83,45,62)'}
                 thumbTintColor='rgb(83,45,62)'
                 onValueChange={(toggle) => this.onSwitchPress(toggle)}
             />);
