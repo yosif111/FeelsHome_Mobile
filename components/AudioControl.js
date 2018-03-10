@@ -142,7 +142,7 @@ export default class AudioControl extends Component {
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
-                    title='Change Playlist'
+                    title={this.state.currentPlaylist == '' ? 'No Playlist': this.state.currentPlaylist}
                     onPress={this.showPicker}
                     buttonStyle={{ backgroundColor: '#8AF', height: 40 }}
                 />
