@@ -159,7 +159,8 @@ export default class CustomCard extends Component {
         return (
             <Switch
                 value={this.state.isOn}
-                tintColor={Platform.OS == 'android' ? 'rgb(240,180,200)' : 'rgb(83,45,62)'}
+                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : 'rgb(83,45,62)'}
+                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : 'rgb(83,45,62)'}
                 thumbTintColor='rgb(83,45,62)'
                 onValueChange={(toggle) => this.onSwitchPress(toggle)}
             />);

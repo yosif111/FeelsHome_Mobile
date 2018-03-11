@@ -27,15 +27,19 @@ export default class AudioControl extends Component {
     componentDidMount() {
         axios.get(`${URL}/api/audio/playlists`)
             .then(response => {
+                if (response.data.length > 0)
+                    this.state.currentPlaylist = response.data[0].name;
                 this.setState({ playlists: response.data });
+                
             })
             .catch(error => {
+                console.log('\nerror = ' + error);
                 console.log(error);
             });
     }
     onPreviousPress = () => {
         console.log('\nprevious')
-        axios.get(`${URL}/api/audio/previous`)
+        axios.get(`${URL}/api/audio/playPrevious`)
         .then(() => {
             
         })
@@ -44,8 +48,7 @@ export default class AudioControl extends Component {
         });
     }
     onNextPress = () => {
-        console.log('\nnext')
-        axios.get(`${URL}/api/audio/next`)
+        axios.get(`${URL}/api/audio/playNext`)
             .then(() => {
                 
             })
@@ -54,7 +57,7 @@ export default class AudioControl extends Component {
         });
     }
     onPausePress = () => {
-        console.log('\npause')
+        this.setState({ isPlaying: false });
         axios.get(`${URL}/api/audio/pause`)
             .then(() => {
                 
@@ -64,7 +67,7 @@ export default class AudioControl extends Component {
         });
     }
     onPlayPress = () => {
-        console.log('\nplay')
+        this.setState({ isPlaying: true });
         axios.get(`${URL}/api/audio/play`)
             .then(() => {
                 
@@ -76,6 +79,13 @@ export default class AudioControl extends Component {
 
     onVolumeChange = (value) => {
         this.setState({ volume: value });
+        axios.get(`${URL}/api/audio/changeVolume/${value}`)
+            .then(response => {
+                console.log('response => ' + response.data.Msg)
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     renderImage = () => {
@@ -94,6 +104,7 @@ export default class AudioControl extends Component {
         let playlist = this.state.playlists.find(element => {
             return element.name == value;
         });
+        this.setState({ currentPlaylist: value });
         axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${playlist.uri}`)
             .then(response => {
 
