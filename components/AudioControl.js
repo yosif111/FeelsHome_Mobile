@@ -15,6 +15,7 @@ export default class AudioControl extends Component {
     state = { 
         image: require('../assets/icon_music.jpg'),
         playlists: [],
+        queue: [],
         currentPlaylist: '',
         currentTrack: '',
         currentArtist: '',
@@ -28,6 +29,7 @@ export default class AudioControl extends Component {
     componentDidMount() {
         axios.get(`${URL}/api/audio/playlists`)
             .then(response => {
+                this.getQueue();
                 if (response.data.length > 0)
                     this.state.currentPlaylist = response.data[0].name;
                 this.state.playlists = response.data;
@@ -104,6 +106,17 @@ export default class AudioControl extends Component {
                 .catch(error => {
                     console.log(error);
                 })
+    }
+
+    getQueue = () => {
+        axios.get(`${URL}/api/audio/getQueue`)
+            .then(response => {
+                console.log('queue => %O', response.data );
+                this.setState({ queue: response.data });
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     getAllStatus = () => {
