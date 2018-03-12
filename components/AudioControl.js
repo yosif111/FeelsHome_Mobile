@@ -21,7 +21,8 @@ export default class AudioControl extends Component {
         currentAlbum: '',
         progress: 0,
         volume: 0,
-        isPlaying: false
+        isPlaying: false,
+        trackIsLoaded: false
     }
 
     componentDidMount() {
@@ -29,8 +30,8 @@ export default class AudioControl extends Component {
             .then(response => {
                 if (response.data.length > 0)
                     this.state.currentPlaylist = response.data[0].name;
-                this.setState({ playlists: response.data });
-                
+                this.state.playlists = response.data;
+                this.getAllStatus();
             })
             .catch(error => {
                 console.log('\nerror = ' + error);
@@ -38,19 +39,20 @@ export default class AudioControl extends Component {
             });
     }
     onPreviousPress = () => {
-        console.log('\nprevious')
+        this.state.trackIsLoaded = false;
         axios.get(`${URL}/api/audio/playPrevious`)
         .then(() => {
-            
+            this.getCurrentTrackState(); 
         })
         .catch(error => {
             console.log(error);
         });
     }
     onNextPress = () => {
+        this.state.trackIsLoaded = false;
         axios.get(`${URL}/api/audio/playNext`)
             .then(() => {
-                
+                this.getCurrentTrackState(); 
             })
         .catch(error => {
             console.log(error);
@@ -70,7 +72,7 @@ export default class AudioControl extends Component {
         this.setState({ isPlaying: true });
         axios.get(`${URL}/api/audio/play`)
             .then(() => {
-                
+                this.getCurrentTrackState(); 
             })
         .catch(error => {
             console.log(error);
@@ -86,6 +88,38 @@ export default class AudioControl extends Component {
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    getCurrentTrackState = () => {
+        if (!this.state.trackIsLoaded)
+            axios.get(`${URL}/api/audio/getCurrentTrack`)
+                .then(response => {
+                    this.setState({
+                        currentTrack: response.data.track,
+                        currentAlbum: response.data.album,
+                        currentArtist: response.data.artist,
+                        trackIsLoaded: true
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+    }
+
+    getAllStatus = () => {
+        axios.get(`${URL}/api/audio/getAllStatus`)
+            .then(response => {
+                this.setState({
+                    currentTrack: response.data.track,
+                    currentAlbum: response.data.album,
+                    currentArtist: response.data.artist,
+                    volume: response.data.volume,
+                    isPlaying: response.data.state == 'playing' ? true : false
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     renderImage = () => {
@@ -104,10 +138,10 @@ export default class AudioControl extends Component {
         let playlist = this.state.playlists.find(element => {
             return element.name == value;
         });
-        this.setState({ currentPlaylist: value });
+        this.setState({ currentPlaylist: value, isPlaying: false, trackIsLoaded: false });
         axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${playlist.uri}`)
             .then(response => {
-
+                this.getAllStatus();
             })
             .catch(error => {
                 console.log(error);
