@@ -23,7 +23,8 @@ export default class AudioControl extends Component {
         progress: 0,
         volume: 0,
         isPlaying: false,
-        trackIsLoaded: false
+        trackIsLoaded: false,
+        index: 0
     }
 
     componentDidMount() {
@@ -51,10 +52,15 @@ export default class AudioControl extends Component {
         });
     }
     onNextPress = () => {
+        // if (this.state.queue.length == 0)
+        //     return;
+        this.state.index = (this.state.index + 1) % this.state.queue.length;
+        console.log(this.state.queue[this.state.index].tlid)
         this.state.trackIsLoaded = false;
-        axios.get(`${URL}/api/audio/playNext`)
-            .then(() => {
-                this.getCurrentTrackState(); 
+        axios.get(`${URL}/api/audio/play/${this.state.queue[this.state.index].tlid}`)
+            .then(response => {
+                console.log(response.data);
+                // this.getCurrentTrackState(); 
             })
         .catch(error => {
             console.log(error);
@@ -72,7 +78,7 @@ export default class AudioControl extends Component {
     }
     onPlayPress = () => {
         this.setState({ isPlaying: true });
-        axios.get(`${URL}/api/audio/play`)
+        axios.get(`${URL}/api/audio/play/${this.state.queue[this.state.index].tlid}`)
             .then(() => {
                 this.getCurrentTrackState(); 
             })
@@ -85,7 +91,7 @@ export default class AudioControl extends Component {
         this.setState({ volume: value });
         axios.get(`${URL}/api/audio/changeVolume/${value}`)
             .then(response => {
-                console.log('response => ' + response.data.Msg)
+
             })
             .catch(error => {
                 console.log(error);
@@ -184,7 +190,7 @@ export default class AudioControl extends Component {
             pickerCancelBtnColor: [179, 55, 113, 1],
             onPickerConfirm: data => {
                 console.log(data);
-                this.onPlaylistChange(data);
+                this.onPlaylistChange(data.toString());
             },
             onPickerCancel: data => {
                 console.log(data);
@@ -197,6 +203,7 @@ export default class AudioControl extends Component {
     } 
 
     renderPicker = () =>{
+        console.log(this.state.currentPlaylist);
         return(
             <View style={{ width: 180 }} >
                 <Button
