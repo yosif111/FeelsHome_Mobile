@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Image,
-    View
+    View,
+    Text
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Picker from 'react-native-picker';
+import * as Progress from 'react-native-progress';
 
 import URL from '../config';
 import APIProvider from '../APIProvider';
@@ -169,11 +171,32 @@ export default class AudioControl extends Component {
         );
     }
 
+    getTrackLength = () => {
+        if (this.state.queue.length > 0) {
+            const sec = this.state.queue[this.state.index].track_length / 1000;
+            const min = parseInt(sec / 60);
+            console.log('min = ' + min + '\nsec = ' + sec);
+            return (min % 60) + ':' + (sec % 60 < 10 ? '0' + sec % 60 : sec % 60);
+        }
+        return '00:00';
+    }
+
+    renderProgressBar = () => {
+        return (
+            <View style={{ width: '100%', height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ marginRight: 5, fontSize: 12 }} >00:00</Text>
+                <Progress.Bar progress={0.3} width={200} />
+                <Text style={{ marginLeft: 5, fontSize: 12 }} >{this.getTrackLength()}</Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View>
                 {this.renderPicker()}
                 {this.renderImage()}
+                {this.renderProgressBar()}
                 <CustomAudioControl
                     trackName={this.state.currentTrack}
                     album={this.state.currentAlbum}
