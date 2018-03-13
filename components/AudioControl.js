@@ -5,11 +5,13 @@ import {
     View
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import axios from 'axios';
 import Picker from 'react-native-picker';
 
 import URL from '../config';
+import APIProvider from '../APIProvider';
 import CustomAudioControl from './Common/CustomAudioControl';
+
+const api = new APIProvider();
 
 export default class AudioControl extends Component {
     state = { 
@@ -22,123 +24,70 @@ export default class AudioControl extends Component {
         currentAlbum: '',
         progress: 0,
         volume: 0,
-        isPlaying: false,
+        playerState: 'stopped',
         trackIsLoaded: false,
         index: 0
     }
 
-    componentDidMount() {
-        axios.get(`${URL}/api/audio/playlists`)
-            .then(response => {
-                this.getQueue();
-                if (response.data.length > 0)
-                    this.state.currentPlaylist = response.data[0].name;
-                this.state.playlists = response.data;
-                this.getAllStatus();
-            })
-            .catch(error => {
-                console.log('\nerror = ' + error);
-                console.log(error);
-            });
-    }
-    onPreviousPress = () => {
-        this.state.trackIsLoaded = false;
-        axios.get(`${URL}/api/audio/playPrevious`)
-        .then(() => {
-            this.getCurrentTrackState(); 
+    async componentDidMount() {
+        let playlists = await api.getPlaylists();
+        let queue = await api.getQueue();
+        let status = await api.getAllStatus();
+        this.setState({ 
+            playlists, 
+            queue,
+            currentTrack: status.track,
+            currentAlbum: status.album,
+            currentArtist: status.artist,
+            volume: status.volume,
+            playerState: status.state,
+            currentPlaylist: queue.length > 0 ? queue[0].name : ''
         })
-        .catch(error => {
-            console.log(error);
-        });
     }
-    onNextPress = () => {
-        // if (this.state.queue.length == 0)
-        //     return;
-        this.state.index = (this.state.index + 1) % this.state.queue.length;
-        console.log(this.state.queue[this.state.index].tlid)
+
+    onPreviousPress = async () => {
+        if (this.state.queue.length == 0)
+            return;
+        this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length -1 : this.state.index - 1;
         this.state.trackIsLoaded = false;
-        axios.get(`${URL}/api/audio/play/${this.state.queue[this.state.index].tlid}`)
-            .then(response => {
-                console.log(response.data);
-                // this.getCurrentTrackState(); 
-            })
-        .catch(error => {
-            console.log(error);
+        await api.play(this.state.queue[this.state.index].tlid);
+        api.getCurrentTrack();
+    }
+
+    onNextPress = async () => {
+        if (this.state.queue.length == 0)
+            return;
+        this.state.index = (this.state.index + 1) % this.state.queue.length;
+        this.state.trackIsLoaded = false;
+        const track = this.state.queue[this.state.index];
+        await api.play(track.tlid);
+        this.setState({ 
+            currentTrack: track.track_name,
+            currentAlbum: track.album_name,
+            currentArtist: track.artist
         });
     }
+
     onPausePress = () => {
-        this.setState({ isPlaying: false });
-        axios.get(`${URL}/api/audio/pause`)
-            .then(() => {
-                
-            })
-        .catch(error => {
-            console.log(error);
-        });
+        if (this.state.queue.length == 0)
+            return;
+        api.pause();
+        this.setState({ playerState: 'paused' });
     }
+
     onPlayPress = () => {
-        this.setState({ isPlaying: true });
-        axios.get(`${URL}/api/audio/play/${this.state.queue[this.state.index].tlid}`)
-            .then(() => {
-                this.getCurrentTrackState(); 
-            })
-        .catch(error => {
-            console.log(error);
-        });
+        if (this.state.queue.length == 0)
+            return;
+        if (this.state.playerState == 'paused')
+            api.resume();
+        else
+            api.play(this.state.queue[this.state.index].tlid);
+        this.setState({ playerState: 'playing' });
     }
 
     onVolumeChange = (value) => {
+        api.changeVolume(value);
         this.setState({ volume: value });
-        axios.get(`${URL}/api/audio/changeVolume/${value}`)
-            .then(response => {
-
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
-    getCurrentTrackState = () => {
-        if (!this.state.trackIsLoaded)
-            axios.get(`${URL}/api/audio/getCurrentTrack`)
-                .then(response => {
-                    this.setState({
-                        currentTrack: response.data.track,
-                        currentAlbum: response.data.album,
-                        currentArtist: response.data.artist,
-                        trackIsLoaded: true
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-    }
-
-    getQueue = () => {
-        axios.get(`${URL}/api/audio/getQueue`)
-            .then(response => {
-                console.log('queue => %O', response.data );
-                this.setState({ queue: response.data });
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
-    getAllStatus = () => {
-        axios.get(`${URL}/api/audio/getAllStatus`)
-            .then(response => {
-                this.setState({
-                    currentTrack: response.data.track,
-                    currentAlbum: response.data.album,
-                    currentArtist: response.data.artist,
-                    volume: response.data.volume,
-                    isPlaying: response.data.state == 'playing' ? true : false
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            })
     }
 
     renderImage = () => {
@@ -153,18 +102,22 @@ export default class AudioControl extends Component {
         );
     }
 
-    onPlaylistChange = (value) => {
+    onPlaylistChange = async (value) => {
         let playlist = this.state.playlists.find(element => {
             return element.name == value;
         });
-        this.setState({ currentPlaylist: value, isPlaying: false, trackIsLoaded: false });
-        axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${playlist.uri}`)
-            .then(response => {
-                this.getAllStatus();
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        await api.changePlaylist(playlist.uri);
+        let queue = await api.getQueue();
+        this.setState({ 
+            currentPlaylist: value, 
+            playerState: 'stopped', 
+            trackIsLoaded: false, 
+            queue, 
+            index: 0,
+            currentTrack: queue[0].track_name,
+            currentAlbum: queue[0].album_name,
+            currentArtist: queue[0].artist
+         });
     }
 
     getPlaylistNames = () => {
@@ -203,9 +156,8 @@ export default class AudioControl extends Component {
     } 
 
     renderPicker = () =>{
-        console.log(this.state.currentPlaylist);
         return(
-            <View style={{ width: 180 }} >
+            <View style={{  }} >
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
@@ -227,7 +179,7 @@ export default class AudioControl extends Component {
                     album={this.state.currentAlbum}
                     artist={this.state.currentArtist}
                     volume={this.state.volume}
-                    isPlaying={this.state.isPlaying}
+                    playerState={this.state.playerState}
                     onVolumeChange={this.onVolumeChange}
                     onNextPress={this.onNextPress}
                     onPreviousPress={this.onPreviousPress}

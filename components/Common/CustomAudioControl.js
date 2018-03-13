@@ -35,12 +35,12 @@ export default class CustomAudioControl extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={this.props.isPlaying ? this.props.onPausePress : this.props.onPlayPress}
+                    onPress={this.props.playerState == 'playing' ? this.props.onPausePress : this.props.onPlayPress}
                 >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             resizeMode="contain"
-                            source={this.props.isPlaying ? pauseIcon : playIcon}
+                            source={this.props.playerState == 'playing' ? pauseIcon : playIcon}
                         />
                     </View>
                 </TouchableOpacity>
