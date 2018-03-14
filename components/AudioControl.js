@@ -3,8 +3,7 @@ import {
     StyleSheet,
     Image,
     View,
-    Text,
-    Dimensions
+    Text
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Picker from 'react-native-picker';
@@ -281,7 +280,7 @@ const styles = StyleSheet.create({
         //alignSelf: 'flex-end',
        marginBottom: 10,
         backgroundColor: 'rgb(83,45,62)',
-        opacity:0.8
+        opacity: 0.8
         },
     dropdownTextStyle: {
         backgroundColor: '#fff',
