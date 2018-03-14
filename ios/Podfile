@@ -1,0 +1,32 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+platform :ios, '9.0'
+target 'FeelsHome_Mobile' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+  pod 'React', :path => '/Users/yousefalkhalifah/FeelsHome_Mobile/node_modules/react-native', :subspecs => [
+  'Core',
+  ]
+pod 'Picker', :path => '/Users/yousefalkhalifah/FeelsHome_Mobile/node_modules/react-native-picker'
+  # Pods for FeelsHome_Mobile
+
+  target 'FeelsHome_Mobile-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'FeelsHome_MobileTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'FeelsHome_Mobile-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for FeelsHome_Mobile-tvOS
+
+
+end
