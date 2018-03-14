@@ -118,7 +118,7 @@ export default class APIProvider {
             });
     }
 
-    // res.data = "image"
+    // res.data = 'image'
     getImage = (uri) => {
         return axios.get(`${URL}/api/audio/getImage/${uri}`)
             .then(res => {
