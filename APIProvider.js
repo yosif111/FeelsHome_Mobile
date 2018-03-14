@@ -118,5 +118,16 @@ export default class APIProvider {
             });
     }
 
+    // res.data = "image"
+    getImage = (uri) => {
+        return axios.get(`${URL}/api/audio/getImage/${uri}`)
+            .then(res => {
+                return res.data;
+            })
+            .catch(error => {
+                console.log('Request Error => %O', error)
+            });
+    }
+
 
 }

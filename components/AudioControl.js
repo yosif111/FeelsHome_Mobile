@@ -39,6 +39,7 @@ export default class AudioControl extends Component {
         let playlists = await api.getPlaylists();
         let queue = await api.getQueue();
         let status = await api.getAllStatus();
+        console.log('image = ' + status.image)
         this.setState({ 
             playlists, 
             queue,
@@ -50,7 +51,9 @@ export default class AudioControl extends Component {
             currentPlaylist: queue.length > 0 ? queue[0].name : '',
             index: status.index != 'undefined' ? status.index : 0,
             progress: status.progress != 'undefined' ? status.progress : 0,
-            currentTrackLength: this.state.queue.length > 0 ? parseInt(this.state.queue[this.state.index].track_length / 1000) : 0
+            currentTrackLength: this.state.queue.length > 0 ? parseInt(this.state.queue[this.state.index].track_length / 1000) : 0,
+            image: (status.image != 'undefined' || status.image != null) ?
+             {uri: 'http:' + status.image} : require('../assets/icon_music.jpg')
         });
     }
 
@@ -83,7 +86,13 @@ export default class AudioControl extends Component {
         this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length -1 : this.state.index - 1;
         this.state.trackIsLoaded = false;
         await api.play(this.state.queue[this.state.index].tlid);
-        api.getCurrentTrack();
+        this.setState({
+            currentTrack: track.track_name,
+            currentAlbum: track.album_name,
+            currentArtist: track.artist
+        });
+        let image = await api.getImage(this.state.queue[this.state.index].track_uri);
+        this.setState({ image: { uri: 'http:' + image } });
     }
 
     onNextPress = async () => {
@@ -99,6 +108,8 @@ export default class AudioControl extends Component {
             currentAlbum: track.album_name,
             currentArtist: track.artist
         });
+        let image = await api.getImage(this.state.queue[this.state.index].track_uri);
+        this.setState({ image: { uri: 'http:' + image } });
     }
 
     onPausePress = () => {
@@ -143,7 +154,7 @@ export default class AudioControl extends Component {
         });
         await api.changePlaylist(playlist.uri);
         let queue = await api.getQueue();
-        this.setState({ 
+        this.setState({
             currentPlaylist: value, 
             playerState: 'stopped', 
             trackIsLoaded: false, 
@@ -153,6 +164,8 @@ export default class AudioControl extends Component {
             currentAlbum: queue[0].album_name,
             currentArtist: queue[0].artist
          });
+        let image = await api.getImage(queue[0].track_uri);
+        this.setState({ image: { uri: 'http:' + image }});
     }
 
     getPlaylistNames = () => {
