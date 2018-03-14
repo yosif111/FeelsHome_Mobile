@@ -26,7 +26,7 @@ export default class APIProvider {
                 });
     }
 
-    // res.data = [{'state', 'track', 'artist', 'album', 'volume'}]
+    // res.data = {'state', 'track', 'artist', 'album', 'volume'}
     getAllStatus = () => {
         return axios.get(`${URL}/api/audio/getAllStatus`)
                 .then(res => {

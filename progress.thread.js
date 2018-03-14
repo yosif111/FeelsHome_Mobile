@@ -1,17 +1,14 @@
 import { self } from 'react-native-threads';
-import api from './APIProvider';
+import axios from 'axios';
 
-// const api = new APIProvider();
-const i = 1;
+import URL from './config';
 
-self.onmessage = (message) => {
-    while(i > 0){
-        console.log('test');
-        i--;
-    }
-    // setTimeout(async () => {
-    //     let progress = await api.getProgress();
-    //     self.postMessage(progress);
-    // }, 1000);
-    self.postMessage(message);
-}
+setInterval( () => {
+    axios.get(`${URL}/api/audio/getProgress`)
+        .then(res => {
+            self.postMessage(res.data + '');
+        })
+        .catch(error => {
+            console.log('Request Error => %O', error);
+        });
+}, 500);

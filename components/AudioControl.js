@@ -29,30 +29,49 @@ export default class AudioControl extends Component {
         volume: 0,
         playerState: 'stopped',
         trackIsLoaded: false,
-        index: 0
+        index: 0,
+        currentTrackLength: 0
     }
 
     progressThread = null;
 
     async componentDidMount() {
-        this.progressThread = new Thread('../progress.thread.js');
-        this.progressThread.onmessage = (message) => console.log(message);
         let playlists = await api.getPlaylists();
         let queue = await api.getQueue();
         let status = await api.getAllStatus();
         this.setState({ 
             playlists, 
             queue,
-            currentTrack: status.track,
-            currentAlbum: status.album,
-            currentArtist: status.artist,
+            currentTrack: status.track != 'undefined' ? status.track : '',
+            currentAlbum: status.album != 'undefined' ? status.album : '',
+            currentArtist: status.artist != 'undefined' ? status.artist : '',
             volume: status.volume,
             playerState: status.state,
-            currentPlaylist: queue.length > 0 ? queue[0].name : ''
-        })
+            currentPlaylist: queue.length > 0 ? queue[0].name : '',
+            index: status.index != 'undefined' ? status.index : 0,
+            progress: status.progress != 'undefined' ? status.progress : 0,
+            currentTrackLength: this.state.queue.length > 0 ? parseInt(this.state.queue[this.state.index].track_length / 1000) : 0
+        });
     }
 
     componentWillUnmount() {
+        this.killThread();
+    }
+
+    startThread = () => {
+        if (this.progressThread != null)
+            return;
+        this.progressThread = new Thread('../progress.thread.js');
+        this.progressThread.onmessage = (progress) => {
+            progress /= 1000;
+            progress = parseInt(progress);
+            this.setState({ progress });
+        };
+    }
+
+    killThread = () => {
+        if (this.progressThread == null)
+            return;
         this.progressThread.terminate();
         this.progressThread = null;
     }
@@ -60,6 +79,7 @@ export default class AudioControl extends Component {
     onPreviousPress = async () => {
         if (this.state.queue.length == 0)
             return;
+        this.startThread();
         this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length -1 : this.state.index - 1;
         this.state.trackIsLoaded = false;
         await api.play(this.state.queue[this.state.index].tlid);
@@ -69,6 +89,7 @@ export default class AudioControl extends Component {
     onNextPress = async () => {
         if (this.state.queue.length == 0)
             return;
+        this.startThread();
         this.state.index = (this.state.index + 1) % this.state.queue.length;
         this.state.trackIsLoaded = false;
         const track = this.state.queue[this.state.index];
@@ -81,6 +102,7 @@ export default class AudioControl extends Component {
     }
 
     onPausePress = () => {
+        this.killThread();
         if (this.state.queue.length == 0)
             return;
         api.pause();
@@ -90,6 +112,7 @@ export default class AudioControl extends Component {
     onPlayPress = () => {
         if (this.state.queue.length == 0)
             return;
+        this.startThread();
         if (this.state.playerState == 'paused')
             api.resume();
         else
@@ -144,10 +167,6 @@ export default class AudioControl extends Component {
         return result;
     }
 
-    getProgress = () => {
-        this.progressThread.postMessage('getProgress');   
-    }
-
     showPicker = () => {
         Picker.init({
             pickerData: this.getPlaylistNames(),
@@ -197,16 +216,22 @@ export default class AudioControl extends Component {
     renderProgressBar = () => {
         return (
             <View style={{ width: '100%', height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ marginRight: 5, fontSize: 12 }} >{this.state.progress}</Text>
-                <Progress.Bar progress={0.3} width={200} />
+                <Text style={{ marginRight: 5, fontSize: 12 }} >
+                {
+                    parseInt((this.state.progress / 60) % 60)
+                }
+                :
+                {
+                        this.state.progress % 60 < 10 ? '0' + this.state.progress % 60 : this.state.progress % 60
+                }
+                </Text>
+                <Progress.Bar progress={this.state.progress / (this.state.currentTrackLength > 0 ? this.state.currentTrackLength : 1)} width={200} />
                 <Text style={{ marginLeft: 5, fontSize: 12 }} >{this.getTrackLength()}</Text>
             </View>
         );
     }
 
     render() {
-        if (this.state.playerState == 'playing')
-            this.getProgress();
         return (
             <View>
                 {this.renderPicker()}
