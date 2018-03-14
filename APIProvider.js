@@ -107,5 +107,16 @@ export default class APIProvider {
                 });
     }
 
+    // res.data = {'Msg'}
+    getProgress = () => {
+        return axios.get(`${URL}/api/audio/getProgress`)
+            .then(res => {
+                return res.data;
+            })
+            .catch(error => {
+                console.log('Request Error => %O', error)
+            });
+    }
+
 
 }

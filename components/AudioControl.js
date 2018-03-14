@@ -12,6 +12,7 @@ import * as Progress from 'react-native-progress';
 import URL from '../config';
 import APIProvider from '../APIProvider';
 import CustomAudioControl from './Common/CustomAudioControl';
+import { Thread } from 'react-native-threads';
 
 const api = new APIProvider();
 
@@ -31,7 +32,11 @@ export default class AudioControl extends Component {
         index: 0
     }
 
+    progressThread = null;
+
     async componentDidMount() {
+        this.progressThread = new Thread('../progress.thread.js');
+        this.progressThread.onmessage = (message) => console.log(message);
         let playlists = await api.getPlaylists();
         let queue = await api.getQueue();
         let status = await api.getAllStatus();
@@ -45,6 +50,11 @@ export default class AudioControl extends Component {
             playerState: status.state,
             currentPlaylist: queue.length > 0 ? queue[0].name : ''
         })
+    }
+
+    componentWillUnmount() {
+        this.progressThread.terminate();
+        this.progressThread = null;
     }
 
     onPreviousPress = async () => {
@@ -134,6 +144,10 @@ export default class AudioControl extends Component {
         return result;
     }
 
+    getProgress = () => {
+        this.progressThread.postMessage('getProgress');   
+    }
+
     showPicker = () => {
         Picker.init({
             pickerData: this.getPlaylistNames(),
@@ -159,7 +173,7 @@ export default class AudioControl extends Component {
 
     renderPicker = () =>{
         return(
-            <View style={{  }} >
+            <View>
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
@@ -175,7 +189,6 @@ export default class AudioControl extends Component {
         if (this.state.queue.length > 0) {
             const sec = this.state.queue[this.state.index].track_length / 1000;
             const min = parseInt(sec / 60);
-            console.log('min = ' + min + '\nsec = ' + sec);
             return (min % 60) + ':' + (sec % 60 < 10 ? '0' + sec % 60 : sec % 60);
         }
         return '00:00';
@@ -184,7 +197,7 @@ export default class AudioControl extends Component {
     renderProgressBar = () => {
         return (
             <View style={{ width: '100%', height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ marginRight: 5, fontSize: 12 }} >00:00</Text>
+                <Text style={{ marginRight: 5, fontSize: 12 }} >{this.state.progress}</Text>
                 <Progress.Bar progress={0.3} width={200} />
                 <Text style={{ marginLeft: 5, fontSize: 12 }} >{this.getTrackLength()}</Text>
             </View>
@@ -192,6 +205,8 @@ export default class AudioControl extends Component {
     }
 
     render() {
+        if (this.state.playerState == 'playing')
+            this.getProgress();
         return (
             <View>
                 {this.renderPicker()}

@@ -40,7 +40,7 @@ class LoginScreen extends Component {
                 <Form onInputChange={this.onInputChange} />
                 <SignupSection onPress={() => this.props.navigation.navigate('register')} />
                 <ButtonSubmit 
-                onPress={() => this.props.navigation.navigate('home')}
+                onPress={() => this.props.navigation.navigate('main')}
                 title='LOGIN' />
             </Wallpaper>
         );
