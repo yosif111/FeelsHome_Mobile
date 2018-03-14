@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Image,
     View,
-    Text
+    Text,
+    Dimensions
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Picker from 'react-native-picker';
@@ -60,7 +61,7 @@ export default class AudioControl extends Component {
     onPreviousPress = async () => {
         if (this.state.queue.length == 0)
             return;
-        this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length -1 : this.state.index - 1;
+        this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length - 1 : this.state.index - 1;
         this.state.trackIsLoaded = false;
         await api.play(this.state.queue[this.state.index].tlid);
         api.getCurrentTrack();
@@ -138,7 +139,7 @@ export default class AudioControl extends Component {
             this.state.playlists.map(item => {
                 result.push(item.name);
             });
-        }else {
+        } else {
             result.push('No items');
         }
         return result;
@@ -171,13 +172,13 @@ export default class AudioControl extends Component {
         Picker.show();
     } 
 
-    renderPicker = () =>{
-        return(
+    renderPicker = () => {
+        return (
             <View>
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
-                    title={this.state.currentPlaylist == '' ? 'No Playlist': this.state.currentPlaylist}
+                    title={this.state.currentPlaylist == '' ? 'No Playlist' : this.state.currentPlaylist}
                     onPress={this.showPicker}
                     buttonStyle={{ backgroundColor: 'rgb(83,45,62)', height: 40 }}
                 />
@@ -197,9 +198,9 @@ export default class AudioControl extends Component {
     renderProgressBar = () => {
         return (
             <View style={{ width: '100%', height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ marginRight: 5, fontSize: 12 }} >{this.state.progress}</Text>
+                <Text style={{ marginRight: '2%', fontSize: 12 }} >{this.state.progress}</Text>
                 <Progress.Bar progress={0.3} width={200} />
-                <Text style={{ marginLeft: 5, fontSize: 12 }} >{this.getTrackLength()}</Text>
+                <Text style={{ marginLeft: '2%', fontSize: 12 }} >{this.getTrackLength()}</Text>
             </View>
         );
     }
