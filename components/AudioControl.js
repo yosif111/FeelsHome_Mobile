@@ -161,7 +161,7 @@ export default class AudioControl extends Component {
             this.state.playlists.map(item => {
                 result.push(item.name);
             });
-        }else {
+        } else {
             result.push('No items');
         }
         return result;
@@ -190,13 +190,13 @@ export default class AudioControl extends Component {
         Picker.show();
     } 
 
-    renderPicker = () =>{
-        return(
+    renderPicker = () => {
+        return (
             <View>
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
-                    title={this.state.currentPlaylist == '' ? 'No Playlist': this.state.currentPlaylist}
+                    title={this.state.currentPlaylist == '' ? 'No Playlist' : this.state.currentPlaylist}
                     onPress={this.showPicker}
                     buttonStyle={{ backgroundColor: 'rgb(83,45,62)', height: 40 }}
                 />
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
         //alignSelf: 'flex-end',
        marginBottom: 10,
         backgroundColor: 'rgb(83,45,62)',
-        opacity:0.8
+        opacity: 0.8
         },
     dropdownTextStyle: {
         backgroundColor: '#fff',
