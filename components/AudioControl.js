@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Image,
     View,
-    Text
+    Text,
+    AsyncStorage
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Picker from 'react-native-picker';
@@ -16,9 +17,11 @@ import { Thread } from 'react-native-threads';
 
 const api = new APIProvider();
 
+const DEFAULT_IMAGE = require('../assets/icon_music.jpg');
+
 export default class AudioControl extends Component {
     state = { 
-        image: require('../assets/icon_music.jpg'),
+        image: DEFAULT_IMAGE,
         playlists: [],
         queue: [],
         currentPlaylist: '',
@@ -28,7 +31,6 @@ export default class AudioControl extends Component {
         progress: 0,
         volume: 0,
         playerState: 'stopped',
-        trackIsLoaded: false,
         index: 0,
         currentTrackLength: 0
     }
@@ -39,19 +41,47 @@ export default class AudioControl extends Component {
         let playlists = await api.getPlaylists();
         let queue = await api.getQueue();
         let status = await api.getAllStatus();
+        console.log('playlists = %O', playlists);
+        console.log('queue = %O', queue);
+        console.log('status = %O', status);
+        try {
+            let value = await AsyncStorage.getItem('currentPlaylist');
+            if (value !== null) {
+                this.setState({ currentPlaylist: value });
+            }
+            else {
+                this.state.currentPlaylist = (playlists != null) && (playlists != 'undefined') ?
+                playlists[0].name : 'Select Playlist';
+            }
+        } catch (error) {
+            console.log('AsyncStorage error = ' + error);
+        }
+        if (status != 'undefined' && status.state == 'playing') {
+            this.startThread();
+        }
         this.setState({ 
             playlists, 
             queue,
-            currentTrack: status.track != 'undefined' ? status.track : '',
-            currentAlbum: status.album != 'undefined' ? status.album : '',
-            currentArtist: status.artist != 'undefined' ? status.artist : '',
-            volume: status.volume,
-            playerState: status.state,
-            currentPlaylist: queue.length > 0 ? queue[0].name : '',
-            index: status.index != 'undefined' ? status.index : 0,
-            progress: status.progress != 'undefined' ? status.progress : 0,
-            currentTrackLength: this.state.queue.length > 0 ? parseInt(this.state.queue[this.state.index].track_length / 1000) : 0
+            currentTrack: (status.track != 'undefined') && (status.track != null) ? status.track : '',
+            currentAlbum: (status.album != 'undefined') && (status.album != null) ? status.album : '',
+            currentArtist: (status.artist != 'undefined') && (status.artist != null) ? status.artist : '',
+            volume: (status.volume != 'undefined') && (status.volume != null) ? status.volume : 0,
+            playerState: (status.state != 'undefined') && (status.state != null) ? status.state : 'stopped',
+            index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
+            progress: (status.progress != 'undefined') && (status.progress != null) ? status.progress : 0,
+            currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0,
+            image: (status.image != 'undefined' && status.image != null) ?
+            { uri: 'http:' + status.image } : DEFAULT_IMAGE
         });
+        if (status.index == null || status.image == null) {
+            let status = await api.getAllStatus();
+            this.setState({
+                index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
+                image: (status.image != 'undefined' && status.image != null) ?
+                { uri: 'http:' + status.image } : DEFAULT_IMAGE,
+                currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -76,29 +106,37 @@ export default class AudioControl extends Component {
         this.progressThread = null;
     }
 
+    loadTrack = async (index) => {
+        const track = this.state.queue[index];
+        this.setState({
+            currentTrack: track.track_name,
+            currentAlbum: track.album_name,
+            currentArtist: track.artist,
+            image: DEFAULT_IMAGE,
+            progress: 0
+        });
+        let image = await api.getImage(this.state.queue[this.state.index].track_uri);
+        this.setState({ image: { uri: 'http:' + image } });
+    }
+
     onPreviousPress = async () => {
         if (this.state.queue.length == 0)
             return;
-        this.startThread();
         this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length -1 : this.state.index - 1;
-        this.state.trackIsLoaded = false;
         await api.play(this.state.queue[this.state.index].tlid);
-        api.getCurrentTrack();
+        this.startThread();
+        this.loadTrack(this.state.index);
+        this.setState({ playerState: 'playing' });
     }
 
     onNextPress = async () => {
         if (this.state.queue.length == 0)
             return;
-        this.startThread();
         this.state.index = (this.state.index + 1) % this.state.queue.length;
-        this.state.trackIsLoaded = false;
-        const track = this.state.queue[this.state.index];
-        await api.play(track.tlid);
-        this.setState({ 
-            currentTrack: track.track_name,
-            currentAlbum: track.album_name,
-            currentArtist: track.artist
-        });
+        await api.play(this.state.queue[this.state.index].tlid);
+        this.startThread();
+        this.loadTrack(this.state.index);
+        this.setState({ playerState: 'playing' });
     }
 
     onPausePress = () => {
@@ -115,8 +153,10 @@ export default class AudioControl extends Component {
         this.startThread();
         if (this.state.playerState == 'paused')
             api.resume();
-        else
+        else {
             api.play(this.state.queue[this.state.index].tlid);
+            this.loadTrack(this.state.index);
+        }   
         this.setState({ playerState: 'playing' });
     }
 
@@ -127,7 +167,7 @@ export default class AudioControl extends Component {
 
     renderImage = () => {
         return (
-            <View style={{ width: '100%', height:200 }}>
+            <View style={{ width: '100%', height:200, marginTop: 10, marginBottom: 10 }}>
                 <Image
                 resizeMode='center'
                     style={{ width: '100%', height: '100%' }}
@@ -143,16 +183,14 @@ export default class AudioControl extends Component {
         });
         await api.changePlaylist(playlist.uri);
         let queue = await api.getQueue();
-        this.setState({ 
+        this.setState({
             currentPlaylist: value, 
-            playerState: 'stopped', 
-            trackIsLoaded: false, 
+            playerState: 'stopped',
             queue, 
-            index: 0,
-            currentTrack: queue[0].track_name,
-            currentAlbum: queue[0].album_name,
-            currentArtist: queue[0].artist
+            index: 0
          });
+        this.loadTrack(0);
+        AsyncStorage.setItem('currentPlaylist', value);
     }
 
     getPlaylistNames = () => {
@@ -196,7 +234,7 @@ export default class AudioControl extends Component {
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
-                    title={this.state.currentPlaylist == '' ? 'No Playlist' : this.state.currentPlaylist}
+                    title={this.state.currentPlaylist == '' ? 'Select Playlist' : this.state.currentPlaylist}
                     onPress={this.showPicker}
                     buttonStyle={{ backgroundColor: 'rgb(83,45,62)', height: 40 }}
                 />
@@ -222,7 +260,7 @@ export default class AudioControl extends Component {
                 }
                 :
                 {
-                        this.state.progress % 60 < 10 ? '0' + this.state.progress % 60 : this.state.progress % 60
+                    this.state.progress % 60 < 10 ? '0' + this.state.progress % 60 : this.state.progress % 60
                 }
                 </Text>
                 <Progress.Bar progress={this.state.progress / (this.state.currentTrackLength > 0 ? this.state.currentTrackLength : 1)} width={200} />
@@ -264,61 +302,5 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 5,
         marginBottom: 5
-    },
-    iconContainer: {
-        flex: 6,
-        marginTop: 14,
-    },
-    labelContainer: {
-        padding: 13,
-        flex: 32,
-    },
-    icon: {
-        height: 21,
-    },
-    label: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'rgb(83,45,62)',
-    },
-    switchStyle: {
-        padding: 13,
-    },
-    dropdownTextstyle: {
-        marginVertical: 10,
-        marginHorizontal: 6,
-        fontSize: 10,
-        color: 'white',
-        textAlign: 'center',
-        textAlignVertical: 'center',
-      },
-    dropdownStyle: {
-        backgroundColor: '#fff',
-        opacity:0.7
-
-    },
-    dropdownSelectStyle: {
-        width: 80,
-        borderColor: 'lightgray',
-        borderWidth: 1,
-        borderRadius: 5,
-        //alignSelf: 'flex-end',
-       marginBottom: 10,
-        backgroundColor: 'rgb(83,45,62)',
-        opacity: 0.8
-        },
-    dropdownTextStyle: {
-        backgroundColor: '#fff',
-       // color: '#fff',
-        marginHorizontal: 4,
-        fontSize: 12,
-        color: 'rgb(83,45,62)',
-        textAlignVertical: 'center',
-        borderRadius: 5,
-        },
-    dropdownTextHighlightStyle: {
-        backgroundColor: 'rgb(83,45,62)',
-        color: '#fff',
-        
-        }
+    }
 });

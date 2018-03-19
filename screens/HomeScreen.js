@@ -56,8 +56,7 @@ class HomeScreen extends Component {
                             renderAudioControl
                             disableSwitch
                         >
-                            <AudioControl
-                            />
+                            <AudioControl />
                         </CustomCard>
 
                         <CustomCard
