@@ -12,6 +12,7 @@ import * as Progress from 'react-native-progress';
 import URL from '../config';
 import APIProvider from '../APIProvider';
 import CustomAudioControl from './Common/CustomAudioControl';
+import { Thread } from 'react-native-threads';
 
 const api = new APIProvider();
 
@@ -28,8 +29,11 @@ export default class AudioControl extends Component {
         volume: 0,
         playerState: 'stopped',
         trackIsLoaded: false,
-        index: 0
+        index: 0,
+        currentTrackLength: 0
     }
+
+    progressThread = null;
 
     async componentDidMount() {
         let playlists = await api.getPlaylists();
@@ -38,18 +42,44 @@ export default class AudioControl extends Component {
         this.setState({ 
             playlists, 
             queue,
-            currentTrack: status.track,
-            currentAlbum: status.album,
-            currentArtist: status.artist,
+            currentTrack: status.track != 'undefined' ? status.track : '',
+            currentAlbum: status.album != 'undefined' ? status.album : '',
+            currentArtist: status.artist != 'undefined' ? status.artist : '',
             volume: status.volume,
             playerState: status.state,
-            currentPlaylist: queue.length > 0 ? queue[0].name : ''
-        })
+            currentPlaylist: queue.length > 0 ? queue[0].name : '',
+            index: status.index != 'undefined' ? status.index : 0,
+            progress: status.progress != 'undefined' ? status.progress : 0,
+            currentTrackLength: this.state.queue.length > 0 ? parseInt(this.state.queue[this.state.index].track_length / 1000) : 0
+        });
+    }
+
+    componentWillUnmount() {
+        this.killThread();
+    }
+
+    startThread = () => {
+        if (this.progressThread != null)
+            return;
+        this.progressThread = new Thread('../progress.thread.js');
+        this.progressThread.onmessage = (progress) => {
+            progress /= 1000;
+            progress = parseInt(progress);
+            this.setState({ progress });
+        };
+    }
+
+    killThread = () => {
+        if (this.progressThread == null)
+            return;
+        this.progressThread.terminate();
+        this.progressThread = null;
     }
 
     onPreviousPress = async () => {
         if (this.state.queue.length == 0)
             return;
+        this.startThread();
         this.state.index = (this.state.index - 1) < 0 ? this.state.queue.length -1 : this.state.index - 1;
         this.state.trackIsLoaded = false;
         await api.play(this.state.queue[this.state.index].tlid);
@@ -59,6 +89,7 @@ export default class AudioControl extends Component {
     onNextPress = async () => {
         if (this.state.queue.length == 0)
             return;
+        this.startThread();
         this.state.index = (this.state.index + 1) % this.state.queue.length;
         this.state.trackIsLoaded = false;
         const track = this.state.queue[this.state.index];
@@ -71,6 +102,7 @@ export default class AudioControl extends Component {
     }
 
     onPausePress = () => {
+        this.killThread();
         if (this.state.queue.length == 0)
             return;
         api.pause();
@@ -80,6 +112,7 @@ export default class AudioControl extends Component {
     onPlayPress = () => {
         if (this.state.queue.length == 0)
             return;
+        this.startThread();
         if (this.state.playerState == 'paused')
             api.resume();
         else
@@ -128,7 +161,7 @@ export default class AudioControl extends Component {
             this.state.playlists.map(item => {
                 result.push(item.name);
             });
-        }else {
+        } else {
             result.push('No items');
         }
         return result;
@@ -157,13 +190,13 @@ export default class AudioControl extends Component {
         Picker.show();
     } 
 
-    renderPicker = () =>{
-        return(
-            <View style={{  }} >
+    renderPicker = () => {
+        return (
+            <View>
                 <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
-                    title={this.state.currentPlaylist == '' ? 'No Playlist': this.state.currentPlaylist}
+                    title={this.state.currentPlaylist == '' ? 'No Playlist' : this.state.currentPlaylist}
                     onPress={this.showPicker}
                     buttonStyle={{ backgroundColor: 'rgb(83,45,62)', height: 40 }}
                 />
@@ -175,7 +208,6 @@ export default class AudioControl extends Component {
         if (this.state.queue.length > 0) {
             const sec = this.state.queue[this.state.index].track_length / 1000;
             const min = parseInt(sec / 60);
-            console.log('min = ' + min + '\nsec = ' + sec);
             return (min % 60) + ':' + (sec % 60 < 10 ? '0' + sec % 60 : sec % 60);
         }
         return '00:00';
@@ -184,8 +216,16 @@ export default class AudioControl extends Component {
     renderProgressBar = () => {
         return (
             <View style={{ width: '100%', height: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ marginRight: 5, fontSize: 12 }} >00:00</Text>
-                <Progress.Bar progress={0.3} width={200} />
+                <Text style={{ marginRight: 5, fontSize: 12 }} >
+                {
+                    parseInt((this.state.progress / 60) % 60)
+                }
+                :
+                {
+                        this.state.progress % 60 < 10 ? '0' + this.state.progress % 60 : this.state.progress % 60
+                }
+                </Text>
+                <Progress.Bar progress={this.state.progress / (this.state.currentTrackLength > 0 ? this.state.currentTrackLength : 1)} width={200} />
                 <Text style={{ marginLeft: 5, fontSize: 12 }} >{this.getTrackLength()}</Text>
             </View>
         );
@@ -265,7 +305,7 @@ const styles = StyleSheet.create({
         //alignSelf: 'flex-end',
        marginBottom: 10,
         backgroundColor: 'rgb(83,45,62)',
-        opacity:0.8
+        opacity: 0.8
         },
     dropdownTextStyle: {
         backgroundColor: '#fff',

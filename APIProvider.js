@@ -26,7 +26,7 @@ export default class APIProvider {
                 });
     }
 
-    // res.data = [{'state', 'track', 'artist', 'album', 'volume'}]
+    // res.data = {'state', 'track', 'artist', 'album', 'volume'}
     getAllStatus = () => {
         return axios.get(`${URL}/api/audio/getAllStatus`)
                 .then(res => {
@@ -105,6 +105,17 @@ export default class APIProvider {
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
+    }
+
+    // res.data = {'Msg'}
+    getProgress = () => {
+        return axios.get(`${URL}/api/audio/getProgress`)
+            .then(res => {
+                return res.data;
+            })
+            .catch(error => {
+                console.log('Request Error => %O', error)
+            });
     }
 
 

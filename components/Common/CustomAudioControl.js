@@ -14,7 +14,7 @@ import URL from '../../config';
 const previousIcon = require('../../assets/icon_previous.png');
 const nextIcon = require('../../assets/icon_next.png');
 const playIcon = require('../../assets/icon_play.png');
-const pauseIcon= require('../../assets/icon_pause.png');
+const pauseIcon = require('../../assets/icon_pause.png');
 
 
 export default class CustomAudioControl extends Component {
@@ -92,7 +92,7 @@ export default class CustomAudioControl extends Component {
 
     renderTrackInfo() {
         if (this.props.home) {
-            return(
+            return (
                 <View style={styles.homeTrackInfoContainer} >
                     <Text style={styles.trackName} >{this.props.trackName}  </Text>
                     <Text style={styles.album} >{this.props.artist} - {this.props.album}</Text>
@@ -100,7 +100,7 @@ export default class CustomAudioControl extends Component {
             ); 
         }
 
-        return(
+        return (
             <View style={styles.trackInfoContainer} >
                 <Text style={styles.trackName} >{this.props.trackName}</Text>
                 <Text style={styles.album} >{this.props.artist} - {this.props.album}</Text>
