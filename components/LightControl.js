@@ -18,7 +18,7 @@ import { Card, ListItem, Button, Divider } from 'react-native-elements';
 import CustomSlider from './Common/CustomSlider';
 import axios from 'axios';
 
-const URL = 'http://192.168.1.4:8000/api';
+const URL = 'http://192.168.1.2:8000/api';
 
 
 export default class LightControl extends Component {
@@ -69,6 +69,7 @@ export default class LightControl extends Component {
     }
 
     onSwitchPress = (value, lightID) => {
+        console.log('value = ' + value + '\nlightid = ' + lightID);
         axios.post(`${URL}/lights/change`, {
             'id': lightID + 1,
             'on': value
@@ -105,7 +106,7 @@ export default class LightControl extends Component {
                 <View style={styles.switchStyle}>
 
                     <Switch
-                        value={bulb.isOn}
+                        value={bulb.on}
                         tintColor='rgb(83,45,62)'
                         thumbTintColor='rgb(83,45,62)'
                         onValueChange={(toggle) => this.onSwitchPress(toggle, index)}

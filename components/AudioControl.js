@@ -39,25 +39,51 @@ export default class AudioControl extends Component {
 
   progressThread = null;
 
-  async componentDidMount() {
-    let playlists = await api.getPlaylists();
-    let queue = await api.getQueue();
-    let status = await api.getAllStatus();
-    console.log("playlists = %O", playlists);
-    console.log("queue = %O", queue);
-    console.log("status = %O", status);
-    try {
-      let value = await AsyncStorage.getItem("currentPlaylist");
-      if (value !== null) {
-        this.setState({ currentPlaylist: value });
-      } else {
-        this.state.currentPlaylist =
-          playlists != null && playlists != "undefined"
-            ? playlists[0].name
-            : "Select Playlist";
-      }
-    } catch (error) {
-      console.log("AsyncStorage error = " + error);
+    async componentDidMount() {
+        let playlists = await api.getPlaylists();
+        let queue = await api.getQueue();
+        let status = await api.getAllStatus();
+        console.log('playlists = %O', playlists);
+        console.log('queue = %O', queue);
+        console.log('status = %O', status);
+        // try {
+        //     let value = await AsyncStorage.getItem('currentPlaylist');
+        //     if (value !== null) {
+        //         this.setState({ currentPlaylist: value });
+        //     }
+        //     else {
+        //         this.state.currentPlaylist = (playlists != null) && (playlists != 'undefined') ?
+        //         playlists[0].name : 'Select Playlist';
+        //     }
+        // } catch (error) {
+        //     console.log('AsyncStorage error = ' + error);
+        // }
+        if (status != 'undefined' && status.state == 'playing') {
+            this.startThread();
+        }
+        this.setState({ 
+            playlists, 
+            queue,
+            currentTrack: (status.track != 'undefined') && (status.track != null) ? status.track : '',
+            currentAlbum: (status.album != 'undefined') && (status.album != null) ? status.album : '',
+            currentArtist: (status.artist != 'undefined') && (status.artist != null) ? status.artist : '',
+            volume: (status.volume != 'undefined') && (status.volume != null) ? status.volume : 0,
+            playerState: (status.state != 'undefined') && (status.state != null) ? status.state : 'stopped',
+            index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
+            progress: (status.progress != 'undefined') && (status.progress != null) ? status.progress : 0,
+            currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0,
+            image: (status.image != 'undefined' && status.image != null) ?
+            { uri: 'http:' + status.image } : DEFAULT_IMAGE
+        });
+        if (status.index == null || status.image == null) {
+            let status = await api.getAllStatus();
+            this.setState({
+                index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
+                image: (status.image != 'undefined' && status.image != null) ?
+                { uri: 'http:' + status.image } : DEFAULT_IMAGE,
+                currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0
+            })
+        }
     }
     if (status != "undefined" && status.state == "playing") {
       this.startThread();
