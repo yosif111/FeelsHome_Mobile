@@ -44,18 +44,18 @@ export default class AudioControl extends Component {
         console.log('playlists = %O', playlists);
         console.log('queue = %O', queue);
         console.log('status = %O', status);
-        try {
-            let value = await AsyncStorage.getItem('currentPlaylist');
-            if (value !== null) {
-                this.setState({ currentPlaylist: value });
-            }
-            else {
-                this.state.currentPlaylist = (playlists != null) && (playlists != 'undefined') ?
-                playlists[0].name : 'Select Playlist';
-            }
-        } catch (error) {
-            console.log('AsyncStorage error = ' + error);
-        }
+        // try {
+        //     let value = await AsyncStorage.getItem('currentPlaylist');
+        //     if (value !== null) {
+        //         this.setState({ currentPlaylist: value });
+        //     }
+        //     else {
+        //         this.state.currentPlaylist = (playlists != null) && (playlists != 'undefined') ?
+        //         playlists[0].name : 'Select Playlist';
+        //     }
+        // } catch (error) {
+        //     console.log('AsyncStorage error = ' + error);
+        // }
         if (status != 'undefined' && status.state == 'playing') {
             this.startThread();
         }

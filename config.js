@@ -1,1 +1,1 @@
-export default URL = "http:/192.168.8.100:8000";
+export default URL = "http:/192.168.1.2:8000";
