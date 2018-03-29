@@ -5,10 +5,38 @@ import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
 import AudioControl from '../components/AudioControl'
 import CustomAudioControl from '../components/Common/CustomAudioControl';
-const backgroundImage = require('../assets/background.png');
 
+import APIProvider from '../APIProvider';
+
+const api = new APIProvider();
+const backgroundImage = require('../assets/background.png');
+const DEFAULT_IMAGE = require('../assets/icon_music.jpg');
 
 class HomeScreen extends Component {
+    state = {
+        // Light State
+        lightsInfo: [],
+        AllLightsState: {
+            isOn: false,
+            hue: 0,
+            bri: 255,
+            sat: 255
+        },
+        // Audio State
+        image: DEFAULT_IMAGE,
+        playlists: [],
+        queue: [],
+        currentPlaylist: '',
+        currentTrack: '',
+        currentArtist: '',
+        currentAlbum: '',
+        progress: 0,
+        volume: 0,
+        playerState: 'stopped',
+        index: 0,
+        currentTrackLength: 0
+    }
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTransparent: true,
@@ -30,9 +58,60 @@ class HomeScreen extends Component {
         }
     }
 
+    async componentDidMount() {
+        let playlists = await api.getPlaylists();
+        let queue = await api.getQueue();
+        let status = await api.getAllStatus();
+        console.log('playlists = %O', playlists);
+        console.log('queue = %O', queue);
+        console.log('status = %O', status);
+        // try {
+        //     let value = await AsyncStorage.getItem('currentPlaylist');
+        //     if (value !== null) {
+        //         this.props.changeState({ currentPlaylist: value });
+        //     }
+        //     else {
+        //         this.props.state.currentPlaylist = (playlists != null) && (playlists != 'undefined') ?
+        //         playlists[0].name : 'Select Playlist';
+        //     }
+        // } catch (error) {
+        //     console.log('AsyncStorage error = ' + error);
+        // }
+        if (status != 'undefined' && status.state == 'playing') {
+            this.startThread();
+        }
+        this.props.changeState({
+            playlists,
+            queue,
+            currentTrack: (status.track != 'undefined') && (status.track != null) ? status.track : '',
+            currentAlbum: (status.album != 'undefined') && (status.album != null) ? status.album : '',
+            currentArtist: (status.artist != 'undefined') && (status.artist != null) ? status.artist : '',
+            volume: (status.volume != 'undefined') && (status.volume != null) ? status.volume : 0,
+            playerState: (status.state != 'undefined') && (status.state != null) ? status.state : 'stopped',
+            index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
+            progress: (status.progress != 'undefined') && (status.progress != null) ? status.progress : 0,
+            currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0,
+            image: (status.image != 'undefined' && status.image != null) ?
+                { uri: 'http:' + status.image } : DEFAULT_IMAGE
+        });
+        if (status.index == null || status.image == null) {
+            let status = await api.getAllStatus();
+            this.props.changeState({
+                index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
+                image: (status.image != 'undefined' && status.image != null) ?
+                    { uri: 'http:' + status.image } : DEFAULT_IMAGE,
+                currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0
+            })
+        }
+    }
+
+    changeState = (newState) => {
+        this.setState(newState);
+    }
+
     
     render() {
-
+        console.log('state => %O', this.state);
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground style={{ flex: 1 }} source={backgroundImage}>
@@ -43,8 +122,13 @@ class HomeScreen extends Component {
                             label='Light Control'
                             icon={require('../assets/icon_bulb.png')}
                             renderSlider
+                            renderSwitch
+                            changeState={this.changeState}
+                            state={this.state}
                         >
                             <LightControl
+                                changeState={this.changeState}
+                                state={this.state}
                             />
 
                         </CustomCard>
@@ -54,10 +138,15 @@ class HomeScreen extends Component {
                             label='Audio Control'
                             icon={require('../assets/icon_audio.png')}
                             renderAudioControl
-                            disableSwitch
+                            changeState={this.changeState}
+                            state={this.state}
                         >
-                            <AudioControl />
+                            <AudioControl
+                                changeState={this.changeState}
+                                state={this.state}
+                            />
                         </CustomCard>
+
 
                         <CustomCard
                         label='TV'

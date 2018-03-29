@@ -26,12 +26,9 @@ import CustomAudioControl from './CustomAudioControl';
 
 export default class CustomCard extends Component {
     state = {
-            isOn: false,
             isCollapsed: true,
             showHeader: true,
-            hue: 0,
-            bri: 255,
-            lightOn: false
+            isOn: false
         };
 
     onSwitchPress = (toggle) => {
@@ -44,12 +41,14 @@ export default class CustomCard extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.setState({ isOn: toggle });
+        this.props.changeState({ AllLightsState: { ...this.props.state.AllLightsState, isOn: toggle} })
+        this.setState({ isOn: toggle })
     }
 
     toggleHeader = () => {
         this.setState({showHeader: !this.state.showHeader});
     }
+
     renderCardHeader = () => {
         if(!this.state.showHeader)
             return;
@@ -91,7 +90,7 @@ export default class CustomCard extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.setState({ hue: value })
+        this.props.changeState({ AllLightsState: { ...this.props.state.AllLightsState, hue: value} })
     }
 
     onBrightnessChange = (value, lightID) => {
@@ -105,7 +104,7 @@ export default class CustomCard extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.setState({ bri: value })
+        this.props.changeState({ AllLightsState: { ...this.props.state.AllLightsState, bri: value} })
     }
 
     renderSlider = () => {
@@ -140,21 +139,28 @@ export default class CustomCard extends Component {
     }
 
     renderAudioControl = () => {
-        if(!this.props.renderAudioControl || ! this.state.showHeader)
+        if(!this.props.renderAudioControl || !this.state.showHeader)
             return ;
         
             return (
                 <CustomAudioControl
                     home
-                    trackName='trackName'
-                    album='Album'
-                    artist='Artist'
+                    trackName={this.props.state.currentTrack}
+                    album={this.props.state.currentAlbum}
+                    artist={this.props.state.currentArtist}
+                    volume={this.props.state.volume}
+                    playerState={this.props.state.playerState}
+                    onVolumeChange={this.onVolumeChange}
+                    onNextPress={this.onNextPress}
+                    onPreviousPress={this.onPreviousPress}
+                    onPausePress={this.onPausePress}
+                    onPlayPress={this.onPlayPress}
                 />
             );
     }
 
     renderSwitch = () => {
-        if (this.props.disableSwitch)
+        if (!this.props.renderSwitch)
             return;
         return (
             <Switch
