@@ -8,7 +8,7 @@ import Logo from '../components/login-components/Logo';
 
 import userIcon from '../assets/username.png';
 import passIcon from '../assets/password.png';
-import spotifyIcon from '../assets/icon_spotify.png'
+import spotifyIcon from '../assets/icon_spotify.png';
 
 class SettingsScreen extends Component {
     state = { 
@@ -82,7 +82,6 @@ class SettingsScreen extends Component {
             </List>
         );
     }
-
 }
 
 export default SettingsScreen;

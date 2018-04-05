@@ -7,7 +7,7 @@ import Form from '../components/login-components/Form';
 import SignupSection from '../components/login-components/SignupSection';
 import ButtonSubmit from '../components/login-components/ButtonSubmit';
 
-import logoImg from '../assets/icon_bulb.png'
+import logoImg from '../assets/icon_bulb.png';
 
 class LoginScreen extends Component {
     state = { email: '', password: '' };
@@ -15,7 +15,7 @@ class LoginScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Login'
-        }
+        };
     }
 
     // componentDidMount() {
@@ -41,7 +41,8 @@ class LoginScreen extends Component {
                 <SignupSection onPress={() => this.props.navigation.navigate('register')} />
                 <ButtonSubmit 
                 onPress={() => this.props.navigation.navigate('main')}
-                title='LOGIN' />
+                title='LOGIN' 
+                />
             </Wallpaper>
         );
     }

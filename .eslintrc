@@ -1,3 +1,9 @@
 {
-    "extends": "rallycoding"
+    "extends": "rallycoding",
+    "rules": {
+        "max-len":"off",
+        "arrow-body-style":"off",
+        "react/jsx-closing-bracket-location":"off",
+        "no-undef":"off"
+    }
 }

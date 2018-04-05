@@ -17,7 +17,7 @@ export default class App extends React.Component {
   render() {
     const MainNavigator = StackNavigator({
       auth: { screen: StackNavigator({
-        login: { screen: LoginScreen},
+        login: { screen: LoginScreen },
         register: { screen: RegisterScreen }
       }) },
       main: { screen: StackNavigator({
@@ -30,7 +30,7 @@ export default class App extends React.Component {
         navigationOptions: {
           header: null
         }
-    })
+    });
     return (
       <MainNavigator />
 
