@@ -11,20 +11,22 @@ class ModesScreen extends Component {
                             name='add' 
                             type='Content' 
                             color='#4891db'
-                            onPress={onModeAdd()}
+                            onPress={this.onModeAdd}
                             />
         })
 
+
     state = {
-        modes: [{ name: 'Aaa' }, { name: 'Aaa' }, { name: 'Aaa' }],
+        modes: [],
         playlists: null,
         editMode: false,
         activeItem: null
     }
     componentDidMount() {
-        this.state.modes = this.props.modes;
-        this.state.playlists = this.props.playlists;
-
+        if (this.props.modes !== null)
+            this.state.modes = this.props.modes;
+        if (this.props.playlists !== null)
+            this.state.playlists = this.props.playlists;
     }
     onModeChange = (i) => {
         //API mode        
@@ -37,6 +39,9 @@ class ModesScreen extends Component {
         return navigation.navigate('manageModes', { playlists: this.state.playlists });
     }
     renderButton() {
+        if (this.state.modes.length === 0)
+            return null;
+
         if (!this.state.editMode) {
             return (   
             <View style={styles.buttonStyle}>
@@ -66,6 +71,16 @@ class ModesScreen extends Component {
     }
 
     renderRow() {
+        if (this.state.modes.length === 0) {
+            return ( 
+                 <ListItem
+                    hideChevron
+                    titleStyle={{ fontSize: 18, color: '#aaa' }}
+                    title={'Please Add Modes '}
+                    />
+                    );
+                }
+
         if (!this.state.editMode) {
             return this.state.modes.map((item, i) => (
             <ListItem
