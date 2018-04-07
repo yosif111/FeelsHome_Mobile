@@ -1,1 +1,14 @@
+<<<<<<< HEAD
 {}
+=======
+{
+    "extends": "rallycoding",
+    "rules": {
+        "max-len":"off",
+        "arrow-body-style":"off",
+        "react/jsx-closing-bracket-location":"off",
+        "no-undef":"off",
+        "curly":"off"
+    }
+}
+>>>>>>> cd8983d592833913c1259a71a0ee0293f686a5a3

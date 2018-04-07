@@ -34,9 +34,6 @@ export default class CustomListItem extends Component {
 }
 
 const styles = {
-    container: {
-        
-    },
     body: {
         backgroundColor: '#444'
     }

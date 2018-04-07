@@ -161,7 +161,7 @@ class HomeScreen extends Component {
                     </ScrollView>
 
                 </ImageBackground>
-            </View >
+            </View>
 
         );
     }
