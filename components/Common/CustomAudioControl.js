@@ -91,6 +91,13 @@ export default class CustomAudioControl extends Component {
     }
 
     renderTrackInfo() {
+        if (this.props.trackName == '')
+            return(
+                <View style={styles.trackInfoContainer}>
+                    <Text style={styles.trackName}>No Track is Loaded</Text>
+                </View>
+            );
+        
         if (this.props.home) {
             return (
                 <View style={styles.homeTrackInfoContainer} >

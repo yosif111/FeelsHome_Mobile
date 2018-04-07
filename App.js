@@ -12,6 +12,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ModesScreen from './screens/ModesScreen';
+import ManageModesScreen from './screens/ManageModesScreen';
 
 export default class App extends React.Component {
   render() {
@@ -23,7 +24,14 @@ export default class App extends React.Component {
       main: { screen: StackNavigator({
         home: { screen: HomeScreen },
         settings: { screen: SettingsScreen },
-        modes: { screen: ModesScreen }
+        modes: { screen: StackNavigator({
+          modes: { screen: ModesScreen },
+          manageModes: { screen: ManageModesScreen }
+        }, {
+          navigationOptions: {
+            header: null
+          }
+        }) }
       })}
       
     }, {

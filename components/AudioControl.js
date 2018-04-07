@@ -1,26 +1,32 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Image,
-  View,
-  Text,
-  AsyncStorage,
-  Picker
-} from "react-native";
-import { Button } from "react-native-elements";
-// import Picker from 'react-native-picker';
-import * as Progress from "react-native-progress";
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    AsyncStorage
+} from 'react-native';
+import { Button } from 'react-native-elements';
+import Picker from 'react-native-picker';
+import * as Progress from 'react-native-progress';
 
-import URL from "../config";
-import APIProvider from "../APIProvider";
-import CustomAudioControl from "./Common/CustomAudioControl";
-import { Thread } from "react-native-threads";
+import URL from '../config';
+import APIProvider from '../APIProvider';
+import CustomAudioControl from './Common/CustomAudioControl';
+import { Thread } from 'react-native-threads';
 
 const api = new APIProvider();
+const DEFAULT_IMAGE = require('../assets/icon_music.jpg');
+
 
 export default class AudioControl extends Component {
     progressThread = null;
 
+    componentDidMount() {
+        if (this.props.state.playerState == 'playing') {
+            this.startThread();
+        }
+    }
     // async componentDidMount() {
     //     let playlists = await api.getPlaylists();
     //     let queue = await api.getQueue();
@@ -82,11 +88,13 @@ export default class AudioControl extends Component {
             this.props.changeState({ progress });
         };
     }
-  }
 
-  componentWillUnmount() {
-    this.killThread();
-  }
+    killThread = () => {
+        if (this.progressThread == null)
+            return;
+        this.progressThread.terminate();
+        this.progressThread = null;
+    }
 
     loadTrack = async (index) => {
         const track = this.props.state.queue[index];
@@ -158,8 +166,6 @@ export default class AudioControl extends Component {
             </View>
         );
     }
-    this.setState({ playerState: "playing" });
-  };
 
     onPlaylistChange = async (value) => {
         let playlist = this.props.state.playlists.find(element => {
@@ -225,8 +231,6 @@ export default class AudioControl extends Component {
             </View> 
         );
     }
-    return result;
-  };
 
     getTrackLength = () => {
         if (this.props.state.queue.length > 0) {
@@ -234,10 +238,8 @@ export default class AudioControl extends Component {
             const min = parseInt(sec / 60);
             return (min % 60) + ':' + (sec % 60 < 10 ? '0' + sec % 60 : sec % 60);
         }
-      >
-        {values.map((item, index) => {
-            return <Picker.Item label={item} value={item} key={index} />
-        })}
+        return '00:00';
+    }
 
     renderProgressBar = () => {
         return (
@@ -277,80 +279,18 @@ export default class AudioControl extends Component {
                 />
             </View>
 
-  getTrackLength = () => {
-    if (this.state.queue.length > 0) {
-      const sec = this.state.queue[this.state.index].track_length / 1000;
-      const min = parseInt(sec / 60);
-      return min % 60 + ":" + (sec % 60 < 10 ? "0" + sec % 60 : sec % 60);
+        );
     }
-    return "00:00";
-  };
-
-  renderProgressBar = () => {
-    return (
-      <View
-        style={{
-          width: "100%",
-          height: 20,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Text style={{ marginRight: 5, fontSize: 12 }}>
-          {parseInt((this.state.progress / 60) % 60)}
-          :
-          {this.state.progress % 60 < 10
-            ? "0" + this.state.progress % 60
-            : this.state.progress % 60}
-        </Text>
-        <Progress.Bar
-          progress={
-            this.state.progress /
-            (this.state.currentTrackLength > 0
-              ? this.state.currentTrackLength
-              : 1)
-          }
-          width={200}
-        />
-        <Text style={{ marginLeft: 5, fontSize: 12 }}>
-          {this.getTrackLength()}
-        </Text>
-      </View>
-    );
-  };
-
-  render() {
-    return (
-      <View>
-        {this.renderPicker()}
-        {this.renderImage()}
-        {this.renderProgressBar()}
-        <CustomAudioControl
-          trackName={this.state.currentTrack}
-          album={this.state.currentAlbum}
-          artist={this.state.currentArtist}
-          volume={this.state.volume}
-          playerState={this.state.playerState}
-          onVolumeChange={this.onVolumeChange}
-          onNextPress={this.onNextPress}
-          onPreviousPress={this.onPreviousPress}
-          onPausePress={this.onPausePress}
-          onPlayPress={this.onPlayPress}
-        />
-      </View>
-    );
-  }
 }
 const styles = StyleSheet.create({
-  trackStyle: {
-    borderRadius: 10
-  },
-  container: {
-    padding: 0,
-    flexDirection: "row",
-    flex: 1,
-    marginTop: 5,
-    marginBottom: 5
-  }
+    trackStyle: {
+        borderRadius: 10
+    },
+    container: {
+        padding: 0,
+        flexDirection: 'row',
+        flex: 1,
+        marginTop: 5,
+        marginBottom: 5
+    }
 });

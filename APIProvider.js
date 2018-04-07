@@ -4,6 +4,8 @@ import URL from './config';
 
 export default class APIProvider {
 
+    // ================================== Audio ================================== //
+
     // res.data = [{'name', 'uri'}]
     getPlaylists() {
         return axios.get(`${URL}/api/audio/playlists`)
@@ -129,5 +131,17 @@ export default class APIProvider {
             });
     }
 
+        // ================================== Light ================================== //
+
+    // res.data = lightsInfo[{}]
+    getLights = () => {
+        return axios.get(`${URL}/api/lights`)
+        .then(res => {
+            return res.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
 
 }

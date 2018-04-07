@@ -62,6 +62,8 @@ class HomeScreen extends Component {
         let playlists = await api.getPlaylists();
         let queue = await api.getQueue();
         let status = await api.getAllStatus();
+        let lightsInfo = await api.getLights();
+        console.log('lightsInfo = %O', lightsInfo);
         console.log('playlists = %O', playlists);
         console.log('queue = %O', queue);
         console.log('status = %O', status);
@@ -77,12 +79,11 @@ class HomeScreen extends Component {
         // } catch (error) {
         //     console.log('AsyncStorage error = ' + error);
         // }
-        if (status != 'undefined' && status.state == 'playing') {
-            this.startThread();
-        }
-        this.props.changeState({
+
+        this.setState({
             playlists,
             queue,
+            lightsInfo,
             currentTrack: (status.track != 'undefined') && (status.track != null) ? status.track : '',
             currentAlbum: (status.album != 'undefined') && (status.album != null) ? status.album : '',
             currentArtist: (status.artist != 'undefined') && (status.artist != null) ? status.artist : '',
@@ -96,7 +97,7 @@ class HomeScreen extends Component {
         });
         if (status.index == null || status.image == null) {
             let status = await api.getAllStatus();
-            this.props.changeState({
+            this.setState({
                 index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
                 image: (status.image != 'undefined' && status.image != null) ?
                     { uri: 'http:' + status.image } : DEFAULT_IMAGE,
@@ -111,7 +112,7 @@ class HomeScreen extends Component {
 
     
     render() {
-        console.log('state => %O', this.state);
+        console.log('Home state => %O', this.state);
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground style={{ flex: 1 }} source={backgroundImage}>
