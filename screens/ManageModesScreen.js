@@ -8,9 +8,11 @@ import {
     ImageBackground, 
     Picker, 
     Switch,
-    Platform
+    Platform,
+    ScrollView
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import firebase from 'firebase';
 
 import CustomSlider from '../components/Common/CustomSlider';
 
@@ -24,48 +26,44 @@ export default class ManageModesScreen extends Component {
         playlists: [], 
         isEdit: false, 
         numberOfBulbs: 0, 
-        selectedPlaylist: 0,
-        modeName: ''
+        selectedPlaylist: {},
+        modeName: '',
+        modeId: ''
     }
 
+    static navigationOptions = ({ navigation }) => ({
+        header: null
+    })
+
     componentDidMount() {
-        this.state.playlists = this.props.navigation.getParam('playlists', []);
-        this.state.numberOfBulbs = this.props.navigation.getParam('numberOfBulbs', 3);
+        this.state.playlists = this.props.navigation.getParam('playlists', [])
+        this.state.numberOfBulbs = this.props.navigation.getParam('numberOfBulbs', 3)
+
         const mode = this.props.navigation.getParam('mode', null);
         if(mode != null) {
             this.setState({
-                lightsInfo: mode.lightsInfo,
-                selectedPlaylist: mode.playlist,
-                modeName: mode.name,
-                isEdit: true
+                lightsInfo: mode.lightsInfo ? mode.lightsInfo : [],
+                selectedPlaylist: mode.playlist ? mode.playlist : {},
+                modeName: mode.name ? mode.name : '',
+                isEdit: true,
+                modeId: mode.id ? mode.id : ''
             })
         }  
         else {
+            let lightsInfo = [];
+            for(let i = 0; i < this.state.numberOfBulbs; i++) {
+                lightsInfo[i] = {
+                    name: 'bulb ' + i,
+                    bri: 128,
+                    hue: 0,
+                    sat: 255,
+                    isOn: true
+                }
+            }
             this.setState({ 
-                lightsInfo: [
-                    {
-                        name: 'bulb 1',
-                        bri: 128,
-                        hue: 0,
-                        sat: 255,
-                        isOn: true
-                    },
-                    {
-                        name: 'bulb 2',
-                        bri: 128,
-                        hue: 0,
-                        sat: 255,
-                        isOn: true
-                    },
-                    {
-                        name: 'bulb 3',
-                        bri: 128,
-                        hue: 0,
-                        sat: 255,
-                        isOn: true
-                    }
-                ]
-            })
+                lightsInfo,
+                selectedPlaylist: this.state.playlists.length > 0 ? this.state.playlists[0] : {}
+             })
         }
     }
 
@@ -94,11 +92,41 @@ export default class ManageModesScreen extends Component {
     }
 
     onSave = () => {
+        console.log('(onSave)   state => %O', this.state)
+        firebase.auth().onAuthStateChanged(user => {
+            firebase.database().ref(`/Users/${user.uid}/Modes/${this.state.modeId}`)
+                .update({
+                    lightsInfo: this.state.lightsInfo,
+                    playlist: this.state.selectedPlaylist,
+                    name: this.state.modeName
+                })
+                .then(() => this.props.navigation.goBack())
+                .catch(error => console.log(error))
+        })
+    }
 
+    onDelete = () => {
+        console.log('(onDelete)   state => %O', this.state)
+        firebase.auth().onAuthStateChanged(user => {
+            firebase.database().ref(`/Users/${user.uid}/Modes/${this.state.modeId}`)
+                .remove()
+                .then(() => this.props.navigation.goBack())
+                .catch(error => console.log(error))
+        })
     }
 
     onCreate = () => {
-        console.log('ManageModesScreen state => %O', this.state);
+        console.log('(onCreate)   state => %O', this.state)
+        firebase.auth().onAuthStateChanged(user => {
+            firebase.database().ref(`/Users/${user.uid}/Modes`)
+            .push({
+                lightsInfo: this.state.lightsInfo,
+                playlist: this.state.selectedPlaylist,
+                name: this.state.modeName
+            })
+            .then(() => this.props.navigation.goBack())
+            .catch(error => console.log(error))
+        })
     }
 
     renderBulbs = () => {
@@ -179,11 +207,12 @@ export default class ManageModesScreen extends Component {
                     </View>
                 </View>
                 <Picker
-                    selectedValue={
-                        this.state.playlists.length > 0 ?
-                        this.state.playlists[this.state.selectedPlaylist] : 'Empty'
+                    selectedValue={ 
+                        this.state.selectedPlaylist != null ? this.state.selectedPlaylist.name : ''
                     }
-                    onValueChange={(itemValue, itemIndex) => this.setState({ selectedPlaylist: itemIndex })}>
+                    onValueChange={(itemValue, itemIndex) => this.setState({ 
+                        selectedPlaylist: this.state.playlists[itemIndex]
+                        })}>
                     {this.state.playlists.map((item, index) => {
                         return <Picker.Item key={index} label={item.name} value={item.name} />;
                     })}
@@ -213,16 +242,15 @@ export default class ManageModesScreen extends Component {
                 <Button
                     title= {this.state.isEdit ? 'Save' : 'Create'}
                     raised
-                    large
                     buttonStyle={{ backgroundColor: '#6f6', borderRadius: 40 }}
                     containerViewStyle={{ borderRadius: 40, flex: 1 }}
                     onPress={ this.state.isEdit ? this.onSave : this.onCreate }
                 />
+                {this.renderDeleteButton()}
                 <Button
                     title='Cancel'
                     raised
-                    large
-                    buttonStyle={{ backgroundColor: '#f66', borderRadius: 40 }}
+                    buttonStyle={{ backgroundColor: '#eee', borderRadius: 40 }}
                     containerViewStyle={{ borderRadius: 40, flex: 1 }}
                     onPress={() => this.props.navigation.goBack()}
                 />
@@ -230,16 +258,31 @@ export default class ManageModesScreen extends Component {
         );
     }
 
+    renderDeleteButton = () => {
+        if(this.state.isEdit)
+            return (
+                <Button
+                    title='Delete'
+                    raised
+                    buttonStyle={{ backgroundColor: '#f66', borderRadius: 40 }}
+                    containerViewStyle={{ borderRadius: 40, flex: 1 }}
+                    onPress={this.onDelete}
+                />
+            )
+    }
+
     render() {
         return(
-            <View style={styles.container}>
-                <ImageBackground style={{ flex: 1 }} source={backgroundImage}>
-                    {this.renderModeHeader()}
-                    {this.renderBulbs()}
-                    {this.renderPlaylists()}
-                    {this.renderButtons()}
-                </ImageBackground>
-            </View>
+            <ScrollView>
+
+                    <ImageBackground style={{ flex: 1 }} source={backgroundImage}>
+                        {this.renderModeHeader()}
+                        {this.renderBulbs()}
+                        {this.renderPlaylists()}
+                        {this.renderButtons()}
+                    </ImageBackground>
+
+            </ScrollView>
         );
     }
 }

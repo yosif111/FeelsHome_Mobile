@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "eslint": "^4.19.0",
+    "firebase": "^4.12.1",
     "react": "16.2.0",
     "react-native": "0.53.3",
     "react-native-collapsible": "^0.10.0",

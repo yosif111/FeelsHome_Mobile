@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch, TouchableOpacity, AsyncStorage } from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements'
+import firebase from 'firebase';
+
 import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
 import AudioControl from '../components/AudioControl'
@@ -11,6 +13,8 @@ import APIProvider from '../APIProvider';
 const api = new APIProvider();
 const backgroundImage = require('../assets/background.png');
 const DEFAULT_IMAGE = require('../assets/icon_music.jpg');
+
+let params = {};
 
 class HomeScreen extends Component {
     state = {
@@ -34,7 +38,9 @@ class HomeScreen extends Component {
         volume: 0,
         playerState: 'stopped',
         index: 0,
-        currentTrackLength: 0
+        currentTrackLength: 0,
+        // Modes State
+        modes: []
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -49,7 +55,7 @@ class HomeScreen extends Component {
                 
             ),
             headerLeft: (
-                <TouchableOpacity onPress={() => navigation.navigate('modes')} >
+                <TouchableOpacity onPress={() => navigation.navigate('modes', params)} >
                     <Image
                         source={require('../assets/icon_mode.png')}
                         style={styles.modeIcon} />
@@ -67,43 +73,60 @@ class HomeScreen extends Component {
         console.log('playlists = %O', playlists);
         console.log('queue = %O', queue);
         console.log('status = %O', status);
-        // try {
-        //     let value = await AsyncStorage.getItem('currentPlaylist');
-        //     if (value !== null) {
-        //         this.props.changeState({ currentPlaylist: value });
-        //     }
-        //     else {
-        //         this.props.state.currentPlaylist = (playlists != null) && (playlists != 'undefined') ?
-        //         playlists[0].name : 'Select Playlist';
-        //     }
-        // } catch (error) {
-        //     console.log('AsyncStorage error = ' + error);
-        // }
+
+        AsyncStorage.getItem('currentPlaylist')
+            .then(value => {
+                if (value) {
+                    this.setState({ currentPlaylist: value });
+                }
+                else {
+                    this.state.currentPlaylist = playlists ? playlists[0].name : 'Select Playlist';
+                }
+            })
+            .catch(error => console.log(error));
 
         this.setState({
             playlists,
             queue,
             lightsInfo,
-            currentTrack: (status.track != 'undefined') && (status.track != null) ? status.track : '',
-            currentAlbum: (status.album != 'undefined') && (status.album != null) ? status.album : '',
-            currentArtist: (status.artist != 'undefined') && (status.artist != null) ? status.artist : '',
-            volume: (status.volume != 'undefined') && (status.volume != null) ? status.volume : 0,
-            playerState: (status.state != 'undefined') && (status.state != null) ? status.state : 'stopped',
-            index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
-            progress: (status.progress != 'undefined') && (status.progress != null) ? status.progress : 0,
-            currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0,
-            image: (status.image != 'undefined' && status.image != null) ?
-                { uri: 'http:' + status.image } : DEFAULT_IMAGE
+            currentTrack: status.track ? status.track : '',
+            currentAlbum: status.album ? status.album : '',
+            currentArtist: status.artist ? status.artist : '',
+            volume: status.volume ? status.volume : 0,
+            playerState: status.state ? status.state : 'stopped',
+            index: status.index ? status.index : 0,
+            progress: status.progress ? status.progress : 0,
+            currentTrackLength: queue.length ? parseInt(queue[status.index].track_length / 1000) : 0,
+            image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE
         });
         if (status.index == null || status.image == null) {
             let status = await api.getAllStatus();
             this.setState({
-                index: (status.index != 'undefined') && (status.index != null) ? status.index : 0,
-                image: (status.image != 'undefined' && status.image != null) ?
-                    { uri: 'http:' + status.image } : DEFAULT_IMAGE,
-                currentTrackLength: (queue.length > 0) && (status.index != null) ? parseInt(queue[status.index].track_length / 1000) : 0
+                index: status.index ? status.index : 0,
+                image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE,
+                currentTrackLength: queue.length ? parseInt(queue[status.index].track_length / 1000) : 0
             })
         }
+
+        params = { playlists };
+        let modes = [];
+        firebase.auth().onAuthStateChanged(user => {
+            firebase.database().ref(`/Users/${user.uid}/Modes`).once('value').then(data => {
+                console.log('data.val() = %O', data.val())
+                console.log('data.val() array = %O', Object.values(data.val()))
+                for (var element in data.val()) {
+                    if (data.val().hasOwnProperty(element)) {
+                        var obj = data.val()[element]
+                        obj = {...obj, id: element}
+                        modes.push(obj)
+                    }
+                }
+                console.log('modes ====>>> %O', modes)
+                params = { ...params, modes };
+            })
+            .catch(error => console.log(error))
+        })
+
     }
 
     changeState = (newState) => {

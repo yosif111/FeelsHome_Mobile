@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
+    TouchableWithoutFeedback,
     Text,
     Animated,
     Easing,
@@ -237,7 +237,7 @@ export default class CustomCard extends Component {
     renderCard = () => {
 
         return (
-            <TouchableOpacity onPress={() => this.onPress()}>
+            <TouchableWithoutFeedback onPress={() => this.onPress()}>
                 <View>
                     <Card containerStyle={{ borderRadius: 15 }}>
                         {this.renderCardHeader()}
@@ -251,7 +251,7 @@ export default class CustomCard extends Component {
                         </Collapsible>
                     </Card>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
 
         );
     }

@@ -6,6 +6,9 @@ import {
   View
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import firebase from 'firebase';
+
+import dbKey from './dbKey';
 
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -15,6 +18,14 @@ import ModesScreen from './screens/ModesScreen';
 import ManageModesScreen from './screens/ManageModesScreen';
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    firebase.initializeApp(dbKey);
+    firebase.auth().signInWithEmailAndPassword('t@t.com', 'password')
+      .then(user => console.log('(' + user.uid + ') logged in'))
+      .catch(error => console.log(error))
+  }
+
   render() {
     const MainNavigator = StackNavigator({
       auth: { screen: StackNavigator({
@@ -28,9 +39,7 @@ export default class App extends React.Component {
           modes: { screen: ModesScreen },
           manageModes: { screen: ManageModesScreen }
         }, {
-          navigationOptions: {
-            header: null
-          }
+          headerMode: 'none'
         }) }
       })}
       
@@ -41,7 +50,6 @@ export default class App extends React.Component {
     });
     return (
       <MainNavigator />
-
     );
   }
 }
