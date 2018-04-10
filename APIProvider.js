@@ -1,8 +1,10 @@
+import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
 import axios from 'axios';
 
 import URL from './config';
 
-export default class APIProvider {
+export default class APIProvider extends Component {
 
     // ================================== Audio ================================== //
 
@@ -144,4 +146,71 @@ export default class APIProvider {
         });
     }
 
+
+        // ================================== Modes ================================== //
+
+    // res.data = {}
+    getModes = async () => {
+        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        console.log('token = ' + token)
+        const instance = axios.create({
+            timeout: 3000,
+            headers: { 'Authorization': token }
+        });
+        return instance.get(`${URL}/api/modes`)
+            .then(res => {
+                return res.data.Modes;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    // res.data = {mode_id}
+    addMode = async (mode) => {
+        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        const instance = axios.create({
+            timeout: 3000,
+            headers: { 'Authorization': token }
+        });
+        return instance.post(`${URL}/api/modes/add`, mode)
+            .then(res => {
+                return res.data.Mode_id;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    // res.data = {success}
+    addMode = async (modeId) => {
+        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        const instance = axios.create({
+            timeout: 3000,
+            headers: { 'Authorization': token }
+        });
+        return instance.delete(`${URL}/api/modes/delete/${modeId}`)
+            .then(res => {
+                return res.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    // res.data = {mode} updated
+    addMode = async (modeId) => {
+        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        const instance = axios.create({
+            timeout: 3000,
+            headers: { 'Authorization': token }
+        });
+        return instance.post(`${URL}/api/modes/update`, modeId)
+            .then(res => {
+                return res.data.mode;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 }

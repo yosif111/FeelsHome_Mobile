@@ -3,12 +3,10 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  AsyncStorage
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import firebase from 'firebase';
-
-import dbKey from './dbKey';
 
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -19,12 +17,9 @@ import ManageModesScreen from './screens/ManageModesScreen';
 
 export default class App extends React.Component {
 
-  componentDidMount() {
-    firebase.initializeApp(dbKey);
-    firebase.auth().signInWithEmailAndPassword('t@t.com', 'password')
-      .then(user => console.log('(' + user.uid + ') logged in'))
-      .catch(error => console.log(error))
-  }
+  // componentDidMount() {
+  //   AsyncStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xMC4xMzEuMTkyLjgwOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNTIzMjg5MDQ2LCJleHAiOjYwMDAwMTUyMzI4ODk4NiwibmJmIjoxNTIzMjg5MDQ2LCJqdGkiOiJ4bENlSVJnYWx5bnNONjI1In0.Hd9_p9D4Dpo-JIwD6AJcbGdpoDfvaCv90-VY2UqjcAU').then(() => console.log('set'))
+  // }
 
   render() {
     const MainNavigator = StackNavigator({

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch, TouchableOpacity, AsyncStorage } from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements'
-import firebase from 'firebase';
 
 import CustomCard from '../components/Common/CustomCard';
 import LightControl from '../components/LightControl'
@@ -26,6 +25,7 @@ class HomeScreen extends Component {
             bri: 255,
             sat: 255
         },
+
         // Audio State
         image: DEFAULT_IMAGE,
         playlists: [],
@@ -39,6 +39,7 @@ class HomeScreen extends Component {
         playerState: 'stopped',
         index: 0,
         currentTrackLength: 0,
+
         // Modes State
         modes: []
     }
@@ -65,14 +66,56 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        let playlists = await api.getPlaylists();
-        let queue = await api.getQueue();
-        let status = await api.getAllStatus();
-        let lightsInfo = await api.getLights();
-        console.log('lightsInfo = %O', lightsInfo);
-        console.log('playlists = %O', playlists);
-        console.log('queue = %O', queue);
-        console.log('status = %O', status);
+        api.getPlaylists().then(res => {
+            console.log('Playlists = %O', res);
+            if(res) {
+                this.setState({ playlists: res });
+            }    
+        })
+        .catch(e => console.log(e));
+
+        api.getQueue().then(res => {
+            console.log('Queue = %O', res);
+            if(res) {
+                this.setState({ queue: res });
+            }    
+        })
+        .catch(e => console.log(e));
+
+        api.getAllStatus().then(res => {
+            console.log('Status = %O', res);
+            if (res) {
+                this.setState({ 
+                    currentTrack: res.track ? res.track : '',
+                    currentAlbum: res.album ? res.album : '',
+                    currentArtist: res.artist ? res.artist : '',
+                    volume: res.volume ? res.volume : 0,
+                    playerState: res.state ? res.state : 'stopped',
+                    index: res.index ? res.index : 0,
+                    progress: res.progress ? res.progress : 0,
+                    currentTrackLength: this.state.queue.length > 0 ? parseInt(this.state.queue[res.index].track_length / 1000) : 0,
+                    image: res.image ? { uri: 'http:' + res.image } : DEFAULT_IMAGE
+                });
+            }    
+        })
+        .catch(e => console.log(e));
+
+        api.getLights().then(res => {
+            console.log('Lights = %O', res);
+            if (res) {
+                this.setState({ lightsInfo: res });
+            }
+        })
+            .catch(e => console.log(e));
+
+        // let playlists = await api.getPlaylists();
+        // let queue = await api.getQueue();
+        // let status = await api.getAllStatus();
+        // let lightsInfo = await api.getLights();
+        // console.log('lightsInfo = %O', lightsInfo);
+        
+        // console.log('queue = %O', queue);
+        // console.log('status = %O', status);
 
         AsyncStorage.getItem('currentPlaylist')
             .then(value => {
@@ -80,52 +123,48 @@ class HomeScreen extends Component {
                     this.setState({ currentPlaylist: value });
                 }
                 else {
-                    this.state.currentPlaylist = playlists ? playlists[0].name : 'Select Playlist';
+                    this.state.currentPlaylist = this.state.playlists.length > 0 ?
+                        this.state.playlists[0].name : 'Select Playlist';
                 }
             })
             .catch(error => console.log(error));
 
-        this.setState({
-            playlists,
-            queue,
-            lightsInfo,
-            currentTrack: status.track ? status.track : '',
-            currentAlbum: status.album ? status.album : '',
-            currentArtist: status.artist ? status.artist : '',
-            volume: status.volume ? status.volume : 0,
-            playerState: status.state ? status.state : 'stopped',
-            index: status.index ? status.index : 0,
-            progress: status.progress ? status.progress : 0,
-            currentTrackLength: queue.length ? parseInt(queue[status.index].track_length / 1000) : 0,
-            image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE
-        });
-        if (status.index == null || status.image == null) {
-            let status = await api.getAllStatus();
-            this.setState({
-                index: status.index ? status.index : 0,
-                image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE,
-                currentTrackLength: queue.length ? parseInt(queue[status.index].track_length / 1000) : 0
-            })
+        // this.setState({
+        //     playlists,
+        //     queue,
+        //     lightsInfo,
+        //     currentTrack: status.track ? status.track : '',
+        //     currentAlbum: status.album ? status.album : '',
+        //     currentArtist: status.artist ? status.artist : '',
+        //     volume: status.volume ? status.volume : 0,
+        //     playerState: status.state ? status.state : 'stopped',
+        //     index: status.index ? status.index : 0,
+        //     progress: status.progress ? status.progress : 0,
+        //     currentTrackLength: queue.length > 0 ? parseInt(queue[status.index].track_length / 1000) : 0,
+        //     image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE
+        // });
+        // if (status.index == null || status.image == null) {
+        //     let status = await api.getAllStatus();
+        //     this.setState({
+        //         index: status.index ? status.index : 0,
+        //         image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE,
+        //         currentTrackLength: queue.length ? parseInt(queue[status.index].track_length / 1000) : 0
+        //     })
+        // }
+
+        if(this.state.playlists) {
+            params = { playlists: this.state.playlists };
         }
 
-        params = { playlists };
-        let modes = [];
-        firebase.auth().onAuthStateChanged(user => {
-            firebase.database().ref(`/Users/${user.uid}/Modes`).once('value').then(data => {
-                console.log('data.val() = %O', data.val())
-                console.log('data.val() array = %O', Object.values(data.val()))
-                for (var element in data.val()) {
-                    if (data.val().hasOwnProperty(element)) {
-                        var obj = data.val()[element]
-                        obj = {...obj, id: element}
-                        modes.push(obj)
-                    }
-                }
-                console.log('modes ====>>> %O', modes)
-                params = { ...params, modes };
-            })
-            .catch(error => console.log(error))
+        // Get modes from database
+        api.getModes().then(res => {
+            console.log('Modes = %O', res)
+            if(res) {
+                this.state.modes = res
+                params = {...params, res}
+            }
         })
+        .catch(e => console.log(e))
 
     }
 

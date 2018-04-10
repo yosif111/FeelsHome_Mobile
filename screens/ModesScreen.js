@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 
 let params = {};
@@ -25,14 +25,24 @@ class ModesScreen extends Component {
         })
     
     componentDidMount() {
+        console.log('test1')
+        AsyncStorage.getItem('modes')
+            .then(modes => console.log('modes (modesScreen) => %O', modes))
+            .catch(e => console.log(e))
+        console.log('test2')
         this.setState({
             modes: this.props.navigation.getParam('modes', []),
             playlists: this.props.navigation.getParam('playlists', [])
         })
         params = {
             playlists: this.props.navigation.getParam('playlists', []),
-            numberOfBulbs: 3
+            numberOfBulbs: 3,
+            reRender: this.reRender
         }
+    }
+
+    reRender = () => {
+        this.forceUpdate()
     }
 
     onModeChange = (i) => {

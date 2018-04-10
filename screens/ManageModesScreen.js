@@ -28,7 +28,8 @@ export default class ManageModesScreen extends Component {
         numberOfBulbs: 0, 
         selectedPlaylist: {},
         modeName: '',
-        modeId: ''
+        modeId: '',
+        reRenderParent: () => {}
     }
 
     static navigationOptions = ({ navigation }) => ({
@@ -36,6 +37,7 @@ export default class ManageModesScreen extends Component {
     })
 
     componentDidMount() {
+        this.state.reRenderParent = this.props.navigation.getParam('reRender', () => {})
         this.state.playlists = this.props.navigation.getParam('playlists', [])
         this.state.numberOfBulbs = this.props.navigation.getParam('numberOfBulbs', 3)
 
@@ -53,7 +55,7 @@ export default class ManageModesScreen extends Component {
             let lightsInfo = [];
             for(let i = 0; i < this.state.numberOfBulbs; i++) {
                 lightsInfo[i] = {
-                    name: 'bulb ' + i,
+                    name: 'bulb ' + (i+1),
                     bri: 128,
                     hue: 0,
                     sat: 255,
@@ -116,6 +118,7 @@ export default class ManageModesScreen extends Component {
     }
 
     onCreate = () => {
+        this.state.reRenderParent()
         console.log('(onCreate)   state => %O', this.state)
         firebase.auth().onAuthStateChanged(user => {
             firebase.database().ref(`/Users/${user.uid}/Modes`)
