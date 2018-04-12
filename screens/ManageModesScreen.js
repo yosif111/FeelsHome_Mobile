@@ -155,11 +155,9 @@ export default class ManageModesScreen extends Component {
             }
             delete item.bri
             delete item.hue
-            delete item.id
             return item
         }))
         let mode = {
-            id: modeId,
             name: modeName,
             playlist_name: selectedPlaylist.name,
             playlist_uri: selectedPlaylist.uri,

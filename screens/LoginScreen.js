@@ -22,9 +22,11 @@ class LoginScreen extends Component {
         };
     }
 
-    // componentDidMount() {
-    //     this.props.navigation.navigate('main');
-    // }
+    componentDidMount() {
+        AsyncStorage.getItem('token')
+            .then(() => this.props.navigation.navigate('main'))
+            .catch(e => console.log(e))
+    }
 
     onInputChange = (type, input) => {
         if (type === 'email')
