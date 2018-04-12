@@ -36,14 +36,16 @@ export default class Form extends Component {
                         autoCapitalize={'none'}
                         returnKeyType={'done'}
                         autoCorrect={false}
-                        onInputChange={this.onEmailChange} />
+                        onInputChange={this.onEmailChange}
+                        keyboardType='email-address'
+                        />
                     <UserInput source={passwordImg}
                         placeholder='Password'
                         returnKeyType={'done'}
                         autoCapitalize={'none'}
                         autoCorrect={false} 
                         onInputChange={this.onPasswordChange}
-                        showPassword={true} />
+                        hidePassword={true} />
                 </KeyboardAvoidingView>
             
         );
@@ -54,8 +56,8 @@ export default class Form extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 6,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'flex-end'
     },
 })

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { AsyncStorage } from 'react-native'
 import axios from 'axios';
 
-import URL from './config';
+import config from './config'
+const {URL, DB_URL} = config
 
 export default class APIProvider extends Component {
 
@@ -157,7 +158,7 @@ export default class APIProvider extends Component {
             timeout: 3000,
             headers: { 'Authorization': token }
         });
-        return instance.get(`${URL}/api/modes`)
+        return instance.get(`${DB_URL}/api/modes`)
             .then(res => {
                 return res.data.Modes;
             })
@@ -173,7 +174,7 @@ export default class APIProvider extends Component {
             timeout: 3000,
             headers: { 'Authorization': token }
         });
-        return instance.post(`${URL}/api/modes/add`, mode)
+        return instance.post(`${DB_URL}/api/modes/add`, mode)
             .then(res => {
                 return res.data.Mode_id;
             })
@@ -183,13 +184,13 @@ export default class APIProvider extends Component {
     }
 
     // res.data = {success}
-    addMode = async (modeId) => {
+    deleteMode = async (modeId) => {
         const token = 'Bearer' + await AsyncStorage.getItem('token');
         const instance = axios.create({
             timeout: 3000,
             headers: { 'Authorization': token }
         });
-        return instance.delete(`${URL}/api/modes/delete/${modeId}`)
+        return instance.delete(`${DB_URL}/api/modes/delete/${modeId}`)
             .then(res => {
                 return res.data;
             })
@@ -199,15 +200,39 @@ export default class APIProvider extends Component {
     }
 
     // res.data = {mode} updated
-    addMode = async (modeId) => {
+    updateMode = async (mode) => {
         const token = 'Bearer' + await AsyncStorage.getItem('token');
         const instance = axios.create({
             timeout: 3000,
             headers: { 'Authorization': token }
         });
-        return instance.post(`${URL}/api/modes/update`, modeId)
+        return instance.post(`${DB_URL}/api/modes/update`, mode)
             .then(res => {
                 return res.data.mode;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+        // ================================== Auth ================================== //
+
+    // res.data = {user}
+    register = (email, password, name) => {
+        return axios.post(`${DB_URL}/api/register`, {email, password, name})
+            .then(res => {
+                return res.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    // res.data = {token}
+    login = (email, password) => {
+        return axios.post(`${DB_URL}/api/login`, {email, password})
+            .then(res => {
+                return res.data[0].token;
             })
             .catch(error => {
                 console.log(error);

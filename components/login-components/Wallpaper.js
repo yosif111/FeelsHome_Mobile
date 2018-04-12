@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import {
     StyleSheet,
     ImageBackground,
-    ScrollView,
     Dimensions
 } from 'react-native';
 
@@ -11,11 +10,9 @@ import bgSrc from '../../assets/background.png';
 export default class Wallpaper extends Component {
     render() {
         return (
-            <ScrollView>
                 <ImageBackground style={styles.picture} source={bgSrc}>
                     {this.props.children}
                 </ImageBackground>
-            </ScrollView>
         );
     }
 }
@@ -27,6 +24,6 @@ const styles = StyleSheet.create({
     picture: {
         flex: 1,
         width: DEVICE_WIDTH,
-        height: DEVICE_HEIGHT
+        height: DEVICE_HEIGHT - (DEVICE_HEIGHT * 0.1)
     },
 });

@@ -161,7 +161,7 @@ class HomeScreen extends Component {
             console.log('Modes = %O', res)
             if(res) {
                 this.state.modes = res
-                params = {...params, res}
+                params = {...params, modes: res}
             }
         })
         .catch(e => console.log(e))

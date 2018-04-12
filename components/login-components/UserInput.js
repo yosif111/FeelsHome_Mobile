@@ -26,7 +26,7 @@ export default class UserInput extends Component {
     }
 
     renderShowPassword () {
-        if (this.props.showPassword) {
+        if (this.props.hidePassword) {
             return (
                 <TouchableOpacity
                     activeOpacity={0.7}
@@ -46,12 +46,13 @@ export default class UserInput extends Component {
                     style={styles.inlineImg} />
                 <TextInput style={styles.input}
                     placeholder={this.props.placeholder}
-                    secureTextEntry={this.props.showPassword ? this.state.showPass : false}
+                    secureTextEntry={this.props.hidePassword ? this.state.showPass : false}
                     autoCorrect={this.props.autoCorrect}
                     autoCapitalize={this.props.autoCapitalize}
                     returnKeyType={this.props.returnKeyType}
                     placeholderTextColor='white'
                     underlineColorAndroid='transparent'
+                    keyboardType={this.props.keyboardType}
                     onChangeText={value => this.props.onInputChange(value)} />
                     {this.renderShowPassword()}
             </View>

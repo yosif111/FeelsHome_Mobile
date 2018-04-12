@@ -77,7 +77,7 @@ export default class ButtonSubmit extends Component {
         });
 
         return (
-            <View style={[styles.container, {top: this.props.isRegister ? -45 : -95}]}>
+            <View style={styles.container}>
                 <Animated.View style={{ width: changeWidth }}>
                     <TouchableOpacity style={styles.button}
                         onPress={this._onPress}
@@ -97,9 +97,9 @@ export default class ButtonSubmit extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center'
     },
     button: {
         alignItems: 'center',

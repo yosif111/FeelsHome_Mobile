@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 
 import Wallpaper from '../components/login-components/Wallpaper';
 import Logo from '../components/login-components/Logo';
@@ -7,7 +7,7 @@ import ButtonSubmit from '../components/login-components/ButtonSubmit';
 import UserInput from '../components/login-components/UserInput';
 import RegisterForm from '../components/login-components/RegisterForm';
 
-import logoImg from '../assets/icon_bulb.png'
+import logoImg from '../assets/feelshome_logo.png'
 import emailImg from '../assets/email.png';
 import usernameImg from '../assets/username.png';
 import passwordImg from '../assets/password.png';
@@ -35,18 +35,20 @@ class RegisterScreen extends Component {
 
     render() {
         return (
-            <Wallpaper>
-                <Logo
-                    img={logoImg}
-                    title='FeelsHome'
-                    size='large'
-                />
-                <RegisterForm onInputChange={this.onInputChange} />
-                <ButtonSubmit 
-                onPress={() => this.props.navigation.navigate('login')} 
-                isRegister={true}
-                title='REGISTER' />
-            </Wallpaper>
+            <ScrollView>
+                <Wallpaper>
+                    <Logo
+                        img={logoImg}
+                        title='FeelsHome'
+                        size='large'
+                    />
+                    <RegisterForm onInputChange={this.onInputChange} />
+                    <ButtonSubmit
+                        onPress={() => this.props.navigation.navigate('login')}
+                        isRegister={true}
+                        title='REGISTER' />
+                </Wallpaper>
+            </ScrollView>
         );
     }
 }

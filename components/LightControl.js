@@ -19,7 +19,7 @@ import { Card, ListItem, Button, Divider } from 'react-native-elements';
 import CustomSlider from './Common/CustomSlider';
 import axios from 'axios';
 
-import URL from '../config';
+import {URL} from '../config';
 
 
 export default class LightControl extends Component {

@@ -9,12 +9,15 @@ import {
     Picker, 
     Switch,
     Platform,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import firebase from 'firebase';
 
 import CustomSlider from '../components/Common/CustomSlider';
+import APIProvider from '../APIProvider'
+
+const api = new APIProvider();
 
 const bulbImg = require('../assets/icon_bulb.png');
 const audioImg = require('../assets/icon_audio.png');
@@ -43,9 +46,19 @@ export default class ManageModesScreen extends Component {
 
         const mode = this.props.navigation.getParam('mode', null);
         if(mode != null) {
+            let lightsInfo = []
+            lightsInfo.push(mode.lights.map(item => {
+                return {
+                    ...item,
+                    bri: item.brightness,
+                    hue: item.color
+                }
+            }))
+            console.log('(ManageModesScreen) mode => %O', mode)
+            let selectedPlaylist = { name: mode.playlist_name, uri: mode.playlist_uri }
             this.setState({
-                lightsInfo: mode.lightsInfo ? mode.lightsInfo : [],
-                selectedPlaylist: mode.playlist ? mode.playlist : {},
+                lightsInfo,
+                selectedPlaylist,
                 modeName: mode.name ? mode.name : '',
                 isEdit: true,
                 modeId: mode.id ? mode.id : ''
@@ -95,41 +108,65 @@ export default class ManageModesScreen extends Component {
 
     onSave = () => {
         console.log('(onSave)   state => %O', this.state)
-        firebase.auth().onAuthStateChanged(user => {
-            firebase.database().ref(`/Users/${user.uid}/Modes/${this.state.modeId}`)
-                .update({
-                    lightsInfo: this.state.lightsInfo,
-                    playlist: this.state.selectedPlaylist,
-                    name: this.state.modeName
-                })
-                .then(() => this.props.navigation.goBack())
-                .catch(error => console.log(error))
-        })
+        const { modeId, modeName, lightsInfo, selectedPlaylist} = this.state
+        let lights = []
+        lights.push(lightsInfo.map(item => {
+            return {
+                ...item,
+                brightness: item.bri,
+                color: item.hue
+            }
+        }))
+        let mode = {
+            id: modeId,
+            name: modeName,
+            playlist_name: selectedPlaylist.name,
+            playlist_uri: selectedPlaylist.uri,
+            lights
+        }
+        api.updateMode(mode)
+            .then(() => {
+                this.state.reRenderParent()
+                this.props.navigation.goBack()
+            })
+            .catch(e => console.log(e))
     }
 
     onDelete = () => {
         console.log('(onDelete)   state => %O', this.state)
-        firebase.auth().onAuthStateChanged(user => {
-            firebase.database().ref(`/Users/${user.uid}/Modes/${this.state.modeId}`)
-                .remove()
-                .then(() => this.props.navigation.goBack())
-                .catch(error => console.log(error))
-        })
+        api.deleteMode(this.state.modeId)
+            .then(() => {
+                this.state.reRenderParent()
+                this.props.navigation.goBack()
+            })
+            .catch(e => console.log(e))
     }
 
     onCreate = () => {
         this.state.reRenderParent()
         console.log('(onCreate)   state => %O', this.state)
-        firebase.auth().onAuthStateChanged(user => {
-            firebase.database().ref(`/Users/${user.uid}/Modes`)
-            .push({
-                lightsInfo: this.state.lightsInfo,
-                playlist: this.state.selectedPlaylist,
-                name: this.state.modeName
+        const { modeId, modeName, lightsInfo, selectedPlaylist } = this.state
+        let lights = []
+        lights.push(lightsInfo.map(item => {
+            return {
+                ...item,
+                brightness: item.bri,
+                color: item.hue
+            }
+        }))
+        let mode = {
+            id: modeId,
+            name: modeName,
+            playlist_name: selectedPlaylist.name,
+            playlist_uri: selectedPlaylist.uri,
+            lights
+        }
+        api.addMode(mode)
+            .then(() => {
+                this.state.reRenderParent()
+                this.props.navigation.goBack()
             })
-            .then(() => this.props.navigation.goBack())
-            .catch(error => console.log(error))
-        })
+            .catch(e => console.log(e))
     }
 
     renderBulbs = () => {
@@ -277,8 +314,8 @@ export default class ManageModesScreen extends Component {
     render() {
         return(
             <ScrollView>
-
-                    <ImageBackground style={{ flex: 1 }} source={backgroundImage}>
+                
+                <ImageBackground style={styles.container} source={backgroundImage}>
                         {this.renderModeHeader()}
                         {this.renderBulbs()}
                         {this.renderPlaylists()}
@@ -292,7 +329,9 @@ export default class ManageModesScreen extends Component {
 
 const styles = {
     container: {
-        flex: 1
+        flex: 1,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
     },
     card: {
         marginRight: 10,
