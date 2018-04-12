@@ -148,11 +148,15 @@ export default class ManageModesScreen extends Component {
         const { modeId, modeName, lightsInfo, selectedPlaylist } = this.state
         let lights = []
         lights.push(lightsInfo.map(item => {
-            return {
-                ...item,
+            item = {
+                ...item, 
                 brightness: item.bri,
                 color: item.hue
             }
+            delete item.bri
+            delete item.hue
+            delete item.id
+            return item
         }))
         let mode = {
             id: modeId,

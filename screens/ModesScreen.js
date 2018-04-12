@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { View, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 
 import APIProvider from '../APIProvider'

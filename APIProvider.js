@@ -152,8 +152,8 @@ export default class APIProvider extends Component {
 
     // res.data = {}
     getModes = async () => {
-        const token = 'Bearer' + await AsyncStorage.getItem('token');
-        console.log('token = ' + token)
+        const token = 'Bearer ' + await AsyncStorage.getItem('token');
+        console.log('(getModes) token = ' + token)
         const instance = axios.create({
             timeout: 3000,
             headers: { 'Authorization': token }
@@ -169,23 +169,25 @@ export default class APIProvider extends Component {
 
     // res.data = {mode_id}
     addMode = async (mode) => {
-        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        console.log('(addMode) mode = %O', mode)
+        const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const instance = axios.create({
             timeout: 3000,
             headers: { 'Authorization': token }
         });
         return instance.post(`${DB_URL}/api/modes/add`, mode)
             .then(res => {
+                console.log('res = %O', res)
                 return res.data.Mode_id;
             })
-            .catch(error => {
-                console.log(error);
+            .catch((error,res) => {
+                console.log(error,res);
             });
     }
 
     // res.data = {success}
     deleteMode = async (modeId) => {
-        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const instance = axios.create({
             timeout: 3000,
             headers: { 'Authorization': token }
@@ -201,7 +203,7 @@ export default class APIProvider extends Component {
 
     // res.data = {mode} updated
     updateMode = async (mode) => {
-        const token = 'Bearer' + await AsyncStorage.getItem('token');
+        const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const instance = axios.create({
             timeout: 3000,
             headers: { 'Authorization': token }

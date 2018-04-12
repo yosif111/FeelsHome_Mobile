@@ -37,9 +37,11 @@ class LoginScreen extends Component {
         api.login(this.state.email, this.state.password)
             .then(token => {
                 console.log('Token = ' + token)
-                AsyncStorage.setItem('token', token)
-                    .then(() => this.state.navigation.navigate('main'))
-                    .catch(e => console.log(e))
+                if(typeof token == 'string')
+                    AsyncStorage.setItem('token', token )
+                        .then(() => this.props.navigation.navigate('main'))
+                        .catch(e => console.log(e))
+                else console.log('token != string')
             })
             .catch(e => console.log(e))
     }

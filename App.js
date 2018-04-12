@@ -16,11 +16,6 @@ import ModesScreen from './screens/ModesScreen';
 import ManageModesScreen from './screens/ManageModesScreen';
 
 export default class App extends React.Component {
-
-  // componentDidMount() {
-  //   AsyncStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly8xMC4xMzEuMTkyLjgwOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNTIzMjg5MDQ2LCJleHAiOjYwMDAwMTUyMzI4ODk4NiwibmJmIjoxNTIzMjg5MDQ2LCJqdGkiOiJ4bENlSVJnYWx5bnNONjI1In0.Hd9_p9D4Dpo-JIwD6AJcbGdpoDfvaCv90-VY2UqjcAU').then(() => console.log('set'))
-  // }
-
   render() {
     const MainNavigator = StackNavigator({
       auth: { screen: StackNavigator({
