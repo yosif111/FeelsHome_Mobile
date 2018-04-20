@@ -13,7 +13,9 @@ export default class APIProvider extends Component {
     getPlaylists() {
         return axios.get(`${URL}/api/audio/playlists`)
                 .then(res => {
-                    return res.data;    
+                    return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    })     
                 })
                 .catch(error => {
                     console.log('Request Error => %O', error)
@@ -24,7 +26,9 @@ export default class APIProvider extends Component {
     getQueue = () => {
         return axios.get(`${URL}/api/audio/getQueue`)
                 .then(res => {
-                    return res.data;
+                    return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 })
                 .catch(error => {
                     console.log('Request Error => %O', error)
@@ -35,7 +39,9 @@ export default class APIProvider extends Component {
     getAllStatus = () => {
         return axios.get(`${URL}/api/audio/getAllStatus`)
                 .then(res => {
-                    return res.data;
+                    return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 })
                 .catch(error => {
                     console.log('Request Error => %O', error)
@@ -46,9 +52,9 @@ export default class APIProvider extends Component {
     getCurrentTrack = (id) => {
         console.log('getCurrentTrack (id) = ' + id);
         return axios.get(`${URL}/api/audio/getCurrentTrack`)
-                .then(res => {
-                    return res.data;
-                })
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
@@ -58,9 +64,9 @@ export default class APIProvider extends Component {
     play = (id) => {
         console.log('play (id) = ' + id);
         return axios.get(`${URL}/api/audio/play/${id}`)
-                .then(res => {
-                    return res.data;
-                })
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
@@ -69,9 +75,9 @@ export default class APIProvider extends Component {
     // res.data = {'Msg'}
     pause = () => {
         return axios.get(`${URL}/api/audio/pause`)
-                .then(res => {
-                    return res.data;
-                })
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
@@ -80,9 +86,9 @@ export default class APIProvider extends Component {
     // res.data = {'Msg'}
     resume = () => {
         return axios.get(`${URL}/api/audio/resume`)
-                .then(res => {
-                    return res.data;
-                })
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
@@ -92,9 +98,9 @@ export default class APIProvider extends Component {
     changeVolume = (volume) => {
         console.log('changeVolume (volume) = ' + volume);
         return axios.get(`${URL}/api/audio/changeVolume/${volume}`)
-                .then(res => {
-                    return res.data;
-                })
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
@@ -104,9 +110,9 @@ export default class APIProvider extends Component {
     changePlaylist = (uri) => {
         console.log('changePlaylist (uri) = ' + uri);
         return axios.get(`${URL}/api/audio/InsertPlaylistToQueue/${uri}`)
-                .then(res => {
-                    return res.data;
-                })
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
                 .catch(error => {
                     console.log('Request Error => %O', error)
                 });
@@ -116,7 +122,9 @@ export default class APIProvider extends Component {
     getProgress = () => {
         return axios.get(`${URL}/api/audio/getProgress`)
             .then(res => {
-                return res.data;
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
             })
             .catch(error => {
                 console.log('Request Error => %O', error)
@@ -127,7 +135,9 @@ export default class APIProvider extends Component {
     getImage = (uri) => {
         return axios.get(`${URL}/api/audio/getImage/${uri}`)
             .then(res => {
-                return res.data;
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
             })
             .catch(error => {
                 console.log('Request Error => %O', error)
@@ -140,7 +150,9 @@ export default class APIProvider extends Component {
     getLights = () => {
         return axios.get(`${URL}/api/lights`)
         .then(res => {
-            return res.data;
+            return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
         })
         .catch(error => {
             console.log(error);
@@ -160,7 +172,9 @@ export default class APIProvider extends Component {
         });
         return instance.get(`${DB_URL}/api/modes`)
             .then(res => {
-                return res.data.Modes;
+                return new Promise((resolve, reject) => {
+                    resolve(res.data.Modes)
+                }) 
             })
             .catch(error => {
                 console.log(error);
@@ -178,10 +192,15 @@ export default class APIProvider extends Component {
         return instance.post(`${DB_URL}/api/modes/add`, mode)
             .then(res => {
                 console.log('res = %O', res)
-                return res.data.Mode_id;
+                return new Promise((resolve, reject) => {
+                    if(res)
+                        resolve(res.data)
+                    else
+                        reject('Rejected')
+                    }) 
             })
-            .catch((error,res) => {
-                console.log(error,res);
+            .catch((error) => {
+                console.log(error.response);
             });
     }
 
@@ -194,7 +213,9 @@ export default class APIProvider extends Component {
         });
         return instance.delete(`${DB_URL}/api/modes/delete/${modeId}`)
             .then(res => {
-                return res.data;
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
             })
             .catch(error => {
                 console.log(error);
@@ -210,7 +231,9 @@ export default class APIProvider extends Component {
         });
         return instance.post(`${DB_URL}/api/modes/update`, mode)
             .then(res => {
-                return res.data.mode;
+                return new Promise((resolve, reject) => {
+                    resolve(res.data.mode)
+                }) 
             })
             .catch(error => {
                 console.log(error);
@@ -223,7 +246,9 @@ export default class APIProvider extends Component {
     register = (email, password, name) => {
         return axios.post(`${DB_URL}/api/register`, {email, password, name})
             .then(res => {
-                return res.data;
+                return new Promise((resolve, reject) => {
+                        resolve(res.data)
+                    }) 
             })
             .catch(error => {
                 console.log(error);
@@ -234,7 +259,9 @@ export default class APIProvider extends Component {
     login = (email, password) => {
         return axios.post(`${DB_URL}/api/login`, {email, password})
             .then(res => {
-                return res.data[0].token;
+                return new Promise((resolve, reject) => {
+                    resolve(res.data[0].token)
+                }) 
             })
             .catch(error => {
                 console.log(error);

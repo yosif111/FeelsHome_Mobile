@@ -47,13 +47,17 @@ export default class ManageModesScreen extends Component {
         const mode = this.props.navigation.getParam('mode', null);
         if(mode != null) {
             let lightsInfo = []
-            lightsInfo.push(mode.lights.map(item => {
-                return {
+            mode.lights.map(item => {
+                item = {
                     ...item,
                     bri: item.brightness,
                     hue: item.color
                 }
-            }))
+                delete item.brightness
+                delete item.color
+                lightsInfo.push(item)
+            })
+            console.log('lightsInfo ===> %O', lightsInfo)
             console.log('(ManageModesScreen) mode => %O', mode)
             let selectedPlaylist = { name: mode.playlist_name, uri: mode.playlist_uri }
             this.setState({
@@ -71,7 +75,6 @@ export default class ManageModesScreen extends Component {
                     name: 'bulb ' + (i+1),
                     bri: 128,
                     hue: 0,
-                    sat: 255,
                     isOn: true
                 }
             }
@@ -110,13 +113,13 @@ export default class ManageModesScreen extends Component {
         console.log('(onSave)   state => %O', this.state)
         const { modeId, modeName, lightsInfo, selectedPlaylist} = this.state
         let lights = []
-        lights.push(lightsInfo.map(item => {
-            return {
-                ...item,
-                brightness: item.bri,
-                color: item.hue
-            }
-        }))
+       lightsInfo.map(item => {
+           lights.push({
+               ...item,
+               brightness: item.bri,
+               color: item.hue
+           })
+        })
         let mode = {
             id: modeId,
             name: modeName,
@@ -147,7 +150,7 @@ export default class ManageModesScreen extends Component {
         console.log('(onCreate)   state => %O', this.state)
         const { modeId, modeName, lightsInfo, selectedPlaylist } = this.state
         let lights = []
-        lights.push(lightsInfo.map(item => {
+        lightsInfo.map(item => {
             item = {
                 ...item, 
                 brightness: item.bri,
@@ -155,8 +158,8 @@ export default class ManageModesScreen extends Component {
             }
             delete item.bri
             delete item.hue
-            return item
-        }))
+            lights.push(item)
+        })
         let mode = {
             name: modeName,
             playlist_name: selectedPlaylist.name,
@@ -164,7 +167,8 @@ export default class ManageModesScreen extends Component {
             lights
         }
         api.addMode(mode)
-            .then(() => {
+            .then(res => {
+                console.log('result mode = %O', res)
                 this.state.reRenderParent()
                 this.props.navigation.goBack()
             })
@@ -195,7 +199,7 @@ export default class ManageModesScreen extends Component {
                         </View>
                         <View style={styles.switchContainer}>
                             <Switch
-                                value={item.isOn}
+                                value={item.isOn == 1 ? true : false}
                                 tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : 'rgb(83,45,62)'}
                                 onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : 'rgb(83,45,62)'}
                                 thumbTintColor='rgb(83,45,62)'
