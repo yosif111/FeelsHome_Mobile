@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, AsyncStorage } from 'react-native';
 import { List, ListItem, WebView, Button } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 import CustomListItem from '../components/Common/CustomListItem';
 
@@ -49,50 +50,69 @@ class SettingsScreen extends Component {
     onSpotifyPasswordChange = (value) => {
         this.setState({ spotify_password: value })
     }
+    
+    onLogout = async() => {
+        const reset = NavigationActions.reset({ index: 0, key: null, actions: [NavigationActions.navigate({ routeName: 'auth' })] });
+        await AsyncStorage.removeItem('token')
+        this.props.navigation.dispatch(reset)
+    }
 
     render() {
         return (
-            <List>
-                {
-                    <CustomListItem
-                        title='Spotify'
-                        icon={{ name: 'spotify', type: 'entypo' }}
-                    >
-                        <Image
-                            source={spotifyIcon}
-                            style={styles.icon}
-                        />
-
-                        <UserInput
-                            source={userIcon}
-                            placeholder='Username'
-                            autoCapitalize={'none'}
-                            returnKeyType={'done'}
-                            autoCorrect={false}
-                            onInputChange={this.onSpotifyUsernameChange}
-                        />
-                        <UserInput
-                            source={passIcon}
-                            placeholder='Password'
-                            autoCapitalize={'none'}
-                            returnKeyType={'done'}
-                            autoCorrect={false}
-                            onInputChange={this.onSpotifyPasswordChange}
-                            showPassword={true}
-                        />
-
-                        <View style={styles.buttonContainer}>
-                            <Button
-                                raised
-                                borderRadius={50}
-                                title='LOGIN'
-                                buttonStyle={styles.button}
-                                containerViewStyle={{ width: 200 }}
+            <View style={{ flex: 1, justifyContent: 'space-between' }}>
+                <List>
+                    {
+                        <CustomListItem
+                            title='Spotify'
+                            icon={{ name: 'spotify', type: 'entypo' }}
+                        >
+                            <Image
+                                source={spotifyIcon}
+                                style={styles.icon}
                             />
-                        </View>
-                    </CustomListItem>
-                }
-            </List>
+
+                            <UserInput
+                                source={userIcon}
+                                placeholder='Username'
+                                autoCapitalize={'none'}
+                                returnKeyType={'done'}
+                                autoCorrect={false}
+                                onInputChange={this.onSpotifyUsernameChange}
+                            />
+                            <UserInput
+                                source={passIcon}
+                                placeholder='Password'
+                                autoCapitalize={'none'}
+                                returnKeyType={'done'}
+                                autoCorrect={false}
+                                onInputChange={this.onSpotifyPasswordChange}
+                                showPassword={true}
+                            />
+
+                            <View style={styles.buttonContainer}>
+                                <Button
+                                    raised
+                                    borderRadius={50}
+                                    title='LOGIN'
+                                    buttonStyle={styles.button}
+                                    containerViewStyle={{ width: 200 }}
+                                />
+                            </View>
+                        </CustomListItem>
+                    }
+
+                </List>
+                <View style={{ alignItems: 'center' }}>
+                    <Button
+                        raised
+                        borderRadius={20}
+                        title='LOGOUT'
+                        buttonStyle={styles.logoutButton}
+                        containerViewStyle={styles.logoutContainer}
+                        onPress={this.onLogout}
+                    />
+                </View>
+            </View>
         );
     }
 }
@@ -118,6 +138,13 @@ const styles = {
     button: {
         backgroundColor: '#1ED760',
         width: 200
+    },
+    logoutButton: {
+        width: 300
+    },
+    logoutContainer: {
+        marginBottom: 20,
+        width: 300
     }
 }
 

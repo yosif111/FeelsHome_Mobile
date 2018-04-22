@@ -14,7 +14,7 @@ import ButtonSubmit from '../components/login-components/ButtonSubmit';
 import logoImg from '../assets/feelshome_logo.png';
 
 class LoginScreen extends Component {
-    state = { email: '', password: '' };
+    state = { email: '', password: '', feedback: '' };
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -22,10 +22,11 @@ class LoginScreen extends Component {
         };
     }
 
-    componentDidMount() {
-        AsyncStorage.getItem('token')
-            .then(() => this.props.navigation.navigate('main'))
-            .catch(e => console.log(e))
+    async componentDidMount () {
+        let token = await AsyncStorage.getItem('token')
+        console.log('token = '+token)
+        if(token)
+            this.props.navigation.navigate('main')
     }
 
     onInputChange = (type, input) => {
@@ -35,17 +36,31 @@ class LoginScreen extends Component {
             this.setState({ password: input });
     }
 
-    login = () => {
-        api.login(this.state.email, this.state.password)
-            .then(token => {
-                console.log('Token = ' + token)
-                if(typeof token == 'string')
-                    AsyncStorage.setItem('token', token )
-                        .then(() => this.props.navigation.navigate('main'))
-                        .catch(e => console.log(e))
-                else console.log('token != string')
-            })
-            .catch(e => console.log(e))
+    login = async() => {
+        try{
+            let token = await api.login(this.state.email, this.state.password)
+            console.log('Token = ' + token)
+            if (token) {
+                await AsyncStorage.setItem('token', token)
+                this.props.navigation.navigate('main')
+                return new Promise((resolve, reject) => {
+                    resolve('success')
+                }) 
+            }else{
+                this.setState({ feedback: 'Wrong email or password' })
+                return new Promise((resolve, reject) => {
+                    resolve('fail')
+                }) 
+            }
+        }
+        catch(e){
+            console.log(e)
+        }
+        
+    }
+
+    clearFeedback = () => {
+        this.setState({ feedback: '' })
     }
 
     render() {
@@ -57,7 +72,11 @@ class LoginScreen extends Component {
                         title='FeelsHome'
                         size='large'
                     />
-                    <Form onInputChange={this.onInputChange} />
+                    <Form 
+                        onInputChange={this.onInputChange}
+                        clearFeedback={this.clearFeedback}
+                        feedback={this.state.feedback}
+                    />
                     <ButtonSubmit
                         onPress={this.login}
                         title='LOGIN'
