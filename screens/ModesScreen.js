@@ -17,7 +17,7 @@ class ModesScreen extends Component {
 
 
     state = {
-        modes: [],
+        modes: [{ name: 'ddffff' }, { name: 'ddffff' }],
         playlists: null,
         editMode: false,
         activeItem: null

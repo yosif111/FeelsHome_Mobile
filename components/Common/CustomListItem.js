@@ -30,7 +30,6 @@ export default class CustomListItem extends Component {
             </TouchableOpacity>
         );
     }
-
 }
 
 const styles = {
