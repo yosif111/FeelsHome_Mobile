@@ -240,6 +240,18 @@ export default class APIProvider extends Component {
             });
     }
 
+    // res.data = {}
+    applyMode = (mode) => {
+        return axios.post(`${URL}/api/mode/applyMode`, { mode })
+            .then(res => {
+                return new Promise((resolve, reject) => {
+                        resolve(res.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
+        }
         // ================================== Auth ================================== //
 
     // res.data = {user}
