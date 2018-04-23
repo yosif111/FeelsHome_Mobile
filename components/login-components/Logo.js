@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
@@ -19,7 +19,7 @@ export default class Logo extends Component {
                     source={this.props.img} 
                     style={this.props.size === 'small' ? styles.SImage : styles.LImage} 
                 />
-                <Text style={[styles.text, {fontSize: this.props.size === 'small' ? 12 : 20} ]}>{this.props.title}</Text>
+                <Text style={[styles.text, { fontSize: this.props.size === 'small' ? 12 : 20 }]}>{this.props.title}</Text>
             </View>
         );
     }
