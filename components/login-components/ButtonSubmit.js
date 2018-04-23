@@ -9,7 +9,8 @@ import {
     Alert,
     View,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 
 import spinner from '../../assets/loading.gif';
@@ -89,7 +90,7 @@ export default class ButtonSubmit extends Component {
                         onPress={this._onPress}
                         activeOpacity={1} >
                         {this.state.isLoading ?
-                            <ActivityIndicator color='#fff' size={25} />
+                            <ActivityIndicator color='#fff' size={Platform.OS == 'android' ? 'large' : 'small'} />
                             :
                             <Text style={styles.text}>{this.props.title}</Text>
                         }
