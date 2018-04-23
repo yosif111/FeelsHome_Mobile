@@ -320,8 +320,8 @@ export default class ManageModesScreen extends Component {
     render() {
         return(
             <ScrollView>
-                
-                <ImageBackground style={styles.container} source={backgroundImage}>
+
+                <ImageBackground style={styles.container} resizeMode='stretch' source={backgroundImage}>
                         {this.renderModeHeader()}
                         {this.renderBulbs()}
                         {this.renderPlaylists()}
@@ -335,9 +335,7 @@ export default class ManageModesScreen extends Component {
 
 const styles = {
     container: {
-        flex: 1,
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
+        flex: 1
     },
     card: {
         marginRight: 10,
