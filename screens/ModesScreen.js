@@ -27,18 +27,7 @@ class ModesScreen extends Component {
                             onPress={() => navigation.navigate('manageModes', params)}
                             />
         })
-<<<<<<< HEAD
-
-
-    state = {
-        modes: [{ name: 'ddffff' }, { name: 'ddffff' }],
-        playlists: null,
-        editMode: false,
-        activeItem: null
-    }
-=======
     
->>>>>>> 7723851c8a013e5a5128f0b1dc3878d9611d54c7
     componentDidMount() {
         this.setState({
             modes: this.props.navigation.getParam('modes', []),
