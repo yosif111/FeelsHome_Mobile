@@ -8,7 +8,8 @@ import {
     Image,
     Alert,
     View,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from 'react-native';
 
 import spinner from '../../assets/loading.gif';
@@ -30,9 +31,9 @@ export default class ButtonSubmit extends Component {
         this._onPress = this._onPress.bind(this);
     }
 
-    _onPress() {
+    _onPress = async() => {
         if (this.state.isLoading) return;
-
+        console.log('_onPress');
         this.setState({ isLoading: true });
         Animated.timing(
             this.buttonAnimated,
@@ -42,20 +43,25 @@ export default class ButtonSubmit extends Component {
                 easing: Easing.linear
             }
         ).start();
-
-        setTimeout(() => {
+        
+        let result = await this.props.onPress()
+        console.log('result = '+result)
+        if(result == 'success'){
             this._onGrow();
-        }, 1000);
-
-        setTimeout(() => {
-            this.props.onPress();
+            setTimeout(() => {
+                this.setState({ isLoading: false });
+                this.buttonAnimated.setValue(0);
+                this.growAnimated.setValue(0);
+            }, 500)
+        } else{
             this.setState({ isLoading: false });
             this.buttonAnimated.setValue(0);
             this.growAnimated.setValue(0);
-        }, 2300);
+        }
     }
 
     _onGrow() {
+        console.log('_onGrow');
         Animated.timing(
             this.growAnimated,
             {
@@ -77,13 +83,13 @@ export default class ButtonSubmit extends Component {
         });
 
         return (
-            <View style={[styles.container, {top: this.props.isRegister ? -45 : -95}]}>
+            <View style={styles.container}>
                 <Animated.View style={{ width: changeWidth }}>
                     <TouchableOpacity style={styles.button}
                         onPress={this._onPress}
                         activeOpacity={1} >
                         {this.state.isLoading ?
-                            <Image source={spinner} style={styles.image} />
+                            <ActivityIndicator color='#fff' size={25} />
                             :
                             <Text style={styles.text}>{this.props.title}</Text>
                         }
@@ -97,14 +103,14 @@ export default class ButtonSubmit extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center'
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F035E0',
+        backgroundColor: '#2C82C9',
         height: MARGIN,
         borderRadius: 20,
         zIndex: 100,
@@ -114,11 +120,11 @@ const styles = StyleSheet.create({
         width: MARGIN,
         marginTop: -MARGIN,
         borderWidth: 1,
-        borderColor: '#F035E0',
+        borderColor: '#2C82C9',
         borderRadius: 100,
         alignSelf: 'center',
         zIndex: 99,
-        backgroundColor: '#F035E0',
+        backgroundColor: '#2C82C9',
     },
     text: {
         color: 'white',

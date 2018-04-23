@@ -2,7 +2,20 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 
+import APIProvider from '../APIProvider'
+
+const api = new APIProvider();
+
+let params = {};
+
 class ModesScreen extends Component {
+    state = {
+        modes: [],
+        playlists: [],
+        editMode: false,
+        activeItem: 0
+    }
+
     static navigationOptions = ({ navigation }) => ({
             title: 'Modes',
             headerRight: <Icon 
@@ -11,9 +24,10 @@ class ModesScreen extends Component {
                             name='add' 
                             type='Content' 
                             color='#4891db'
-                            onPress={this.onModeAdd}
+                            onPress={() => navigation.navigate('manageModes', params)}
                             />
         })
+<<<<<<< HEAD
 
 
     state = {
@@ -22,22 +36,39 @@ class ModesScreen extends Component {
         editMode: false,
         activeItem: null
     }
+=======
+    
+>>>>>>> 7723851c8a013e5a5128f0b1dc3878d9611d54c7
     componentDidMount() {
-        if (this.props.modes !== null)
-            this.state.modes = this.props.modes;
-        if (this.props.playlists !== null)
-            this.state.playlists = this.props.playlists;
+        this.setState({
+            modes: this.props.navigation.getParam('modes', []),
+            playlists: this.props.navigation.getParam('playlists', [])
+        })
+        params = {
+            playlists: this.props.navigation.getParam('playlists', []),
+            numberOfBulbs: 3,
+            reRender: this.reRender
+        }
     }
+
+    reRender = () => {
+        api.getModes()
+            .then(modes => this.setState({ modes }))
+            .catch(e => console.log(e))
+    }
+
     onModeChange = (i) => {
         //API mode        
         this.setState({ activeItem: i });
     }
+
     onModeEdit = (i) => {
-         return navigation.navigate('manageModes', { Mode: this.state.modes[i] });
+        this.props.navigation.navigate('manageModes', { 
+            mode: this.state.modes[i], 
+            playlists: this.state.playlists
+        });
     }
-    onModeAdd = () => {
-        return navigation.navigate('manageModes', { playlists: this.state.playlists });
-    }
+
     renderButton() {
         if (this.state.modes.length === 0)
             return null;

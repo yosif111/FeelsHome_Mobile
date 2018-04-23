@@ -1,1 +1,2 @@
-export default URL = "http:/192.168.8.106:8000";
+exports.URL = 'http://10.131.192.80:8000';
+exports.DB_URL = 'https://www.ftcksu.com/FeelsHome';

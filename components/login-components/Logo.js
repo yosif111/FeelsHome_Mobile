@@ -19,7 +19,7 @@ export default class Logo extends Component {
                     source={this.props.img} 
                     style={this.props.size === 'small' ? styles.SImage : styles.LImage} 
                 />
-                <Text style={styles.text}>{this.props.title}</Text>
+                <Text style={[styles.text, {fontSize: this.props.size === 'small' ? 12 : 20} ]}>{this.props.title}</Text>
             </View>
         );
     }
@@ -27,14 +27,13 @@ export default class Logo extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
+        flex: 9,
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10
+        justifyContent: 'center'
     },
     LImage: {
-        width: 80,
-        height: 80,
+        width: 120,
+        height: 120,
     },
     SImage: {
         width: 40,
@@ -44,6 +43,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         backgroundColor: 'transparent',
-        marginTop: 20,
+        marginTop: 20
     }
 });

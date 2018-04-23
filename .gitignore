@@ -52,5 +52,10 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
+<<<<<<< HEAD
 # Bundle artifact
 *.jsbundle
+=======
+
+dbKey.js
+>>>>>>> 7723851c8a013e5a5128f0b1dc3878d9611d54c7

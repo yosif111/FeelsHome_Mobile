@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {
     StyleSheet,
-    TouchableOpacity,
+    TouchableWithoutFeedback,
     Text,
     Animated,
     Easing,
@@ -19,23 +19,24 @@ import { Card, ListItem, Button } from 'react-native-elements';
 import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
 
+import APIProvider from '../../APIProvider';
+const api = new APIProvider();
+
 import URL from '../../config';
 import CustomSlider from './CustomSlider';
 import CustomAudioControl from './CustomAudioControl';
+const DEFAULT_IMAGE = require('../../assets/icon_music.jpg');
 
 
 export default class CustomCard extends Component {
     state = {
-            isOn: false,
             isCollapsed: true,
             showHeader: true,
-            hue: 0,
-            bri: 255,
-            lightOn: false
+            isOn: false
         };
 
     onSwitchPress = (toggle) => {
-        axios.post(`${URL}/lights/changeAll`, {
+        axios.post(`${URL}/api/lights/changeAll`, {
             'on': toggle
         })
             .then(response => {
@@ -44,12 +45,14 @@ export default class CustomCard extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.setState({ isOn: toggle });
+        this.props.changeState({ AllLightsState: { ...this.props.state.AllLightsState, isOn: toggle} })
+        this.setState({ isOn: toggle })
     }
 
     toggleHeader = () => {
         this.setState({showHeader: !this.state.showHeader});
     }
+
     renderCardHeader = () => {
         if(!this.state.showHeader)
             return;
@@ -82,7 +85,7 @@ export default class CustomCard extends Component {
 
 
     onColorChange = (value, lightID) => {
-        axios.post(`${URL}/lights/changeAll`, {
+        axios.post(`${URL}/api/lights/changeAll`, {
             'hue': value * 250
         })
             .then(response => {
@@ -91,11 +94,11 @@ export default class CustomCard extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.setState({ hue: value })
+        this.props.changeState({ AllLightsState: { ...this.props.state.AllLightsState, hue: value} })
     }
 
     onBrightnessChange = (value, lightID) => {
-        axios.post(`${URL}/lights/changeAll`, {
+        axios.post(`${URL}/api/lights/changeAll`, {
             'all': true,
             'bri': value
         })
@@ -105,7 +108,62 @@ export default class CustomCard extends Component {
             .catch(error => {
                 console.log(error);
             });
-        this.setState({ bri: value })
+        this.props.changeState({ AllLightsState: { ...this.props.state.AllLightsState, bri: value} })
+    }
+
+    onPreviousPress = async () => {
+        if (this.props.state.queue.length == 0)
+            return;
+        this.props.state.index = (this.props.state.index - 1) < 0 ? this.props.state.queue.length - 1 : this.props.state.index - 1;
+        await api.play(this.props.state.queue[this.props.state.index].tlid);
+        this.loadTrack(this.props.state.index);
+        this.props.changeState({ playerState: 'playing' });
+    }
+
+    onNextPress = async () => {
+        if (this.props.state.queue.length == 0)
+            return;
+        this.props.state.index = (this.props.state.index + 1) % this.props.state.queue.length;
+        await api.play(this.props.state.queue[this.props.state.index].tlid);
+        this.loadTrack(this.props.state.index);
+        this.props.changeState({ playerState: 'playing' });
+    }
+
+    onPausePress = () => {
+        if (this.props.state.queue.length == 0)
+            return;
+        api.pause();
+        this.props.changeState({ playerState: 'paused' });
+    }
+
+    onPlayPress = () => {
+        if (this.props.state.queue.length == 0)
+            return;
+        if (this.props.state.playerState == 'paused')
+            api.resume();
+        else {
+            api.play(this.props.state.queue[this.props.state.index].tlid);
+            this.loadTrack(this.props.state.index);
+        }
+        this.props.changeState({ playerState: 'playing' });
+    }
+
+    onVolumeChange = (value) => {
+        api.changeVolume(value);
+        this.props.changeState({ volume: value });
+    }
+
+    loadTrack = async (index) => {
+        const track = this.props.state.queue[index];
+        this.props.changeState({
+            currentTrack: track.track_name,
+            currentAlbum: track.album_name,
+            currentArtist: track.artist,
+            image: DEFAULT_IMAGE,
+            progress: 0
+        });
+        let image = await api.getImage(this.props.state.queue[this.props.state.index].track_uri);
+        this.props.changeState({ image: { uri: 'http:' + image } });
     }
 
     renderSlider = () => {
@@ -118,14 +176,14 @@ export default class CustomCard extends Component {
                     <CustomSlider
                         maximumValue={255}
                         step={5}
-                        value={this.state.hue}
+                        value={this.props.state.hue}
                         onChange={this.onColorChange}
                     />
                 </View>
                 
 
                 <Slider
-                    value={this.state.bri}
+                    value={this.props.state.bri}
                     thumbTintColor='rgb(83,45,62)'
                     onValueChange={(value) => this.onBrightnessChange(value, 1)}
                     maximumValue={255}
@@ -140,21 +198,28 @@ export default class CustomCard extends Component {
     }
 
     renderAudioControl = () => {
-        if(!this.props.renderAudioControl || ! this.state.showHeader)
+        if(!this.props.renderAudioControl || !this.state.showHeader)
             return ;
         
             return (
                 <CustomAudioControl
                     home
-                    trackName='trackName'
-                    album='Album'
-                    artist='Artist'
+                    trackName={this.props.state.currentTrack}
+                    album={this.props.state.currentAlbum}
+                    artist={this.props.state.currentArtist}
+                    volume={this.props.state.volume}
+                    playerState={this.props.state.playerState}
+                    onVolumeChange={this.onVolumeChange}
+                    onNextPress={this.onNextPress}
+                    onPreviousPress={this.onPreviousPress}
+                    onPausePress={this.onPausePress}
+                    onPlayPress={this.onPlayPress}
                 />
             );
     }
 
     renderSwitch = () => {
-        if (this.props.disableSwitch)
+        if (!this.props.renderSwitch)
             return;
         return (
             <Switch
@@ -172,7 +237,7 @@ export default class CustomCard extends Component {
     renderCard = () => {
 
         return (
-            <TouchableOpacity onPress={() => this.onPress()}>
+            <TouchableWithoutFeedback onPress={() => this.onPress()}>
                 <View>
                     <Card containerStyle={{ borderRadius: 15 }}>
                         {this.renderCardHeader()}
@@ -186,7 +251,7 @@ export default class CustomCard extends Component {
                         </Collapsible>
                     </Card>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
 
         );
     }
