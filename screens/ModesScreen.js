@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
-
-import APIProvider from '../APIProvider'
+import axios from 'axios';
+import APIProvider from '../APIProvider';
+import URL from '../config';
 
 const api = new APIProvider();
 
@@ -47,7 +48,7 @@ class ModesScreen extends Component {
     }
 
     onModeChange = (i) => {
-        //API mode        
+        api.applyMode(this.state.modes[i]);
         this.setState({ activeItem: i });
     }
 
