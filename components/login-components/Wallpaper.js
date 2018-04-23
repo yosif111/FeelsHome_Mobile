@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     picture: {
         flex: 1,
         width: DEVICE_WIDTH,
-        height: DEVICE_HEIGHT * 0.87
+        height: DEVICE_HEIGHT * 0.9
     },
 });
