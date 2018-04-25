@@ -82,7 +82,9 @@ export default class AudioControl extends Component {
     startThread = () => {
         if (this.progressThread != null)
             return;
+        console.log('thread is null')
         this.progressThread = new Thread('../progress.thread.js');
+        console.log('thread created')
         this.progressThread.onmessage = (progress) => {
             progress /= 1000;
             progress = parseInt(progress);
