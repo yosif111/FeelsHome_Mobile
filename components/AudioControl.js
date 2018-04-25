@@ -7,7 +7,8 @@ import {
     AsyncStorage
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import Picker from 'react-native-picker';
+// import Picker from 'react-native-picker';
+import { Dropdown } from 'react-native-material-dropdown'
 import * as Progress from 'react-native-progress';
 
 import URL from '../config';
@@ -187,47 +188,53 @@ export default class AudioControl extends Component {
         let result = [];
         if (this.props.state.playlists.length > 0) {
             this.props.state.playlists.map(item => {
-                result.push(item.name);
+                result.push({ value: item.name });
             });
         } else {
-            result.push('No items');
+            result.push({ value: 'No items' });
         }
         return result;
     }
 
-    showPicker = () => {
-        Picker.init({
-            pickerData: this.getPlaylistNames(),
-            selectedValue: [this.props.state.currentPlaylist],
-            pickerConfirmBtnText: 'Select',
-            pickerTitleText: 'Select Playlist',
-            pickerCancelBtnText: 'Cancel',
-            pickerConfirmBtnColor: [179, 55, 113, 1],
-            pickerCancelBtnColor: [179, 55, 113, 1],
-            onPickerConfirm: data => {
-                console.log(data);
-                this.onPlaylistChange(data.toString());
-            },
-            onPickerCancel: data => {
-                console.log(data);
-            },
-            onPickerSelect: data => {
-                console.log(data);
-            }
-        });
-        Picker.show();
-    } 
+    // showPicker = () => {
+    //     Picker.init({
+    //         pickerData: this.getPlaylistNames(),
+    //         selectedValue: [this.props.state.currentPlaylist],
+    //         pickerConfirmBtnText: 'Select',
+    //         pickerTitleText: 'Select Playlist',
+    //         pickerCancelBtnText: 'Cancel',
+    //         pickerConfirmBtnColor: [179, 55, 113, 1],
+    //         pickerCancelBtnColor: [179, 55, 113, 1],
+    //         onPickerConfirm: data => {
+    //             console.log(data);
+    //             this.onPlaylistChange(data.toString());
+    //         },
+    //         onPickerCancel: data => {
+    //             console.log(data);
+    //         },
+    //         onPickerSelect: data => {
+    //             console.log(data);
+    //         }
+    //     });
+    //     Picker.show();
+    // } 
 
     renderPicker = () => {
         return (
             <View>
-                <Button
+                <Dropdown
+                    label='Select Playlist'
+                    data={this.props.currentPlaylist}
+                    data={this.getPlaylistNames()}
+                    onChangeText={this.onPlaylistChange}
+                />
+                {/* <Button
                     raised
                     icon={{ name: 'playlist', type: 'simple-line-icon' }}
                     title={this.props.state.currentPlaylist == '' ? 'Select Playlist' : this.props.state.currentPlaylist}
                     onPress={this.showPicker}
                     buttonStyle={{ backgroundColor: 'rgb(83,45,62)', height: 40 }}
-                />
+                /> */}
             </View> 
         );
     }

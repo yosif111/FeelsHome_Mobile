@@ -90,7 +90,7 @@ export default class ButtonSubmit extends Component {
                         onPress={this._onPress}
                         activeOpacity={1} >
                         {this.state.isLoading ?
-                            <ActivityIndicator color='#fff' size={Platform.OS == 'android' ? 'large' : 'small'} />
+                            <ActivityIndicator color='#fff' size={Platform.OS == 'android' ? 25 : 'small'} />
                             :
                             <Text style={styles.text}>{this.props.title}</Text>
                         }

@@ -22,7 +22,7 @@ import Collapsible from 'react-native-collapsible';
 import APIProvider from '../../APIProvider';
 const api = new APIProvider();
 
-import URL from '../../config';
+import {URL} from '../../config';
 import CustomSlider from './CustomSlider';
 import CustomAudioControl from './CustomAudioControl';
 const DEFAULT_IMAGE = require('../../assets/icon_music.jpg');

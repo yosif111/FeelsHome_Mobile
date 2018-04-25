@@ -335,7 +335,9 @@ export default class ManageModesScreen extends Component {
 
 const styles = {
     container: {
-        flex: 1
+        flex: 1,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
     },
     card: {
         marginRight: 10,

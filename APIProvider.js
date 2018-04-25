@@ -155,7 +155,7 @@ export default class APIProvider extends Component {
                     }) 
         })
         .catch(error => {
-            console.log(error);
+            console.log('%O',error);
         });
     }
 
@@ -167,7 +167,7 @@ export default class APIProvider extends Component {
         const token = 'Bearer ' + await AsyncStorage.getItem('token');
         console.log('(getModes) token = ' + token)
         const instance = axios.create({
-            timeout: 3000,
+            timeout: 10000,
             headers: { 'Authorization': token }
         });
         return instance.get(`${DB_URL}/api/modes`)
@@ -186,7 +186,7 @@ export default class APIProvider extends Component {
         console.log('(addMode) mode = %O', mode)
         const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const instance = axios.create({
-            timeout: 3000,
+            timeout: 10000,
             headers: { 'Authorization': token }
         });
         return instance.post(`${DB_URL}/api/modes/add`, mode)
@@ -208,7 +208,7 @@ export default class APIProvider extends Component {
     deleteMode = async (modeId) => {
         const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const instance = axios.create({
-            timeout: 3000,
+            timeout: 10000,
             headers: { 'Authorization': token }
         });
         return instance.delete(`${DB_URL}/api/modes/delete/${modeId}`)
@@ -226,7 +226,7 @@ export default class APIProvider extends Component {
     updateMode = async (mode) => {
         const token = 'Bearer ' + await AsyncStorage.getItem('token');
         const instance = axios.create({
-            timeout: 3000,
+            timeout: 10000,
             headers: { 'Authorization': token }
         });
         return instance.post(`${DB_URL}/api/modes/update`, mode)
@@ -242,9 +242,10 @@ export default class APIProvider extends Component {
 
     // res.data = {}
     applyMode = (mode) => {
-        return axios.post(`${URL}/api/mode/applyMode`, { mode })
+        return axios.post(`${URL}/api/modes/applyMode`, mode)
             .then(res => {
                 return new Promise((resolve, reject) => {
+                    console.log('res =>>> %o',res)
                         resolve(res.data);
                     })
                     .catch(error => {
