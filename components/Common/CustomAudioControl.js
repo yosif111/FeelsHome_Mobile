@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import URL from '../../config';
+import { Icon } from 'react-native-elements';
 
 
 const previousIcon = require('../../assets/icon_previous.png');
@@ -27,10 +28,12 @@ export default class CustomAudioControl extends Component {
                 onPress={this.props.onPreviousPress}
                 >
                     <View style={{ flex: 1 }}>
-                        <Image
-                            resizeMode="contain"
-                            source={previousIcon}
-                        />
+                        <Icon 
+                            name='skip-previous'
+                            type='AV'
+                            size={60}
+                            color='#2C82C9'
+                        />   
                     </View>
                 </TouchableOpacity>
 
@@ -38,10 +41,12 @@ export default class CustomAudioControl extends Component {
                     onPress={this.props.playerState == 'playing' ? this.props.onPausePress : this.props.onPlayPress}
                 >
                     <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
-                        <Image
-                            resizeMode="contain"
-                            source={this.props.playerState == 'playing' ? pauseIcon : playIcon}
-                        />
+                    <Icon 
+                        name={this.props.playerState == 'playing' ? 'pause' : 'play-arrow'}
+                        type='AV'
+                        size={60}
+                        color='#2C82C9'
+                    /> 
                     </View>
                 </TouchableOpacity>
 
@@ -50,10 +55,12 @@ export default class CustomAudioControl extends Component {
                 >
 
                     <View style={{ flex: 1 }}>
-                        <Image
-                            resizeMode="contain"
-                            source={nextIcon}
-                        />
+                    <Icon 
+                        name='skip-next'
+                        type='AV'
+                        size={60}
+                        color='#2C82C9'
+                    />   
                     </View>
 
                 </TouchableOpacity>
@@ -67,23 +74,25 @@ export default class CustomAudioControl extends Component {
                 <View style={styles.volumeSlider}>
                     <Slider
                         value={this.props.volume}
-                        thumbTintColor='rgb(83,45,62)'
+                        thumbTintColor='#2C82C9'
                         onValueChange={(volume) => this.props.onVolumeChange(volume)}
                         maximumValue={100}
                         step={5}
                         trackStyle={styles.trackStyle}
                         maximumTrackTintColor='#bdc3c7'
-                        minimumTrackTintColor='#B33771'
+                        minimumTrackTintColor='#93C9F5'
                         thumbImage={require('../../assets/sliderThumb.png')}
                     />
                 </View>
                 <View
                     style={styles.iconContainer}
                 >
-                    <Image
-                        resizeMode="contain"
-                        source={require('../../assets/icon_audio.png')} 
-                    />
+                <Icon 
+                name='volume-up'
+                type='AV'
+                size={30}
+                color='#2C82C9'
+                />   
                 </View>
 
             </View>
@@ -92,7 +101,7 @@ export default class CustomAudioControl extends Component {
 
     renderTrackInfo() {
         if (this.props.trackName == '')
-            return(
+            return (
                 <View style={styles.trackInfoContainer}>
                     <Text style={styles.trackName}>No Track is Loaded</Text>
                 </View>
@@ -167,8 +176,7 @@ const styles = StyleSheet.create({
          justifyContent: 'center' 
     },
     volumeSlider: {
-        flex: 7, 
-        marginRight: 5, 
+        flex: 7,  
         marginTop: 8 
     }
 });

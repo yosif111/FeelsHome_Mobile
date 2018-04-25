@@ -110,7 +110,7 @@ export default class AudioControl extends Component {
     }
 
     onPreviousPress = async () => {
-        if (this.props.state.queue.length == 0)
+        if (this.props.state.queue.length === 0)
             return;
         this.props.state.index = (this.props.state.index - 1) < 0 ? this.props.state.queue.length -1 : this.props.state.index - 1;
         await api.play(this.props.state.queue[this.props.state.index].tlid);
@@ -120,7 +120,7 @@ export default class AudioControl extends Component {
     }
 
     onNextPress = async () => {
-        if (this.props.state.queue.length == 0)
+        if (this.props.state.queue.length === 0)
             return;
         this.props.state.index = (this.props.state.index + 1) % this.props.state.queue.length;
         await api.play(this.props.state.queue[this.props.state.index].tlid);
@@ -157,7 +157,7 @@ export default class AudioControl extends Component {
 
     renderImage = () => {
         return (
-            <View style={{ width: '100%', height:200, marginTop: 10, marginBottom: 10 }}>
+            <View style={{ width: '100%', height: 200, marginTop: 10, marginBottom: 10 }}>
                 <Image
                 resizeMode='center'
                     style={{ width: '100%', height: '100%' }}

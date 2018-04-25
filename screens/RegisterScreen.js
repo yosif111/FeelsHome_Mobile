@@ -13,7 +13,7 @@ import usernameImg from '../assets/username.png';
 import passwordImg from '../assets/password.png';
 import eyeImg from '../assets/eye_black.png';
 
-import APIProvider from '../APIProvider'
+import APIProvider from '../APIProvider';
 
 const api = new APIProvider();
 

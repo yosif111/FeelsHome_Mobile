@@ -5,7 +5,7 @@ import {
     Dimensions
 } from 'react-native';
 
-import bgSrc from '../../assets/background.png';
+import bgSrc from '../../assets/wallpaper.jpg';
 
 export default class Wallpaper extends Component {
     render() {

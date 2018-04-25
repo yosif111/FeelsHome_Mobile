@@ -19,7 +19,7 @@ import { Card, ListItem, Button, Divider } from 'react-native-elements';
 import CustomSlider from './Common/CustomSlider';
 import axios from 'axios';
 
-import {URL} from '../config';
+import { URL } from '../config';
 
 
 export default class LightControl extends Component {
@@ -93,11 +93,11 @@ export default class LightControl extends Component {
 
                     <Switch
                         value={bulb.on}
-                        tintColor='rgb(83,45,62)'
-                        thumbTintColor='rgb(83,45,62)'
+                        tintColor='#2C82C9'
+                        thumbTintColor='#2C82C9'
                         onValueChange={(toggle) => this.onSwitchPress(toggle, index)}
-                        tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : 'rgb(83,45,62)'}
-                        onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : 'rgb(83,45,62)'}
+                        tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#2C82C9'}
+                        onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#2C82C9'}
                     />
 
                 </View>
@@ -113,19 +113,19 @@ export default class LightControl extends Component {
             <View>
                 <Slider
                     value={bulb.bri}
-                    thumbTintColor='rgb(83,45,62)'
+                    thumbTintColor='#2C82C9'
                     onValueChange={(value) => this.onBrightnessChange(value, index)}
                     maximumValue={255}
                     step={5}
                     trackStyle={styles.trackStyle}
                     maximumTrackTintColor='#bdc3c7'
-                    minimumTrackTintColor='#B33771'
+                    minimumTrackTintColor='#93C9F5'
                     thumbImage={require('../assets/sliderThumb.png')}
                 />
             </View>
 
                 
-           <Divider style={{ backgroundColor: 'rgb(83,45,62)', marginTop: 6, marginBottom: 6, height: index == this.props.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
+           <Divider style={{ backgroundColor: '#2C82C9', marginTop: 6, marginBottom: 6, height: index == this.props.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
 
             </View>
             
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'rgb(83,45,62)',
+        color: '#2C82C9',
     },
     switchStyle: {
         padding: 13,

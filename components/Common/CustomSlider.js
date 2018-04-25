@@ -20,12 +20,11 @@ export default class CustomSlider extends Component {
     } 
 
     render() {
-
         return (
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
                 <Slider
                     value={this.state.hue}
-                    thumbTintColor='rgb(83,45,62)'
+                    thumbTintColor='#2C82C9'
                     onValueChange={(value) => this.onChange(value)}
                     maximumValue={this.props.maximumValue}
                     step={10}

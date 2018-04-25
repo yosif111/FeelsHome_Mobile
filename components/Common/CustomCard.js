@@ -15,7 +15,7 @@ import {
     Slider,
     Platform
 } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
 
@@ -61,10 +61,12 @@ export default class CustomCard extends Component {
             <View style={styles.container}>
                 <View
                     style={styles.iconContainer}>
-                    <Image
-                        style={styles.icon}
-                        resizeMode="contain"
-                        source={this.props.icon} />
+                      <Icon 
+                        name={this.props.iconName}
+                        type={this.props.iconType}
+                        size={30}
+                        color='#2C82C9'
+                       />   
                 </View>
 
                 <View
@@ -184,13 +186,13 @@ export default class CustomCard extends Component {
 
                 <Slider
                     value={this.props.state.bri}
-                    thumbTintColor='rgb(83,45,62)'
+                    thumbTintColor='#2C82C9'
                     onValueChange={(value) => this.onBrightnessChange(value, 1)}
                     maximumValue={255}
                     step={10}
                     trackStyle={styles.trackStyle}
                     maximumTrackTintColor='#bdc3c7'
-                    minimumTrackTintColor='#B33771'
+                    minimumTrackTintColor='#93C9F5'
                     thumbImage={require('../../assets/sliderThumb.png')}
                 />
             </View>
@@ -224,9 +226,9 @@ export default class CustomCard extends Component {
         return (
             <Switch
                 value={this.state.isOn}
-                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : 'rgb(83,45,62)'}
-                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : 'rgb(83,45,62)'}
-                thumbTintColor='rgb(83,45,62)'
+                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#2C82C9'}
+                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#2C82C9'}
+                thumbTintColor='#2C82C9'
                 onValueChange={(toggle) => this.onSwitchPress(toggle)}
             />);
     }
@@ -235,7 +237,6 @@ export default class CustomCard extends Component {
         this.setState({ isCollapsed: !this.state.isCollapsed, showHeader: !this.state.showHeader })
     }
     renderCard = () => {
-
         return (
             <TouchableWithoutFeedback onPress={() => this.onPress()}>
                 <View>
@@ -246,7 +247,7 @@ export default class CustomCard extends Component {
                         <Collapsible
                          collapsed={this.state.isCollapsed}
                          duration={800}
-                         >
+                        >
                             {this.props.children}
                         </Collapsible>
                     </Card>
@@ -294,7 +295,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'rgb(83,45,62)',
+        color: '#2C82C9',
     },
     switchStyle: {
         marginTop: 5

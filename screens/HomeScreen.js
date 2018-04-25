@@ -3,14 +3,15 @@ import { StyleSheet, Text, View, Image, ScrollView, ImageBackground, Switch, Tou
 import { ListItem, Button, Icon } from 'react-native-elements'
 
 import CustomCard from '../components/Common/CustomCard';
-import LightControl from '../components/LightControl'
-import AudioControl from '../components/AudioControl'
+import LightControl from '../components/LightControl';
+import AudioControl from '../components/AudioControl';
 import CustomAudioControl from '../components/Common/CustomAudioControl';
+import ACControl from '../components/ACControl';
 
 import APIProvider from '../APIProvider';
 
 const api = new APIProvider();
-const backgroundImage = require('../assets/background.png');
+const backgroundImage = require('../assets/wallpaper2.jpg');
 const DEFAULT_IMAGE = require('../assets/icon_music.jpg');
 
 let params = {};
@@ -41,7 +42,12 @@ class HomeScreen extends Component {
         currentTrackLength: 0,
 
         // Modes State
-        modes: []
+        modes: [],
+
+        //AC State
+        isOn: false,
+        fanSpeed: 3,
+        temperature: 22
     }
 
     static navigationOptions = ({ navigation }) => {
@@ -167,7 +173,6 @@ class HomeScreen extends Component {
         .catch(e => console.log(e))
 
     }
-
     changeState = (newState) => {
         this.setState(newState);
     }
@@ -183,7 +188,8 @@ class HomeScreen extends Component {
 
                         <CustomCard
                             label='Light Control'
-                            icon={require('../assets/icon_bulb.png')}
+                            iconName={'lightbulb-on-outline'}
+                            iconType={'material-community'}
                             renderSlider
                             renderSwitch
                             changeState={this.changeState}
@@ -199,7 +205,8 @@ class HomeScreen extends Component {
 
                         <CustomCard
                             label='Audio Control'
-                            icon={require('../assets/icon_audio.png')}
+                            iconName={'music'}
+                            iconType={'material-community'}
                             renderAudioControl
                             changeState={this.changeState}
                             state={this.state}
@@ -211,15 +218,13 @@ class HomeScreen extends Component {
                         </CustomCard>
 
 
-                        <CustomCard
-                        label='TV'
-                        icon={require('../assets/icon_tv.png')}
-                        >
-
-                        </CustomCard>
-
-
-
+                        <ACControl
+                        label='AC Control'
+                        changeState={this.changeState}
+                        isOn={this.state.isOn}
+                        fanSpeed={this.state.fanSpeed}
+                        temperature={this.state.temperature}
+                        />
                     </ScrollView>
 
                 </ImageBackground>
@@ -237,7 +242,7 @@ const styles = StyleSheet.create({
     cardLabel: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: 'rgb(83,45,62)',
+        color: '#2C82C9',
     },
     container: {
         padding: 0,

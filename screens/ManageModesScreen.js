@@ -12,7 +12,7 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 
 import CustomSlider from '../components/Common/CustomSlider';
 import APIProvider from '../APIProvider'
@@ -21,7 +21,7 @@ const api = new APIProvider();
 
 const bulbImg = require('../assets/icon_bulb.png');
 const audioImg = require('../assets/icon_audio.png');
-const backgroundImage = require('../assets/background.png');
+const backgroundImage = require('../assets/wallpaper.jpg');
 
 export default class ManageModesScreen extends Component {
     state={ 
@@ -181,11 +181,12 @@ export default class ManageModesScreen extends Component {
                 <View style={styles.card} key={index}>
                     <View style={styles.cardHeader}>
                         <View style={styles.iconContainer}>
-                            <Image
-                                style={styles.icon}
-                                source={bulbImg}
-                                resizeMode='contain'
-                            />
+                            <Icon 
+                            name='lightbulb-on-outline'
+                            type='material-community'
+                            size={30}
+                            color='#2C82C9'
+                            />   
                         </View>
                         <View style={styles.textInputContainer}>
                             <TextInput
@@ -200,9 +201,9 @@ export default class ManageModesScreen extends Component {
                         <View style={styles.switchContainer}>
                             <Switch
                                 value={item.isOn == 1 ? true : false}
-                                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : 'rgb(83,45,62)'}
-                                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : 'rgb(83,45,62)'}
-                                thumbTintColor='rgb(83,45,62)'
+                                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#4891db'}
+                                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#4891db'}
+                                thumbTintColor='#4891db'
                                 onValueChange={(toggle) => this.onSwitchPress(toggle, index)}
                             />
                         </View>
@@ -222,12 +223,12 @@ export default class ManageModesScreen extends Component {
 
                             <Slider
                                 value={item.bri}
-                                thumbTintColor='rgb(83,45,62)'
+                                thumbTintColor='#2C82C9'
                                 onValueChange={(value) => this.onBrightnessChange(value, index)}
                                 maximumValue={255}
                                 step={10}
                                 maximumTrackTintColor='#bdc3c7'
-                                minimumTrackTintColor='#B33771'
+                                minimumTrackTintColor='#93C9F5'
                                 thumbImage={require('../assets/sliderThumb.png')}
                             />
                         </View>
@@ -242,11 +243,12 @@ export default class ManageModesScreen extends Component {
             <View style={styles.card}>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.iconContainer}>
-                        <Image
-                            style={styles.icon}
-                            source={audioImg}
-                            resizeMode='contain'
-                        />
+                    <Icon 
+                        name='volume-up'
+                        type='AV'
+                        size={30}
+                        color='#2C82C9'
+                    />   
                     </View>
                     <View style={{ flex: 8 }}>
                         <Text style={styles.label}>Select Playlist: </Text>
@@ -268,7 +270,7 @@ export default class ManageModesScreen extends Component {
     }
 
     renderModeHeader = () => {
-        return(
+        return (
             <View style={styles.card}>
                 <TextInput 
                     placeholder={'Enter Mode Name'}
@@ -318,7 +320,7 @@ export default class ManageModesScreen extends Component {
     }
 
     render() {
-        return(
+        return (
             <ScrollView>
 
                 <ImageBackground style={styles.container} resizeMode='stretch' source={backgroundImage}>
