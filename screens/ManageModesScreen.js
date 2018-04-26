@@ -201,9 +201,9 @@ export default class ManageModesScreen extends Component {
                         <View style={styles.switchContainer}>
                             <Switch
                                 value={item.isOn == 1 ? true : false}
-                                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#4891db'}
-                                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#4891db'}
-                                thumbTintColor='#4891db'
+                                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#532d3e'}
+                                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#532d3e'}
+                                thumbTintColor='#532d3e'
                                 onValueChange={(toggle) => this.onSwitchPress(toggle, index)}
                             />
                         </View>
@@ -219,18 +219,28 @@ export default class ManageModesScreen extends Component {
                                     lightID={index}
                                 />
                             </View>
-
-
-                            <Slider
-                                value={item.bri}
-                                thumbTintColor='#532d3e'
-                                onValueChange={(value) => this.onBrightnessChange(value, index)}
-                                maximumValue={255}
-                                step={10}
-                                maximumTrackTintColor='#bdc3c7'
-                                minimumTrackTintColor='#B33771'
-                                thumbImage={require('../assets/sliderThumb.png')}
-                            />
+                            
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 12 }}>
+                                    <Slider
+                                        value={item.bri}
+                                        thumbTintColor='#532d3e'
+                                        onValueChange={(value) => this.onBrightnessChange(value, index)}
+                                        maximumValue={255}
+                                        step={10}
+                                        maximumTrackTintColor='#bdc3c7'
+                                        minimumTrackTintColor='#B33771'
+                                        thumbImage={require('../assets/sliderThumb.png')}
+                                    />
+                                </View>
+                                <Icon
+                                    name='brightness-medium'
+                                    type='Device'
+                                    size={18}
+                                    containerStyle={{ flex: 1 }}
+                                    color='#532d3e'
+                                />
+                            </View>
                         </View>
                     </View>
                 </View>
