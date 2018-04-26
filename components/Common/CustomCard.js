@@ -183,20 +183,6 @@ export default class CustomCard extends Component {
                     />
                 </View>
                 
-<<<<<<< HEAD
-
-                <Slider
-                    value={this.props.state.bri}
-                    thumbTintColor='#532d3e'
-                    onValueChange={(value) => this.onBrightnessChange(value, 1)}
-                    maximumValue={255}
-                    step={10}
-                    trackStyle={styles.trackStyle}
-                    maximumTrackTintColor='#bdc3c7'
-                    minimumTrackTintColor='#93C9F5'
-                    thumbImage={require('../../assets/sliderThumb.png')}
-                />
-=======
                 <View style={{ flexDirection: 'row'}}>
                     <View style={{ flex : 12 }}>
                         <Slider
@@ -219,7 +205,6 @@ export default class CustomCard extends Component {
                         color='#532d3e'
                     />
                 </View>
->>>>>>> fbe7adcfc4665b1592e1e0006481c606038f5648
             </View>
         );
     }

@@ -23,18 +23,6 @@ export default class CustomSlider extends Component {
 
     render() {
         return (
-<<<<<<< HEAD
-            <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
-                <Slider
-                    value={this.state.hue}
-                    thumbTintColor='#2C82C9'
-                    onValueChange={(value) => this.onChange(value)}
-                    maximumValue={this.props.maximumValue}
-                    step={10}
-                    trackStyle={styles.trackStyle}
-                    trackImage={require('../../assets/color_picker.png')}
-                    thumbImage={require('../../assets/sliderThumb.png')}
-=======
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center', flexDirection: 'row' }}>
                 {
                     Platform.OS == 'android' ?
@@ -72,7 +60,6 @@ export default class CustomSlider extends Component {
                     size={18}
                     containerStyle={{ flex: 1 }}
                     color='#532d3e'
->>>>>>> fbe7adcfc4665b1592e1e0006481c606038f5648
                 />
             </View>
         );
