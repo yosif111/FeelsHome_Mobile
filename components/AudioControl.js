@@ -223,12 +223,14 @@ export default class AudioControl extends Component {
 
     renderPicker = () => {
         return (
-            <View>
+            <View style={{ alignItems: 'center' }}>
                 <Dropdown
                     label='Select Playlist'
-                    data={this.props.currentPlaylist}
+                    value={this.props.currentPlaylist}
                     data={this.getPlaylistNames()}
                     onChangeText={this.onPlaylistChange}
+                    containerStyle={{ width: '80%' }}
+                    pickerStyle={{ }}
                 />
                 {/* <Button
                     raised

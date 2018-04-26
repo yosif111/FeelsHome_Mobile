@@ -15,7 +15,7 @@ import {
     Slider,
     Platform
 } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import axios from 'axios';
 import Collapsible from 'react-native-collapsible';
 
@@ -181,18 +181,28 @@ export default class CustomCard extends Component {
                     />
                 </View>
                 
-
-                <Slider
-                    value={this.props.state.bri}
-                    thumbTintColor='rgb(83,45,62)'
-                    onValueChange={(value) => this.onBrightnessChange(value, 1)}
-                    maximumValue={255}
-                    step={10}
-                    trackStyle={styles.trackStyle}
-                    maximumTrackTintColor='#bdc3c7'
-                    minimumTrackTintColor='#B33771'
-                    thumbImage={require('../../assets/sliderThumb.png')}
-                />
+                <View style={{ flexDirection: 'row'}}>
+                    <View style={{ flex : 12 }}>
+                        <Slider
+                            value={this.props.state.bri}
+                            thumbTintColor='rgb(83,45,62)'
+                            onValueChange={(value) => this.onBrightnessChange(value, 1)}
+                            maximumValue={255}
+                            step={10}
+                            trackStyle={styles.trackStyle}
+                            maximumTrackTintColor='#bdc3c7'
+                            minimumTrackTintColor='#B33771'
+                            thumbImage={require('../../assets/sliderThumb.png')}
+                        />
+                    </View>
+                    <Icon
+                        name='brightness-medium'
+                        type='Device'
+                        size={18}
+                        containerStyle={{ flex: 1 }}
+                        color='#532d3e'
+                    />
+                </View>
             </View>
         );
     }
