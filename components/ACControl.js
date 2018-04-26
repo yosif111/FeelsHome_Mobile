@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Card, Text, Icon } from 'react-native-elements';
-import APIProvider from '../config';
 
 
 export default class ACControl extends Component {
@@ -12,7 +11,7 @@ export default class ACControl extends Component {
         this.props.changeState({ fanSpeed: this.props.fanSpeed < 5 ? this.props.fanSpeed + 1 : this.props.fanSpeed });
     }
     decreaseFanSpeed = () => {
-        this.props.changeState({ fanSpeed: this.props.fanSpeed > 0 ? this.props.fanSpeed - 1 : this.props.fanSpeed });
+        this.props.changeState({ fanSpeed: this.props.fanSpeed > 1 ? this.props.fanSpeed - 1 : this.props.fanSpeed });
     }
     increaseTemperature = () => {
         this.props.changeState({ temperature: this.props.temperature < 30 ? this.props.temperature + 1 : this.props.temperature });
@@ -21,41 +20,41 @@ export default class ACControl extends Component {
         this.props.changeState({ temperature: this.props.temperature > 18 ? this.props.temperature - 1 : this.props.temperature });
     }
 
-    renderCardHeader = () => {
-        return (
-            <View style={styles.container}>
-                <View
-                    style={styles.iconContainer}
-                >
-                    { <Icon
-                        name='air-conditioner'
-                        type='material-community'
-                        color='#2C82C9'
-                        size={30}
-                    /> }
-                </View>
+    // renderCardHeader = () => {
+    //     return (
+    //         <View style={styles.container}>
+    //             <View
+    //                 style={styles.iconContainer}
+    //             >
+    //                 { <Icon
+    //                     name='air-conditioner'
+    //                     type='material-community'
+    //                     color='#532d3e'
+    //                     size={30}
+    //                 /> }
+    //             </View>
 
-                <View
-                    style={styles.labelContainer}
-                >
-                    <Text
-                        style={styles.label}
-                    >
-                        {this.props.label}
-                    </Text>
-                </View>
-            </View>
-        );
-    }
+    //             <View
+    //                 style={styles.labelContainer}
+    //             >
+    //                 <Text
+    //                     style={styles.label}
+    //                 >
+    //                     {this.props.label}
+    //                 </Text>
+    //             </View>
+    //         </View>
+    //     );
+    // }
     renderFanControl = () => {
         return (
            <View style={{ flex: 1, flexDirection: 'row' }}>
-                <View style={{ justifyContent: 'center', marginLeft: 10 }} >
+                <View style={{ justifyContent: 'center', marginLeft: 5 }} >
                 <Icon
                     name='fan'
                     type='material-community'
-                    color='#2C82C9'
-                    size={30}
+                    color='#532d3e'
+                    size={28}
                 />
                 
                 </View>
@@ -64,8 +63,8 @@ export default class ACControl extends Component {
                     raised
                     name='add'
                     type='content' 
-                    size={20}
-                    containerStyle={{ backgroundColor: '#2C82C9' }}
+                    size={16}
+                    containerStyle={{ backgroundColor: '#532d3e' }}
                     color='#FFF'
                     onPress={this.increaseFanSpeed}
                     />
@@ -74,8 +73,8 @@ export default class ACControl extends Component {
                     raised
                     name='remove'
                     type='content' 
-                    size={20}
-                    containerStyle={{ backgroundColor: '#2C82C9' }}
+                    size={16}
+                    containerStyle={{ backgroundColor: '#532d3e' }}
                     onPress={this.decreaseFanSpeed}
                     color='#FFF'
                     />
@@ -91,8 +90,8 @@ export default class ACControl extends Component {
                     raised
                     name='add'
                     type='content' 
-                    size={20}
-                    containerStyle={{ backgroundColor: '#2C82C9' }}
+                    size={16}
+                    containerStyle={{ backgroundColor: '#532d3e' }}
                     onPress={this.increaseTemperature}
                     color='#FFF'
                     />
@@ -101,18 +100,18 @@ export default class ACControl extends Component {
                     raised
                     name='remove'
                     type='content' 
-                    size={20}
-                    containerStyle={{ backgroundColor: '#2C82C9' }}
+                    size={16}
+                    containerStyle={{ backgroundColor: '#532d3e' }}
                     onPress={this.decreaseTemperature}
                     color='#FFF'
                     />
                 </View>
-                <View style={{ justifyContent: 'center', marginRight: 10 }} >
+                <View style={{ justifyContent: 'center', marginRight: 5 }} >
                 <Icon
                     name='snowflake'
                     type='material-community'
-                    color='#2C82C9'
-                    size={30}
+                    color='#532d3e'
+                    size={28}
                 />
                 </View>
             </View>
@@ -122,8 +121,8 @@ export default class ACControl extends Component {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Icon 
-                    raised 
-                    size={26}
+                    raised
+                    size={20}
                     containerStyle={{ backgroundColor: this.props.isOn ? '#18A826' : '#D41717' }}
                     color='#FFF'
                     name='power-settings-new'
@@ -136,11 +135,11 @@ export default class ACControl extends Component {
     renderCard = () => {
         return (
                 <View style={{ flex: 1 }}>
-                    <Card containerStyle={{ borderRadius: 15, marginBottom: 20 }}>
+                    <View>
                         
-                        <View style={{ flex: 1 }}> 
+                        {/* <View style={{ flex: 1 }}> 
                         {this.renderCardHeader()}
-                        </View>
+                        </View> */}
                     
                         <View style={{ flex: 7, flexDirection: 'row' }}>
                         {this.renderFanControl()}
@@ -148,7 +147,7 @@ export default class ACControl extends Component {
                         {this.renderColdControl()}
                         </View>
 
-                    </Card>
+                    </View>
                 </View>
         );
     }
@@ -190,7 +189,7 @@ const styles = {
     label: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#2C82C9',
+        color: '#532d3e',
     },
     switchStyle: {
         marginTop: 5

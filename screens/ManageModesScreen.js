@@ -21,7 +21,7 @@ const api = new APIProvider();
 
 const bulbImg = require('../assets/icon_bulb.png');
 const audioImg = require('../assets/icon_audio.png');
-const backgroundImage = require('../assets/wallpaper.jpg');
+const backgroundImage = require('../assets/background.png');
 
 export default class ManageModesScreen extends Component {
     state={ 
@@ -185,13 +185,13 @@ export default class ManageModesScreen extends Component {
                             name='lightbulb-on-outline'
                             type='material-community'
                             size={30}
-                            color='#2C82C9'
+                            color='#532d3e'
                             />   
                         </View>
                         <View style={styles.textInputContainer}>
                             <TextInput
                                 placeholder='Enter Bulb Name'
-                                value= {item.name}
+                                value={item.name}
                                 onChangeText={value => this.onBulbNameChange(value, index)}
                                 autoCorrect={false}
                                 underlineColorAndroid='transparent'
@@ -223,12 +223,12 @@ export default class ManageModesScreen extends Component {
 
                             <Slider
                                 value={item.bri}
-                                thumbTintColor='#2C82C9'
+                                thumbTintColor='#532d3e'
                                 onValueChange={(value) => this.onBrightnessChange(value, index)}
                                 maximumValue={255}
                                 step={10}
                                 maximumTrackTintColor='#bdc3c7'
-                                minimumTrackTintColor='#93C9F5'
+                                minimumTrackTintColor='#B33771'
                                 thumbImage={require('../assets/sliderThumb.png')}
                             />
                         </View>
@@ -247,7 +247,7 @@ export default class ManageModesScreen extends Component {
                         name='volume-up'
                         type='AV'
                         size={30}
-                        color='#2C82C9'
+                        color='#532d3e'
                     />   
                     </View>
                     <View style={{ flex: 8 }}>

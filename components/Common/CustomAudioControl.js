@@ -32,7 +32,7 @@ export default class CustomAudioControl extends Component {
                             name='skip-previous'
                             type='AV'
                             size={60}
-                            color='#2C82C9'
+                            color='#532d3e'
                         />   
                     </View>
                 </TouchableOpacity>
@@ -45,7 +45,7 @@ export default class CustomAudioControl extends Component {
                         name={this.props.playerState == 'playing' ? 'pause' : 'play-arrow'}
                         type='AV'
                         size={60}
-                        color='#2C82C9'
+                        color='#532d3e'
                     /> 
                     </View>
                 </TouchableOpacity>
@@ -59,7 +59,7 @@ export default class CustomAudioControl extends Component {
                         name='skip-next'
                         type='AV'
                         size={60}
-                        color='#2C82C9'
+                        color='#532d3e'
                     />   
                     </View>
 
@@ -74,13 +74,13 @@ export default class CustomAudioControl extends Component {
                 <View style={styles.volumeSlider}>
                     <Slider
                         value={this.props.volume}
-                        thumbTintColor='#2C82C9'
+                        thumbTintColor='#532d3e'
                         onValueChange={(volume) => this.props.onVolumeChange(volume)}
                         maximumValue={100}
                         step={5}
                         trackStyle={styles.trackStyle}
                         maximumTrackTintColor='#bdc3c7'
-                        minimumTrackTintColor='#93C9F5'
+                        minimumTrackTintColor='#B33771'
                         thumbImage={require('../../assets/sliderThumb.png')}
                     />
                 </View>
@@ -91,7 +91,7 @@ export default class CustomAudioControl extends Component {
                 name='volume-up'
                 type='AV'
                 size={30}
-                color='#2C82C9'
+                color='#532d3e'
                 />   
                 </View>
 

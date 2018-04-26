@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, AsyncStorage } from 'react-native';
 
-import APIProvider from '../APIProvider'
+import APIProvider from '../APIProvider';
 
 const api = new APIProvider();
 

@@ -93,11 +93,11 @@ export default class LightControl extends Component {
 
                     <Switch
                         value={bulb.on}
-                        tintColor='#2C82C9'
-                        thumbTintColor='#2C82C9'
+                        tintColor='#532d3e'
+                        thumbTintColor='#532d3e'
                         onValueChange={(toggle) => this.onSwitchPress(toggle, index)}
-                        tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#2C82C9'}
-                        onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#2C82C9'}
+                        tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#532d3e'}
+                        onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#532d3e'}
                     />
 
                 </View>
@@ -113,19 +113,19 @@ export default class LightControl extends Component {
             <View>
                 <Slider
                     value={bulb.bri}
-                    thumbTintColor='#2C82C9'
+                    thumbTintColor='#532d3e'
                     onValueChange={(value) => this.onBrightnessChange(value, index)}
                     maximumValue={255}
                     step={5}
                     trackStyle={styles.trackStyle}
                     maximumTrackTintColor='#bdc3c7'
-                    minimumTrackTintColor='#93C9F5'
+                    minimumTrackTintColor='#B33771'
                     thumbImage={require('../assets/sliderThumb.png')}
                 />
             </View>
 
                 
-           <Divider style={{ backgroundColor: '#2C82C9', marginTop: 6, marginBottom: 6, height: index == this.props.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
+           <Divider style={{ backgroundColor: '#532d3e', marginTop: 6, marginBottom: 6, height: index == this.props.state.lightsInfo.length -1 ? 0 : 2, borderRadius: 10 }} />
 
             </View>
             
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#2C82C9',
+        color: '#532d3e',
     },
     switchStyle: {
         padding: 13,

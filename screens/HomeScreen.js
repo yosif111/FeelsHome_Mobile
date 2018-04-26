@@ -11,7 +11,7 @@ import ACControl from '../components/ACControl';
 import APIProvider from '../APIProvider';
 
 const api = new APIProvider();
-const backgroundImage = require('../assets/wallpaper2.jpg');
+const backgroundImage = require('../assets/background.png');
 const DEFAULT_IMAGE = require('../assets/icon_music.jpg');
 
 let params = {};
@@ -217,14 +217,24 @@ class HomeScreen extends Component {
                             />
                         </CustomCard>
 
-
-                        <ACControl
-                        label='AC Control'
-                        changeState={this.changeState}
-                        isOn={this.state.isOn}
-                        fanSpeed={this.state.fanSpeed}
-                        temperature={this.state.temperature}
-                        />
+                    
+                        <CustomCard
+                            label='AC Control'
+                            iconName={'air-conditioner'}
+                            iconType={'material-community'}
+                            renderACControl
+                            changeState={this.changeState}
+                            state={this.state}
+                        >
+                            <ACControl
+                                changeState={this.changeState}
+                                isOn={this.state.isOn}
+                                fanSpeed={this.state.fanSpeed}
+                                temperature={this.state.temperature}
+                            />
+                            
+                        </CustomCard>
+                        
                     </ScrollView>
 
                 </ImageBackground>
@@ -242,7 +252,7 @@ const styles = StyleSheet.create({
     cardLabel: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#2C82C9',
+        color: '#532d3e',
     },
     container: {
         padding: 0,

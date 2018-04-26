@@ -65,7 +65,7 @@ export default class CustomCard extends Component {
                         name={this.props.iconName}
                         type={this.props.iconType}
                         size={30}
-                        color='#2C82C9'
+                        color='#532d3e'
                        />   
                 </View>
 
@@ -186,7 +186,7 @@ export default class CustomCard extends Component {
 
                 <Slider
                     value={this.props.state.bri}
-                    thumbTintColor='#2C82C9'
+                    thumbTintColor='#532d3e'
                     onValueChange={(value) => this.onBrightnessChange(value, 1)}
                     maximumValue={255}
                     step={10}
@@ -226,13 +226,61 @@ export default class CustomCard extends Component {
         return (
             <Switch
                 value={this.state.isOn}
-                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#2C82C9'}
-                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#2C82C9'}
-                thumbTintColor='#2C82C9'
+                tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#532d3e'}
+                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#532d3e'}
+                thumbTintColor='#532d3e'
                 onValueChange={(toggle) => this.onSwitchPress(toggle)}
             />);
     }
+    renderACControl() {
+        if (!this.props.renderACControl || !this.state.showHeader) {
+        return;
+        }
+        return (
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+            <View 
+                style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+            >
+                <Icon
+                    containerStyle={{ margin: 3 }}
+                    name='fan'
+                    type='material-community'
+                    color='#532d3e'
+                    size={24}
+                />
+                <Text style={{ margin: 3, fontSize: 18, fontWeight: 'bold' }}>{this.props.state.fanSpeed}</Text>
+            </View>
+            
+            {/* <View 
+                style={{ height: '100%', width: 2, backgroundColor: '#532d3e', borderRadius: 4 }}
+            /> */}
+            <View 
+                style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+            >
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>AC: </Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', color: this.props.state.isOn ? '#18A826' : '#D41717' }}>{this.props.state.isOn ? 'On' : 'Off' }</Text>
+            </View>
 
+            {/* <View 
+                style={{  height: '100%', width: 2, backgroundColor: '#532d3e', borderRadius: 4 }}
+            /> */}
+
+            <View 
+                style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+            >
+                <Text style={{ margin: 3, fontSize: 18, fontWeight: 'bold' }}>{this.props.state.temperature}°</Text>
+                <Icon
+                    containerStyle={{ margin: 3 }}
+                    name='snowflake'
+                    type='material-community'
+                    color='#532d3e'
+                    size={24}
+                />    
+            </View>
+        </View>
+        );
+
+    }
     onPress = () => {
         this.setState({ isCollapsed: !this.state.isCollapsed, showHeader: !this.state.showHeader })
     }
@@ -244,6 +292,7 @@ export default class CustomCard extends Component {
                         {this.renderCardHeader()}
                         {this.renderSlider()}
                         {this.renderAudioControl()}
+                        {this.renderACControl()}
                         <Collapsible
                          collapsed={this.state.isCollapsed}
                          duration={800}
@@ -295,7 +344,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#2C82C9',
+        color: '#532d3e',
     },
     switchStyle: {
         marginTop: 5
