@@ -15,7 +15,7 @@ import {
     Slider,
     Platform
 } from 'react-native';
-import { Card, ListItem, Button, Divider } from 'react-native-elements';
+import { Card, ListItem, Button, Divider, Icon } from 'react-native-elements';
 import CustomSlider from './Common/CustomSlider';
 import axios from 'axios';
 
@@ -110,7 +110,7 @@ export default class LightControl extends Component {
                 lightID={index}
             />
 
-            <View>
+            <View style={{ flexDirection: 'row', flex: 12 }}>
                 <Slider
                     value={bulb.bri}
                     thumbTintColor='#532d3e'
@@ -121,6 +121,13 @@ export default class LightControl extends Component {
                     maximumTrackTintColor='#bdc3c7'
                     minimumTrackTintColor='#B33771'
                     thumbImage={require('../assets/sliderThumb.png')}
+                />
+                <Icon
+                    name='brightness-medium'
+                    type='Device'
+                    size={18}
+                    containerStyle={{ flex: 1 }}
+                    color='#532d3e'
                 />
             </View>
 

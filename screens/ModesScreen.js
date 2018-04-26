@@ -41,7 +41,7 @@ class ModesScreen extends Component {
 
     reRender = () => {
         api.getModes()
-            .then(modes => this.setState({ modes }))
+            .then(modes => this.setState({ modes: modes ? modes : [] }))
             .catch(e => console.log(e))
     }
 

@@ -22,7 +22,7 @@ import Collapsible from 'react-native-collapsible';
 import APIProvider from '../../APIProvider';
 const api = new APIProvider();
 
-import URL from '../../config';
+import {URL} from '../../config';
 import CustomSlider from './CustomSlider';
 import CustomAudioControl from './CustomAudioControl';
 const DEFAULT_IMAGE = require('../../assets/icon_music.jpg');
@@ -183,6 +183,7 @@ export default class CustomCard extends Component {
                     />
                 </View>
                 
+<<<<<<< HEAD
 
                 <Slider
                     value={this.props.state.bri}
@@ -195,6 +196,30 @@ export default class CustomCard extends Component {
                     minimumTrackTintColor='#93C9F5'
                     thumbImage={require('../../assets/sliderThumb.png')}
                 />
+=======
+                <View style={{ flexDirection: 'row'}}>
+                    <View style={{ flex : 12 }}>
+                        <Slider
+                            value={this.props.state.bri}
+                            thumbTintColor='rgb(83,45,62)'
+                            onValueChange={(value) => this.onBrightnessChange(value, 1)}
+                            maximumValue={255}
+                            step={10}
+                            trackStyle={styles.trackStyle}
+                            maximumTrackTintColor='#bdc3c7'
+                            minimumTrackTintColor='#B33771'
+                            thumbImage={require('../../assets/sliderThumb.png')}
+                        />
+                    </View>
+                    <Icon
+                        name='brightness-medium'
+                        type='Device'
+                        size={18}
+                        containerStyle={{ flex: 1 }}
+                        color='#532d3e'
+                    />
+                </View>
+>>>>>>> fbe7adcfc4665b1592e1e0006481c606038f5648
             </View>
         );
     }

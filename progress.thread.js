@@ -1,7 +1,7 @@
 import { self } from 'react-native-threads';
 import axios from 'axios';
 
-import URL from './config';
+import {URL} from './config';
 
 setInterval( () => {
     axios.get(`${URL}/api/audio/getProgress`)
