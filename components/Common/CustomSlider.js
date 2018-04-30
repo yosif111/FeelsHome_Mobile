@@ -34,7 +34,7 @@ export default class CustomSlider extends Component {
                                 style={{ height: 30, borderRadius: 10, marginLeft: -10, marginRight: -10 }}
                                 value={this.state.hue}
                                 thumbTintColor='rgb(83,45,62)'
-                                onValueChange={(value) => this.onChange(value)}
+                                onSlidingComplete={(value) => this.onChange(value)}
                                 maximumValue={this.props.maximumValue}
                                 step={10}
                                 maximumTrackTintColor='transparent'
@@ -47,7 +47,7 @@ export default class CustomSlider extends Component {
                             <Slider
                                 value={this.state.hue}
                                 thumbTintColor='rgb(83,45,62)'
-                                onValueChange={(value) => this.onChange(value)}
+                                onSlidingComplete={(value) => this.onChange(value)}
                                 maximumValue={this.props.maximumValue}
                                 step={10}
                                 trackStyle={styles.trackStyle}

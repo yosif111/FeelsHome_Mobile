@@ -188,7 +188,7 @@ export default class CustomCard extends Component {
                         <Slider
                             value={this.props.state.bri}
                             thumbTintColor='rgb(83,45,62)'
-                            onValueChange={(value) => this.onBrightnessChange(value, 1)}
+                            onSlidingComplete={(value) => this.onBrightnessChange(value, 1)}
                             maximumValue={255}
                             step={10}
                             trackStyle={styles.trackStyle}

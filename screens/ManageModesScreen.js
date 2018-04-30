@@ -225,7 +225,7 @@ export default class ManageModesScreen extends Component {
                                     <Slider
                                         value={item.bri}
                                         thumbTintColor='#532d3e'
-                                        onValueChange={(value) => this.onBrightnessChange(value, index)}
+                                        onSlidingComplete={(value) => this.onBrightnessChange(value, index)}
                                         maximumValue={255}
                                         step={10}
                                         maximumTrackTintColor='#bdc3c7'
@@ -268,7 +268,7 @@ export default class ManageModesScreen extends Component {
                     selectedValue={ 
                         this.state.selectedPlaylist != null ? this.state.selectedPlaylist.name : ''
                     }
-                    onValueChange={(itemValue, itemIndex) => this.setState({ 
+                    onSlidingComplete={(itemValue, itemIndex) => this.setState({ 
                         selectedPlaylist: this.state.playlists[itemIndex]
                         })}>
                     {this.state.playlists.map((item, index) => {

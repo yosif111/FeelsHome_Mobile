@@ -115,7 +115,7 @@ export default class LightControl extends Component {
                         <Slider
                             value={bulb.bri}
                             thumbTintColor='#532d3e'
-                            onValueChange={(value) => this.onBrightnessChange(value, index)}
+                            onSlidingComplete={(value) => this.onBrightnessChange(value, index)}
                             maximumValue={255}
                             step={5}
                             trackStyle={styles.trackStyle}

@@ -75,7 +75,7 @@ export default class CustomAudioControl extends Component {
                     <Slider
                         value={this.props.volume}
                         thumbTintColor='#532d3e'
-                        onValueChange={(volume) => this.props.onVolumeChange(volume)}
+                        onSlidingComplete={(volume) => this.props.onVolumeChange(volume)}
                         maximumValue={100}
                         step={5}
                         trackStyle={styles.trackStyle}
