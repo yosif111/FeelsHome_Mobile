@@ -13,6 +13,7 @@ import {
     Dimensions
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
+import { Dropdown } from 'react-native-material-dropdown'
 
 import CustomSlider from '../components/Common/CustomSlider';
 import APIProvider from '../APIProvider'
@@ -112,6 +113,7 @@ export default class ManageModesScreen extends Component {
     }
 
     onSave = () => {
+        this.state.reRenderParent()
         console.log('(onSave)   state => %O', this.state)
         const { modeId, modeName, lightsInfo, selectedPlaylist} = this.state
         let lights = []
@@ -123,7 +125,7 @@ export default class ManageModesScreen extends Component {
            })
         })
         let mode = {
-            id: modeId,
+            mode_id: modeId,
             name: modeName,
             playlist_name: selectedPlaylist.name,
             playlist_uri: selectedPlaylist.uri,
@@ -175,6 +177,18 @@ export default class ManageModesScreen extends Component {
                 this.props.navigation.goBack()
             })
             .catch(e => console.log(e))
+    }
+
+    getPlaylistNames = () => {
+        let result = [];
+        if (this.state.playlists.length > 0) {
+            this.state.playlists.map(item => {
+                result.push({ value: item.name });
+            });
+        } else {
+            result.push({ value: 'No items' });
+        }
+        return result;
     }
 
     renderBulbs = () => {
@@ -266,9 +280,9 @@ export default class ManageModesScreen extends Component {
                         <Text style={styles.label}>Select Playlist: </Text>
                     </View>
                 </View>
-                <Picker
+                {/* <Picker
                     selectedValue={ 
-                        this.state.selectedPlaylist != null ? this.state.selectedPlaylist.name : ''
+                        this.state.selectedPlaylist ? this.state.selectedPlaylist.name : ''
                     }
                     onSlidingComplete={(itemValue, itemIndex) => this.setState({ 
                         selectedPlaylist: this.state.playlists[itemIndex]
@@ -276,7 +290,19 @@ export default class ManageModesScreen extends Component {
                     {this.state.playlists.map((item, index) => {
                         return <Picker.Item key={index} label={item.name} value={item.name} />;
                     })}
-                </Picker>
+                </Picker> */}
+                <View style={{ alignItems: 'center' }}>
+                <Dropdown
+                    label='Select Playlist'
+                    value={this.state.selectedPlaylist ? this.state.selectedPlaylist.name : ''}
+                    data={this.getPlaylistNames()}
+                    onChangeText={(value, index) => this.setState({
+                        selectedPlaylist: this.state.playlists[index]
+                    })}
+                    containerStyle={{ width: '80%' }}
+                    pickerStyle={{ }}
+                />
+            </View> 
             </View>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { List, ListItem, Button, Icon } from 'react-native-elements';
 import APIProvider from '../APIProvider';
 
@@ -27,7 +27,7 @@ class ModesScreen extends Component {
                             />
         })
     
-    componentDidMount() {
+    async componentDidMount() {
         this.setState({
             modes: this.props.navigation.getParam('modes', []),
             playlists: this.props.navigation.getParam('playlists', [])
@@ -37,6 +37,8 @@ class ModesScreen extends Component {
             numberOfBulbs: 3,
             reRender: this.reRender
         }
+        let item = await AsyncStorage.getItem('selectedMode')
+        this.setState({ activeItem: item ? parseInt(item) : 0 })
         console.log('playlists from home = %O', this.state.playlists)
     }
 
@@ -49,6 +51,7 @@ class ModesScreen extends Component {
     onModeChange = (i) => {
         api.applyMode(this.state.modes[i]);
         this.setState({ activeItem: i });
+        AsyncStorage.setItem('selectedMode', i+'')
     }
 
     onModeEdit = (i) => {

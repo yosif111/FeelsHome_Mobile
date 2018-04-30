@@ -264,7 +264,7 @@ export default class AudioControl extends Component {
                     this.props.state.progress % 60 < 10 ? '0' + this.props.state.progress % 60 : this.props.state.progress % 60
                 }
                 </Text>
-                <Progress.Bar progress={this.props.state.progress / (this.props.state.currentTrackLength > 0 ? this.props.state.currentTrackLength : 1)} width={200} />
+                <Progress.Bar progress={this.props.state.progress / (this.props.state.queue[this.props.state.index].track_length > 0 ? (this.props.state.queue[this.props.state.index].track_length / 1000) % 60 : 1)} width={200} />
                 <Text style={{ marginLeft: 5, fontSize: 12 }} >{this.getTrackLength()}</Text>
             </View>
         );
