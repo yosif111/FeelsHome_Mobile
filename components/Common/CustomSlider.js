@@ -43,16 +43,18 @@ export default class CustomSlider extends Component {
 
                         </ImageBackground>
                     :
-                    <Slider
-                        value={this.state.hue}
-                        thumbTintColor='rgb(83,45,62)'
-                        onValueChange={(value) => this.onChange(value)}
-                        maximumValue={this.props.maximumValue}
-                        step={10}
-                        trackStyle={styles.trackStyle}
-                        trackImage={require('../../assets/color_picker.png')}
-                        thumbImage={require('../../assets/sliderThumb.png')}
-                    />
+                    <View style={{ flex: 12 }}>
+                            <Slider
+                                value={this.state.hue}
+                                thumbTintColor='rgb(83,45,62)'
+                                onValueChange={(value) => this.onChange(value)}
+                                maximumValue={this.props.maximumValue}
+                                step={10}
+                                trackStyle={styles.trackStyle}
+                                trackImage={require('../../assets/color_picker.png')}
+                                thumbImage={require('../../assets/sliderThumb.png')}
+                            />
+                    </View>
                 }
                 <Icon
                     name='color-lens'
