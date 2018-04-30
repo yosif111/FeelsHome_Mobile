@@ -37,6 +37,7 @@ class ModesScreen extends Component {
             numberOfBulbs: 3,
             reRender: this.reRender
         }
+        console.log('playlists from home = %O', this.state.playlists)
     }
 
     reRender = () => {

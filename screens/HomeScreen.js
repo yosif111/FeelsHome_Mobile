@@ -76,6 +76,7 @@ class HomeScreen extends Component {
             console.log('Playlists = %O', res);
             if(res) {
                 this.setState({ playlists: res });
+                params = { playlists: this.state.playlists };
             }    
         })
         .catch(e => console.log(e));
@@ -114,15 +115,6 @@ class HomeScreen extends Component {
         })
             .catch(e => console.log(e));
 
-        // let playlists = await api.getPlaylists();
-        // let queue = await api.getQueue();
-        // let status = await api.getAllStatus();
-        // let lightsInfo = await api.getLights();
-        // console.log('lightsInfo = %O', lightsInfo);
-        
-        // console.log('queue = %O', queue);
-        // console.log('status = %O', status);
-
         AsyncStorage.getItem('currentPlaylist')
             .then(value => {
                 if (value) {
@@ -134,33 +126,6 @@ class HomeScreen extends Component {
                 }
             })
             .catch(error => console.log(error));
-
-        // this.setState({
-        //     playlists,
-        //     queue,
-        //     lightsInfo,
-        //     currentTrack: status.track ? status.track : '',
-        //     currentAlbum: status.album ? status.album : '',
-        //     currentArtist: status.artist ? status.artist : '',
-        //     volume: status.volume ? status.volume : 0,
-        //     playerState: status.state ? status.state : 'stopped',
-        //     index: status.index ? status.index : 0,
-        //     progress: status.progress ? status.progress : 0,
-        //     currentTrackLength: queue.length > 0 ? parseInt(queue[status.index].track_length / 1000) : 0,
-        //     image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE
-        // });
-        // if (status.index == null || status.image == null) {
-        //     let status = await api.getAllStatus();
-        //     this.setState({
-        //         index: status.index ? status.index : 0,
-        //         image: status.image ? { uri: 'http:' + status.image } : DEFAULT_IMAGE,
-        //         currentTrackLength: queue.length ? parseInt(queue[status.index].track_length / 1000) : 0
-        //     })
-        // }
-
-        if(this.state.playlists) {
-            params = { playlists: this.state.playlists };
-        }
 
         // Get modes from database
         api.getModes().then(res => {

@@ -43,6 +43,7 @@ export default class ManageModesScreen extends Component {
         this.state.reRenderParent = this.props.navigation.getParam('reRender', () => {})
         this.state.playlists = this.props.navigation.getParam('playlists', [])
         this.state.numberOfBulbs = this.props.navigation.getParam('numberOfBulbs', 3)
+        console.log('playlists from modes = %O', this.state.playlists)
 
         const mode = this.props.navigation.getParam('mode', null);
         if(mode != null) {
@@ -51,7 +52,8 @@ export default class ManageModesScreen extends Component {
                 item = {
                     ...item,
                     bri: item.brightness,
-                    hue: item.color
+                    hue: item.color / 257,
+                    isOn: item.isOn == 1
                 }
                 delete item.brightness
                 delete item.color
@@ -117,7 +119,7 @@ export default class ManageModesScreen extends Component {
            lights.push({
                ...item,
                brightness: item.bri,
-               color: item.hue
+               color: item.hue * 257
            })
         })
         let mode = {
@@ -154,7 +156,7 @@ export default class ManageModesScreen extends Component {
             item = {
                 ...item, 
                 brightness: item.bri,
-                color: item.hue
+                color: item.hue * 257
             }
             delete item.bri
             delete item.hue
@@ -254,8 +256,8 @@ export default class ManageModesScreen extends Component {
                 <View style={{ flexDirection: 'row' }}>
                     <View style={styles.iconContainer}>
                     <Icon 
-                        name='volume-up'
-                        type='AV'
+                        name='music'
+                        type='material-community'
                         size={30}
                         color='#532d3e'
                     />   
@@ -309,6 +311,7 @@ export default class ManageModesScreen extends Component {
                     title='Cancel'
                     raised
                     buttonStyle={{ backgroundColor: '#eee', borderRadius: 40 }}
+                    textStyle={{ color: '#000' }}
                     containerViewStyle={{ borderRadius: 40, flex: 1 }}
                     onPress={() => this.props.navigation.goBack()}
                 />
