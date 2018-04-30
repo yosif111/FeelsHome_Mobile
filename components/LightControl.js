@@ -97,7 +97,7 @@ export default class LightControl extends Component {
                         thumbTintColor='#532d3e'
                         onValueChange={(toggle) => this.onSwitchPress(toggle, index)}
                         tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#532d3e'}
-                        onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#532d3e'}
+                        onTintColor={'rgb(80,200,80)'}
                     />
 
                 </View>
