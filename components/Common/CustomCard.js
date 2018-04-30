@@ -188,7 +188,7 @@ export default class CustomCard extends Component {
                         <Slider
                             value={this.props.state.bri}
                             thumbTintColor='rgb(83,45,62)'
-                            onValueChange={(value) => this.onBrightnessChange(value, 1)}
+                            onSlidingComplete={(value) => this.onBrightnessChange(value, 1)}
                             maximumValue={255}
                             step={10}
                             trackStyle={styles.trackStyle}
@@ -237,7 +237,7 @@ export default class CustomCard extends Component {
             <Switch
                 value={this.state.isOn}
                 tintColor={Platform.OS == 'android' ? 'rgb(200,200,200)' : '#532d3e'}
-                onTintColor={Platform.OS == 'android' ? 'rgb(80,200,80)' : '#532d3e'}
+                onTintColor={'rgb(80,200,80)'}
                 thumbTintColor='#532d3e'
                 onValueChange={(toggle) => this.onSwitchPress(toggle)}
             />);
