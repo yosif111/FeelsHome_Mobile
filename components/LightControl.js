@@ -110,18 +110,20 @@ export default class LightControl extends Component {
                 lightID={index}
             />
 
-            <View style={{ flexDirection: 'row', flex: 12 }}>
-                <Slider
-                    value={bulb.bri}
-                    thumbTintColor='#532d3e'
-                    onValueChange={(value) => this.onBrightnessChange(value, index)}
-                    maximumValue={255}
-                    step={5}
-                    trackStyle={styles.trackStyle}
-                    maximumTrackTintColor='#bdc3c7'
-                    minimumTrackTintColor='#B33771'
-                    thumbImage={require('../assets/sliderThumb.png')}
-                />
+            <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 12 }}>
+                        <Slider
+                            value={bulb.bri}
+                            thumbTintColor='#532d3e'
+                            onValueChange={(value) => this.onBrightnessChange(value, index)}
+                            maximumValue={255}
+                            step={5}
+                            trackStyle={styles.trackStyle}
+                            maximumTrackTintColor='#bdc3c7'
+                            minimumTrackTintColor='#B33771'
+                            thumbImage={require('../assets/sliderThumb.png')}
+                        />
+                </View>
                 <Icon
                     name='brightness-medium'
                     type='Device'
